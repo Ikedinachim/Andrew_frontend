@@ -9,14 +9,16 @@ import { Routes, Route } from 'react-router-dom';
 import SigninPage from './pages/SigninPage';
 import SignupPage from './pages/SignupPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
+import FOTP_VerificationPage from './pages/FOTP_VerificationPage';
 
 function App() {
 
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
-      <Route path="/otp-verification" element={<OTP_VerificationPage />} />
       <Route path="/onboarding-goals" element={<OnboardingGoals />} />
+      <Route path="/otp-verification" element={<OTP_VerificationPage />} />
+      <Route path="/fotp-verification" element={<FOTP_VerificationPage />} />
       <Route path="/create-free-account" element={<CreateFreeAcountPage />} />
       <Route path="/choose-new-password" element={<ChooseNewPassword />} />
       <Route path="/sign-in" element={<SigninPage />} />

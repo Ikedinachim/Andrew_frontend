@@ -1,10 +1,26 @@
 import { FcGoogle } from "react-icons/fc";
 import  {useNavigate} from "react-router-dom"
+import { useRef, useState } from "react";
+import axios from 'axios'
 const SignupPage = (props) => {
   let navigate = useNavigate()
+  const emailRef = useRef()
+  const [errormessage, setErrorMessage] = useState('')
   const handleSignUp = () => {
-    navigate('/otp-verification');
-  };
+    // http request for email verification
+    let email = emailRef.current.value;
+    axios.post('http://localhost:3000/api/v1/auth/request-email-verification', { email })
+      .then(response => {
+        console.log(response.data);
+        navigate('/otp-verification', { 
+          state: { email: email }
+        });
+      })
+      .catch(error => {
+        console.error(error);
+        setErrorMessage(error.response.data.message)
+      });
+    };
 
   const handleLogIn = () => {
     navigate('/sign-in');
@@ -43,6 +59,7 @@ const SignupPage = (props) => {
           <label htmlFor="email" className="sr-only">jane@example.com</label>
           <input
             id="email"
+            ref={emailRef}
             name="email"
             type="email"
             required
@@ -52,7 +69,7 @@ const SignupPage = (props) => {
         </div>
 
       </div>
-
+      {errormessage && <p className="text-red-500 text-sm">{errormessage}</p>}
       <div>
         <button
           onClick={() => handleSignUp()}

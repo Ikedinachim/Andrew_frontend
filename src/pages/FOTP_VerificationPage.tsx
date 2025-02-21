@@ -6,9 +6,8 @@ import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 
-const OTP_VerificationPage = (props) => {
+const FOTP_VerificationPage = (props) => {
     const [otp, setOtpValue] = useState('');
-    const otpRef = useRef()
     let navigate = useNavigate()
     const location = useLocation();
     const [errormessage, setErrorMessage] = useState('')
@@ -16,23 +15,20 @@ const OTP_VerificationPage = (props) => {
 
   // Add a check to handle cases where email might be missing
   if (!email) {
-    return <Navigate to="/sign-up" replace />;
+    return <Navigate to="/forgot-password" replace />;
   }
   
 
 
     const verifyHandler = () => {
-        axios.post('http://localhost:3000/api/v1/auth/verify-email', { email, otp: parseInt(otp) })
-      .then(response => {
-        console.log(response.data);
-        navigate('/create-free-account', { 
-          state: { email: email }
+        
+        if (otp.length < 6) {
+            setErrorMessage('Please enter a valid OTP');
+            return;
+        }
+        navigate('/choose-new-password', { 
+          state: { email: email,otp:otp }
         });
-      })
-      .catch(error => {
-        console.error(error);
-        setErrorMessage(error.response.data.message)
-      });
      
     };
     
@@ -79,4 +75,4 @@ const OTP_VerificationPage = (props) => {
     );
 };
 
-export default OTP_VerificationPage;
+export default FOTP_VerificationPage;
