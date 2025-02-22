@@ -10,6 +10,7 @@ import SigninPage from './pages/SigninPage';
 import SignupPage from './pages/SignupPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import FOTP_VerificationPage from './pages/FOTP_VerificationPage';
+import Dashboard from './pages/Dashboard';
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
       <Route path="/sign-in" element={<SigninPage />} />
       <Route path="/sign-up" element={<SignupPage />} />
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+      <Route path="/dashboard" element={<Dashboard />} />
     </Routes>
   );
 }
