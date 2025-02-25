@@ -13,6 +13,7 @@ import FOTP_VerificationPage from './pages/FOTP_VerificationPage';
 import Dashboard from './pages/Dashboard';
 import AddNewCoursePage from './pages/Add_New_Course_Page';
 import ViewCoursePage from './pages/ViewCoursePage';
+import AppLayout from './pages/AppLayout';
 
 function App() {
 
@@ -27,9 +28,11 @@ function App() {
       <Route path="/sign-in" element={<SigninPage />} />
       <Route path="/sign-up" element={<SignupPage />} />
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/view-courses" element={<ViewCoursePage />} />
-      <Route path="/add-new-course" element={<AddNewCoursePage />} />
+      <Route path="/dashboard" element={<AppLayout />} >
+        <Route index element={<Dashboard />} />
+        <Route path="/dashboard/view-courses" element={<ViewCoursePage />} />
+        <Route path="/dashboard/add-new-course" element={<AddNewCoursePage />} />
+      </Route>
     </Routes>
   );
 }
