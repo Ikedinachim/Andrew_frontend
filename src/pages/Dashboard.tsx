@@ -1,112 +1,71 @@
 import React from 'react';
+import StreakCard from '../components/StreakCard';
+import SideBar from '../components/SideBar';
+import Topbar from '../components/TopBar';
+import ProgressCard from '../components/ProgressCard';
+import NewCourseCard from '../components/NewCourseCard';
+import RecentActivityCard from '../components/RecentActivityCard';
+import RecommendationCard from '../components/RecommendationCard';
+import GreetingCard from '../components/GreetingCard';
 
 const Dashboard: React.FC = () => {
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  const toggleDrawer = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <header className="mb-8">
-          <h1 className="text-2xl font-bold">Hi username, I’m proud of you for showing up today! Ready to learn?</h1>
-          <button className="mt-4 bg-blue-500 text-white px-4 py-2 rounded">+ Add New Course</button>
-        </header>
+    <div className="max-h-screen max-w-screen w-screen h-screen bg-white">
+      <div className="flex flex-row  transition-all duration-300 ease-in-out">
+        {/* Navigation Drawer */}
+        <div
+          className={`
+             bg-[#F3F5F9] px-[24px] py-[2px] border-r border-[#ABAEEC] shadow-lg transition-all duration-300 ease-in-out
+            ${isOpen ? 'w-[308px]' : 'w-[0] hidden'}
+          `}
+        >
+          {/* Sidebar Content */}
+          {isOpen && (
+            <SideBar toggleDrawer={toggleDrawer} />
+          )}
+        </div>
 
         {/* Main Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Left Column */}
-          <div className="lg:col-span-2">
-            {/* On Track Section */}
-            <section className="mb-8">
-              <h2 className="text-xl font-semibold mb-4">On Track</h2>
-              <div className="bg-white p-6 rounded-lg shadow">
-                <h3 className="text-lg font-bold">Python for Data Science</h3>
-                <p className="text-gray-600 mt-2">
-                  Learn how to analyze, visualize, and manipulate data using Python libraries like Pandas, NumPy, and Matplotlib, along with machine learning techniques...
-                </p>
-                <div className="mt-4">
-                  <span className="text-sm text-gray-500">3 of 8 modules | 4 weeks left</span>
-                  <div className="mt-2">
-                    <span className="text-sm font-semibold">Course Grade-</span>
-                    <button className="ml-4 bg-green-500 text-white px-4 py-2 rounded">Resume Course</button>
-                  </div>
-                  <p className="mt-2 text-sm text-gray-600">Next Module: Fundamental of Python</p>
-                </div>
-              </div>
-            </section>
+        <div
+          className={`flex-1 transition-all duration-300 ease-in-out ${isOpen ? 'ml-[0px] p-6' : 'ml-0 p-12 pt-6'
+            }`}
+        >
+          {/* Menu Icon (Appears when Sidebar is Closed) */}
+          <img
+            src="../../src/assets/menu.svg"
+            alt="Menu Toggle"
+            onClick={toggleDrawer}
+            className={`cursor-pointer z-50 fixed top-[27px] left-[12px] ${isOpen ? 'hidden' : 'block'
+              }`}
+          />
 
-            {/* New Courses Section */}
-            <section>
-              <h2 className="text-xl font-semibold mb-4">New</h2>
-              <div className="space-y-4">
-                {/* Cybersecurity Course */}
-                <div className="bg-white p-6 rounded-lg shadow">
-                  <h3 className="text-lg font-bold">Cybersecurity & Ethical Hacking</h3>
-                  <p className="text-gray-600 mt-2">
-                    Gain expertise in securing networks, systems, and applications by understanding vulnerabilities, penetration testing, and ethical hacking techniques...
-                  </p>
-                  <div className="mt-4">
-                    <span className="text-sm text-gray-500">15 modules | 6 weeks</span>
-                    <button className="mt-2 bg-blue-500 text-white px-4 py-2 rounded">Learn more</button>
-                  </div>
-                </div>
+          <Topbar />
 
-                {/* UX Design Course */}
-                <div className="bg-white p-6 rounded-lg shadow">
-                  <h3 className="text-lg font-bold">UX Design & Usability Principles</h3>
-                  <p className="text-gray-600 mt-2">
-                    Learn the fundamentals of user experience (UX) design, including research, wireframing, prototyping, and usability testing, to create intuitive and user-friendly designs...
-                  </p>
-                  <div className="mt-4">
-                    <span className="text-sm text-gray-500">10 modules | 6 weeks</span>
-                    <button className="mt-2 bg-blue-500 text-white px-4 py-2 rounded">Learn more</button>
-                  </div>
-                </div>
-              </div>
-            </section>
-          </div>
+          <GreetingCard />
 
-          {/* Right Column */}
-          <div className="lg:col-span-1">
-            {/* Recent Activities */}
-            <section className="mb-8">
-              <h2 className="text-xl font-semibold mb-4">Recent Activities</h2>
-              <div className="bg-white p-6 rounded-lg shadow">
-                <ul className="space-y-4">
-                  <li className="text-sm text-gray-600">You have scored 40% in Quiz XYZ - 2 days ago</li>
-                  <li className="text-sm text-gray-600">New course ABC created - 7 days ago</li>
-                  <li className="text-sm text-gray-600">Completed module MNP - 7 days ago</li>
-                  <li className="text-sm text-gray-600">40% improvement in module 234 - 15 days ago</li>
-                </ul>
-              </div>
-            </section>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-2">
+              {/* Course Cards */}
+              <ProgressCard />
+              <NewCourseCard />
+              <NewCourseCard />
+              <NewCourseCard />
+              <NewCourseCard />
 
-            {/* Day Streak */}
-            <section className="mb-8">
-              <h2 className="text-xl font-semibold mb-4">Day Streak</h2>
-              <div className="bg-white p-6 rounded-lg shadow">
-                <div className="flex justify-between text-sm text-gray-600">
-                  <span>Sun</span>
-                  <span>Mon</span>
-                  <span>Tue</span>
-                  <span>Wed</span>
-                  <span>Thu</span>
-                  <span>Fri</span>
-                  <span>Sat</span>
-                </div>
-                <p className="mt-4 text-sm text-gray-600">Your best streak is 5 days</p>
-              </div>
-            </section>
+            </div>
+            {/* Sidebar Right */}
+            <div>
+              <RecentActivityCard />
+              <StreakCard />
 
-            {/* Recommendations */}
-            <section>
-              <h2 className="text-xl font-semibold mb-4">Recommendation</h2>
-              <div className="bg-white p-6 rounded-lg shadow">
-                <ul className="space-y-2 text-sm text-gray-600">
-                  <li>Complete module X for course XYZ</li>
-                  <li>Study material BAG for better understanding</li>
-                  <li>Take 2 more quizzes to master Introduction to Python</li>
-                </ul>
-              </div>
-            </section>
+              <RecommendationCard />
+            </div>
           </div>
         </div>
       </div>

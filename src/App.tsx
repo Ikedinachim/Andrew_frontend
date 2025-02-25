@@ -11,6 +11,8 @@ import SignupPage from './pages/SignupPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import FOTP_VerificationPage from './pages/FOTP_VerificationPage';
 import Dashboard from './pages/Dashboard';
+import AddNewCoursePage from './pages/Add_New_Course_Page';
+import ViewCoursePage from './pages/ViewCoursePage';
 
 function App() {
 
@@ -26,6 +28,8 @@ function App() {
       <Route path="/sign-up" element={<SignupPage />} />
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/view-courses" element={<ViewCoursePage />} />
+      <Route path="/add-new-course" element={<AddNewCoursePage />} />
     </Routes>
   );
 }
