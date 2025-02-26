@@ -33,6 +33,8 @@ const Add_New_Course_Page = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [difficulty, setDifficulty] = useState("easy");
   const [isTimed, setIsTimed] = useState(false);
+  const [selectedGoal, setSelectedGoal] = useState('')
+  const [selectedTimeline, setSelectedTimeline] = useState('')
 
 
   const options = [
@@ -50,6 +52,15 @@ const Add_New_Course_Page = () => {
   const toggleDrawer = () => {
     setIsOpen(!isOpen);
   };
+
+  const handleGoalSelect = (goal : string) => {
+    console.log(goal)
+    setSelectedGoal(goal)
+  }
+  const handleTimelineSelect = (timeline : string) => {
+    console.log(timeline)
+    setSelectedTimeline(timeline)
+  }
 
 
   const MaterialUploadForm = () => (
@@ -122,19 +133,19 @@ const Add_New_Course_Page = () => {
           <h2 className="text-2xl font-semibold text-[#333333] mb-6">Select Course goal:</h2>
           <div className="flex flex-row ">
 
-            <GoalCard img="../../src/assets/Personal Development.svg" title="Personal Development" />
-            <GoalCard img="../../src/assets/Career Growth.svg" title="Career Growth" />
-            <GoalCard img="../../src/assets/leaner.svg" title="Exam preparation" />
-            <GoalCard img="../../src/assets/Others.svg" title="Others" />
+            <GoalCard img="../../src/assets/Personal Development.svg" title="Personal Development"  onClick={handleGoalSelect}/>
+            <GoalCard img="../../src/assets/Career Growth.svg" title="Career Growth" onClick={handleGoalSelect} />
+            <GoalCard img="../../src/assets/leaner.svg" title="Exam preparation" onClick={handleGoalSelect} />
+            <GoalCard img="../../src/assets/Others.svg" title="Others" onClick={handleGoalSelect} />
           </div>
         </div>
         <div className="ml-4">
           <h2 className="text-2xl font-semibold text-[#333333] mb-6">Select Timeline:</h2>
           <div className="flex flex-row">
-            <TimelineCard title="7 days" />
-            <TimelineCard title="2 weeks" />
-            <TimelineCard title="4 weeks" />
-            <TimelineCard title="Custom" />
+            <TimelineCard title="7 days" onClick = {handleTimelineSelect}/>
+            <TimelineCard title="2 weeks" onClick = {handleTimelineSelect}/>
+            <TimelineCard title="4 weeks" onClick = {handleTimelineSelect}/>
+            <TimelineCard title="Custom" onClick = {handleTimelineSelect}/>
           </div>
         </div>
       </div>
