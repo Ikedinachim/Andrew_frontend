@@ -18,7 +18,6 @@ const ViewCoursePage: React.FC = () => {
     return (
         <div>
 
-
             <h2 className="text-2xl font-semibold text-[#333333] mb-3">Courses</h2>
             <div className='flex flex-row justify-between items-center'>
                 <p className='text-xl text-[#aaaaaa]'>Improve skills though the courses and assessments of courses</p>
