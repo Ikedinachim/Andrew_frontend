@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-
+import { useNavigate } from 'react-router-dom';
 const Onboarding: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [selectedGoals, setSelectedGoals] = useState<string[]>([]);
+  const navigate = useNavigate();
   interface StepItem {
     title: string;
     imgSrc: string;
@@ -62,11 +63,13 @@ const Onboarding: React.FC = () => {
   const handleNext = () => {
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
+    }else{
+        navigate('/dashboard');
     }
   };
 
   const handleSkip = () => {
-    // Handle skip logic here
+    navigate('/dashboard');
   };
 
   const handleItemClick = (title: string) => {

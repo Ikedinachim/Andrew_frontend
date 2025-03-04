@@ -59,7 +59,7 @@ const CreateFreeAcountPage = (props) => {
       axios.post('http://localhost:3000/api/v1/auth/signup', { email, name, password })
       .then(response => {
         console.log(response.data);
-        navigate('/dashboard', { 
+        navigate('/onboarding-goals', { 
           state: { email: email }
         });
       })

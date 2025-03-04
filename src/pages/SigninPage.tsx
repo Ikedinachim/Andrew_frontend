@@ -1,24 +1,38 @@
 import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { signIn } from "../features/userSlice";
 const SigninPage = (props) => {
   let navigate = useNavigate()
   const [errormessage, setErrorMessage] = useState('')
   const emailRef = useRef()
   const passwordRef = useRef()
-  const handleSignIn = () => {
+  const dispatch = useDispatch();
+  const { user, status, error } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    if (user) {
+      navigate('/dashboard');
+    }
+  }, [user, navigate]);
+
+  const handleSignIn = async (e) => {
     const email = emailRef.current?.value || '';
     const password = passwordRef.current?.value || '';
-    axios.post('http://localhost:3000/api/v1/auth/login', { email, password })
-      .then(response => {
-        console.log(response.data);
-        navigate('/dashboard');
-      })
-      .catch(error => {
-        console.error(error);
-        setErrorMessage(error.response.data.message)
-      });
+    dispatch(signIn({ email, password }));
+   
+    
+    // axios.post('http://localhost:3000/api/v1/auth/login', { email, password })
+    //   .then(response => {
+    //     console.log(response.data);
+    //     navigate('/dashboard');
+    //   })
+    //   .catch(error => {
+    //     console.error(error);
+    //     setErrorMessage(error.response.data.message)
+    //   });
   };
     
   
@@ -26,7 +40,7 @@ const SigninPage = (props) => {
   const handleForgotPassword = () => {
     navigate('/forgot-password');
   };
-
+  {status === 'loading' && <p className="text-blue-500">Signing in...</p>}
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
@@ -81,7 +95,7 @@ const SigninPage = (props) => {
             />
           </div>
 
-          {errormessage && <p className="text-red-500 text-sm">{errormessage}</p>}
+          {errormessage && <p className="text-red-500 text-sm">{error}</p>}
           <div className="flex items-center justify-between">
             <div className="text-sm">
               <button

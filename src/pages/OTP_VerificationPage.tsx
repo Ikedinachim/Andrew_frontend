@@ -3,6 +3,7 @@ import OTPInput from '../components/OTPInput';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import env from "react-dotenv";
 import axios from 'axios';
 
 
@@ -22,7 +23,7 @@ const OTP_VerificationPage = (props) => {
 
 
     const verifyHandler = () => {
-        axios.post('http://localhost:3000/api/v1/auth/verify-email', { email, otp: parseInt(otp) })
+        axios.post(`${env.base_url}/api/v1/auth/verify-email`, { email, otp: parseInt(otp) })
       .then(response => {
         console.log(response.data);
         navigate('/create-free-account', { 
