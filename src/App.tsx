@@ -16,6 +16,8 @@ import ViewCoursePage from './pages/ViewCoursePage';
 import AppLayout from './pages/AppLayout';
 import CourseDetailsPage from './pages/CourseDetailsPage';
 import ModuleDetailsPage from './pages/ModuleDetailsPage';
+import ModuleDetailsNewStart from './pages/ModuleDetailsNewStart';
+import ModuleDetailsContinue from './pages/ModuleDetailsContinue';
 
 function App() {
 
@@ -34,8 +36,10 @@ function App() {
         <Route index element={<Dashboard />} />
         <Route path="/dashboard/view-courses" element={<ViewCoursePage />} />
         <Route path="/dashboard/add-new-course" element={<AddNewCoursePage />} />
-        <Route path="/dashboard/course-details" element={<CourseDetailsPage />} />
+        <Route path="/dashboard/course-details/:id" element={<CourseDetailsPage />} />
         <Route path="/dashboard/module-details" element={<ModuleDetailsPage />} />
+        <Route path="/dashboard/module-details-new-start" element={<ModuleDetailsNewStart />} />
+        <Route path="/dashboard/module-details-continue" element={<ModuleDetailsContinue />} />
       </Route>
     </Routes>
   );

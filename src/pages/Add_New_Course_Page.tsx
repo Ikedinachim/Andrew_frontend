@@ -3,7 +3,7 @@ import { ChangeEvent, useRef, useState } from 'react';
 import QuizDropDown from '../components/QuizDropDown';
 import GoalCard from '../components/GoalCard';
 import TimelineCard from '../components/TimelineCard';
-import { useSelector, UseSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import axios from 'axios';
 // Assuming this is the correct import path
 
@@ -75,8 +75,9 @@ const Add_New_Course_Page = () => {
   });
   const options = [
     { label: 'True/False', value: 'True/False' },
-    { label: 'Multichoice', value: 'Multichoice' },
-    { label: 'Theory', value: 'Theory' },
+    { label: 'MCQ', value: 'MCQ' },
+    { label: 'Open-ended', value: 'Open-ended' },
+    { label: 'Coding Exercises', value: 'Coding Exercises' },
   ];
   const mediaOptions = [
     { label: 'PDF', value: 'PDF' },
@@ -96,6 +97,7 @@ const Add_New_Course_Page = () => {
   const uploadMaterial = () => {
     setFileTitle(fileTitleRef.current.value)
     setFileDescription(fileDescriptionRef.current.value)
+    setIsPopupOpen(false);
   }
   // const uploadMaterial = () => {
   //   // http request for email verification
@@ -157,14 +159,14 @@ const Add_New_Course_Page = () => {
       description: descriptionRef.current.value,
       timeline:  3,
       goal: selectedGoal,
-      quizConfig: {
-        'quizTypes': [quizType],
-        'numberOfQuestions': +numberOfQuestionsRef.current.value,
-        'difficultyLevel': difficulty,
-        'isTimed': isTimed,
-        'timeDuration': `${hours}:${minutes}`,
+      quizConfig: JSON.stringify({
+        quizTypes: [quizType],
+        numberOfQuestions: +numberOfQuestionsRef.current.value,
+        difficultyLevel: difficulty,
+        isTimed: isTimed,
+        timeDuration: +((parseInt(hours, 10) * 60) + parseFloat(minutes,10)),
 
-      },
+      }),
       materials: selectedFile,
       [`materialTitle_${selectedFile.name}`]: fileTitle,
       [`materialDescription_${selectedFile.name}`]: fileDescription
@@ -186,6 +188,7 @@ const Add_New_Course_Page = () => {
     console.log(user)
     const response = await axios.post('http://localhost:3000/api/v1/courses/', datat, {
       headers: {
+        
         'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${window.localStorage.getItem('token')}`
       },
@@ -407,7 +410,7 @@ return (
         <div>
           <h3 className="text-lg font-semibold">Difficulty Level:</h3>
           <div className="flex gap-4 mt-2">
-            {['easy', 'medium', 'hard'].map(level => (
+            {['Easy', 'Medium', 'Hard'].map(level => (
               <label key={level} className="flex items-center gap-1 cursor-pointer">
                 <input
                   type="radio"

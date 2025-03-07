@@ -1,19 +1,37 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SideBar from '../components/SideBar';
 import Topbar from '../components/TopBar';
 import CourseCardGrid from '../components/CourseCardGrid';
 import CourseCardGridNew from '../components/CourseCardGridNew';
 import ProgressCard from '../components/ProgressCard';
 import NewCourseCard from '../components/NewCourseCard';
+import { getAllCourse } from '../features/courseSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import LoadingPage from './LoadingPage';
 
 
 const ViewCoursePage: React.FC = () => {
     const [isOpen, setIsOpen] = React.useState(false);
     const [view, setView] = useState<"list" | "grid">("grid");
-
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const { courses, status, error } = useSelector((state) => state.course);
     const toggleDrawer = () => {
         setIsOpen(!isOpen);
     };
+
+      useEffect( () => {
+        // Fetch data from the API
+        // Update the state with the fetched data
+        dispatch(getAllCourse())
+        
+      }, [dispatch]);
+    
+      if (status == 'loading' || status == 'idle') {
+        return <LoadingPage/>
+      }
+      
 
     return (
         <div>
@@ -42,44 +60,25 @@ const ViewCoursePage: React.FC = () => {
 
             {view == "grid" ? <div className='grid  grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8  p-4 '>
                 <CourseCardGridNew />
-                <CourseCardGrid img='../../src/assets/hacker.svg'
-                    title='CyberSecurity & Ethical Hacking'
-                    content='Gain expertise in securing networks, systems, and applications by understand....'
-                    modules={8}
-                    weeks={4}
-                />
-
-                <CourseCardGrid img='../../src/assets/ux.svg'
-                    title='UX Design & Usability Principles'
-                    content='Learn the fundamentals of user experience (UX) design, including research, wirefra...'
-                    modules={10}
-                    weeks={6}
-                />
-                <CourseCardGrid img='../../src/assets/ux.svg'
-                    title='UX Design & Usability Principles'
-                    content='Learn the fundamentals of user experience (UX) design, including research, wirefra...'
-                    modules={10}
-                    weeks={6}
-                />
-                <CourseCardGrid img='../../src/assets/ux.svg'
-                    title='UX Design & Usability Principles'
-                    content='Learn the fundamentals of user experience (UX) design, including research, wirefra...'
-                    modules={10}
-                    weeks={6}
-                />
-                <CourseCardGrid img='../../src/assets/hacker.svg'
-                    title='CyberSecurity & Ethical Hacking'
-                    content='Gain expertise in securing networks, systems, and applications by understand....'
-                    modules={8}
-                    weeks={4}
-                />
+                {
+             courses.data.data.map((course) => {
+             return <CourseCardGrid img='../../src/assets/hacker.svg'
+             title={course.title}
+             content={course.description}
+             modules={8}
+             weeks={4}
+         />
+              })
+          }
+               
             </div> :
                 <div className='w-full'>
                     <ProgressCard />
-                    <NewCourseCard />
-                    <NewCourseCard />
-                    <NewCourseCard />
-                    <NewCourseCard />
+                    {
+             courses.data.data.map((course) => {
+             return <NewCourseCard key={course._id} course={course} />
+              })
+          }
 
                 </div>
             }
