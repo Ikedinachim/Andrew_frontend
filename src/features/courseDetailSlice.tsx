@@ -4,7 +4,7 @@ export const getSingleCourse = createAsyncThunk(
   'courseDetail/getSingleCourse',
   async (courseId: string, { rejectWithValue }) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/v1/courses/${courseId}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/courses/${courseId}`, {
         method: 'GET',
         headers: { 
           'Content-Type': 'application/json',

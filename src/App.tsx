@@ -18,11 +18,11 @@ import CourseDetailsPage from './pages/CourseDetailsPage';
 import ModuleDetailsPage from './pages/ModuleDetailsPage';
 import ModuleDetailsNewStart from './pages/ModuleDetailsNewStart';
 import ModuleDetailsContinue from './pages/ModuleDetailsContinue';
-import MCQPage from './pages/mcq_page';
 import OpenEndedPage from './pages/OpenEndedPage';
 import PerformanceReportPage from './pages/PerformanceReportPage';
 import QuizPerformanceReport from './pages/QuizPerformanceReport';
 import ViewModules from './pages/ViewModules';
+import MCQPage from './pages/mcq_page';
 
 function App() {
 

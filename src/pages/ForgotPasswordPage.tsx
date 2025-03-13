@@ -7,7 +7,7 @@ const ForgotPasswordPage = (props) => {
   const [errormessage, setErrorMessage] = useState('')
   const handleSendOTP = () => {
     let email = emailRef.current.value;
-    axios.post('http://localhost:3000/api/v1/auth/forgot-password', { email })
+    axios.post(`${import.meta.env.VITE_API_URL}/api/v1/auth/forgot-password`, { email })
       .then(response => {
         console.log(response.data);
         navigate('/fotp-verification', {

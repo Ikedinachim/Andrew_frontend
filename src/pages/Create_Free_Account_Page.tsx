@@ -56,7 +56,7 @@ const CreateFreeAcountPage = (props) => {
     const name = nameRef.current?.value || '';
     const password = passwordRef.current?.value || '';
     if (validateForm()) {
-      axios.post('http://localhost:3000/api/v1/auth/signup', { email, name, password })
+      axios.post(`${import.meta.env.VITE_API_URL}/api/v1/auth/signup`, { email, name, password })
       .then(response => {
         console.log(response.data);
         navigate('/onboarding-goals', { 

@@ -103,7 +103,7 @@ const Add_New_Course_Page = () => {
   //   // http request for email verification
   //   let title = titleRef.current.value;
   //   let description = descriptionRef.current.value;
-  //   axios.post('http://localhost:3000/api/v1/auth/request-email-verification', { email })
+  //   axios.post(`${import.meta.env.VITE_API_URL}/api/v1/auth/request-email-verification`, { email })
   //     .then(response => {
   //       console.log(response.data);
   //       navigate('/otp-verification', { 
@@ -186,7 +186,7 @@ const Add_New_Course_Page = () => {
   formData.append('courseId', 'dfadsfdsa');
   try {
     console.log(user)
-    const response = await axios.post('http://localhost:3000/api/v1/courses/', datat, {
+    const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/courses/`, datat, {
       headers: {
         
         'Content-Type': 'multipart/form-data',

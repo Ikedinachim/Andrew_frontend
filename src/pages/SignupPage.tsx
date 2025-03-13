@@ -9,7 +9,7 @@ const SignupPage = (props) => {
   const handleSignUp = () => {
     // http request for email verification
     let email = emailRef.current.value;
-    axios.post('http://localhost:3000/api/v1/auth/request-email-verification', { email })
+    axios.post(`${import.meta.env.VITE_API_URL}/api/v1/auth/request-email-verification`, { email })
       .then(response => {
         console.log(response.data);
         navigate('/otp-verification', { 

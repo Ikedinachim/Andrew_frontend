@@ -14,7 +14,7 @@ const ChooseNewPassword = (props) => {
     const password = passwordRef.current?.value || '';
     const confirmPassword = confirmPasswordRef.current?.value || '';
     if (password === confirmPassword) {
-      axios.post('http://localhost:3000/api/v1/auth/reset-password', { email, newPassword: password, otp: +otp })
+      axios.post(`${import.meta.env.VITE_API_URL}/api/v1/auth/reset-password`, { email, newPassword: password, otp: +otp })
         .then(response => {
           console.log(response.data);
           navigate('/dashboard');

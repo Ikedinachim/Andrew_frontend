@@ -12,19 +12,22 @@ const SigninPage = (props) => {
   const dispatch = useDispatch();
   const { user, status, error } = useSelector((state) => state.user);
 
-  useEffect(() => {
-    if (user) {
-      navigate('/dashboard');
-    }
-  }, [user, navigate]);
+  // useEffect(() => {
+  //   if (user) {
+  //     navigate('/dashboard');
+  //   }
+  // }, [user, navigate]);
 
   const handleSignIn = async (e) => {
     const email = emailRef.current?.value || '';
     const password = passwordRef.current?.value || '';
     dispatch(signIn({ email, password }));
+    if (status == 'success') {
+      navigate('/dashboard');
+    }
    
     
-    // axios.post('http://localhost:3000/api/v1/auth/login', { email, password })
+    // axios.post(`${import.meta.env.VITE_API_URL}/api/v1/auth/login`, { email, password })
     //   .then(response => {
     //     console.log(response.data);
     //     navigate('/dashboard');
