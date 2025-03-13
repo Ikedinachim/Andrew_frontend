@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import QuizDropDown from '../components/QuizDropDown';
+import { useNavigate } from 'react-router-dom';
 
 const ModuleDetailsNewStart = () => {
 
@@ -10,6 +11,10 @@ const ModuleDetailsNewStart = () => {
     const [minutes, setMinutes] = useState('00');
 
     const numberOfQuestionsRef = useRef()
+    const navigate = useNavigate();
+    const takeQuizHandler = () => {
+        navigate('/mcq-page');
+    };      
 
     const options = [
         { label: 'True/False', value: 'True/False' },
@@ -132,7 +137,7 @@ const ModuleDetailsNewStart = () => {
                 <li className='mb-[11px]'>After completing the quiz, review your answers before submission.</li>
                 <li className='mb-[11px]'>Enjoy the learning process and use the quiz as a tool for self-improvement!</li>
             </ul>
-            <button className="bg-[#040BC5] text-white py-2 px-[12px] rounded-[8px]">
+            <button onClick={() => takeQuizHandler()} className="bg-[#040BC5] text-white py-2 px-[12px] rounded-[8px]">
         Start Quiz
       </button>
         </div>

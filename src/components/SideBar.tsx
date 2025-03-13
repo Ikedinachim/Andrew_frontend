@@ -52,14 +52,14 @@ const SideBar: React.FC = (props) => {
         <img src="../../src/assets/Performance Reports.svg" alt="" className="mr-[16px]" />
         <p>Performance Reports</p>
       </NavLink>
-      <NavLink to={'/dashboard/recommendations'} className={({ isActive }) =>
+      {/* <NavLink to={'/dashboard/recommendations'} className={({ isActive }) =>
           isActive
             ? " flex flex-row bg-[#cdcef3] p-[12px] rounded-[8px] w-full font-semibold text-black"
             : " flex flex-row p-[12px] rounded-[8px] w-full font-semibold text-gray-600"
         }>
         <img src="../../src/assets/Recommendation.svg" alt="" className="mr-[16px]" />
         <p>Recommendations</p>
-      </NavLink>
+      </NavLink> */}
     </div>
 
   );

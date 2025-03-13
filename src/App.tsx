@@ -18,6 +18,11 @@ import CourseDetailsPage from './pages/CourseDetailsPage';
 import ModuleDetailsPage from './pages/ModuleDetailsPage';
 import ModuleDetailsNewStart from './pages/ModuleDetailsNewStart';
 import ModuleDetailsContinue from './pages/ModuleDetailsContinue';
+import MCQPage from './pages/mcq_page';
+import OpenEndedPage from './pages/OpenEndedPage';
+import PerformanceReportPage from './pages/PerformanceReportPage';
+import QuizPerformanceReport from './pages/QuizPerformanceReport';
+import ViewModules from './pages/ViewModules';
 
 function App() {
 
@@ -32,12 +37,17 @@ function App() {
       <Route path="/sign-in" element={<SigninPage />} />
       <Route path="/sign-up" element={<SignupPage />} />
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+      <Route path="/mcq-page" element={<MCQPage />} />
+      <Route path="/open-ended-page" element={<OpenEndedPage />} />
       <Route path="/dashboard" element={<AppLayout />} >
         <Route index element={<Dashboard />} />
         <Route path="/dashboard/view-courses" element={<ViewCoursePage />} />
         <Route path="/dashboard/add-new-course" element={<AddNewCoursePage />} />
+        <Route path="/dashboard/view-modules" element={<ViewModules />} />
         <Route path="/dashboard/course-details/:id" element={<CourseDetailsPage />} />
         <Route path="/dashboard/module-details" element={<ModuleDetailsPage />} />
+        <Route path="/dashboard/performance-report" element={<PerformanceReportPage />} />
+        <Route path="/dashboard/quiz-performance-report" element={<QuizPerformanceReport />} />
         <Route path="/dashboard/module-details-new-start" element={<ModuleDetailsNewStart />} />
         <Route path="/dashboard/module-details-continue" element={<ModuleDetailsContinue />} />
       </Route>

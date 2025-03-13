@@ -42,6 +42,14 @@ const CourseDetailsPage = () => {
     const optionDate = { day: 'numeric', month: 'long', year: 'numeric' };
     const formattedDate = date.toLocaleDateString('en-GB', optionDate);
     console.log(course.data.title)
+
+    // convert time duration to hours and minute 
+    const time_in_minutes = course.data.quizConfig.timeDuration;
+    const hoursDuration = Math.floor(time_in_minutes / 60);
+    const normalizedHours = hoursDuration % 24; // Ensures value is between 0-23
+    const formattedHours = normalizedHours.toString().padStart(2, '0');
+    const normalizedMinutes = time_in_minutes % 60;
+    const formattedMinutes = normalizedMinutes.toString().padStart(2, '0');
     return (
         <div className='flex flex-row justify-between items-start '>
             <div>
@@ -193,9 +201,12 @@ const CourseDetailsPage = () => {
                         <img src="../../src/assets/Close.svg" alt="close" className='absolute top-[8px] right-[8px]' />
                     </div>
                     <div className="flex flex-col">
-                        <QuizDropDown options={options} onSelect={(val) => { console.log(val) }} width={'477px'} desc={'Select Quiz Type (can select more than one)'} />
                         <div className=" mt-4 text-[16px] text-[#aaaaaa] w-[477px] h-[48px] rounded-xl border border-[#aaaaaa] px-3 py-4 flex items-center">
-                            <input type="text" name="" id="" placeholder="Enter required number of questions" className="focus:outline-0 w-full" />
+                            <input type="text" name="" id="" readOnly placeholder={`Selected Quiz Types - (${course.data.quizConfig.quizTypes[0]})`} className="focus:outline-0 w-full" />
+
+                        </div>
+                        <div className=" mt-4 text-[16px] text-[#aaaaaa] w-[477px] h-[48px] rounded-xl border border-[#aaaaaa] px-3 py-4 flex items-center">
+                            <input type="text" name="" id="" readOnly placeholder={course.data.quizConfig.numberOfQuestions} className="focus:outline-0 w-full" />
 
                         </div>
                     </div>
@@ -203,17 +214,17 @@ const CourseDetailsPage = () => {
                         <div>
                             <h3 className="text-lg font-semibold">Difficulty Level:</h3>
                             <div className="flex gap-4 mt-2">
-                                {['easy', 'medium', 'hard'].map(level => (
+                                {['Easy', 'Medium', 'Hard'].map(level => (
                                     <label key={level} className="flex items-center gap-1 cursor-pointer">
                                         <input
                                             type="radio"
-                                            value={level}
-                                            checked={difficulty === level}
-                                            onChange={() => setDifficulty(level)}
+                                            value={course.data.quizConfig.difficultyLevel}
+                                            checked={course.data.quizConfig.difficultyLevel === level}
+                                            // onChange={() => setDifficulty(level)}
                                             className="hidden"
                                         />
-                                        <span className={`w-4 h-4 border-2 rounded-full flex items-center justify-center ${difficulty === level ? 'border-black' : 'border-gray-400'}`}>
-                                            {difficulty === level && <span className="w-2 h-2 bg-black rounded-full"></span>}
+                                        <span className={`w-4 h-4 border-2 rounded-full flex items-center justify-center ${course.data.quizConfig.difficultyLevel === level ? 'border-black' : 'border-gray-400'}`}>
+                                            {course.data.quizConfig.difficultyLevel === level && <span className="w-2 h-2 bg-black rounded-full"></span>}
                                         </span>
                                         {level.charAt(0).toUpperCase() + level.slice(1)}
                                     </label>
@@ -224,8 +235,8 @@ const CourseDetailsPage = () => {
                         <div className="flex items-center gap-2 ml-3">
                             <span className="text-sm font-medium">Timed</span>
                             <div
-                                className={`w-12 h-6 flex items-center bg-[#040bc5] rounded-full p-1 cursor-pointer ${isTimed ? 'justify-end' : 'justify-start'}`}
-                                onClick={() => setIsTimed(!isTimed)}
+                                className={`w-12 h-6 flex items-center bg-[#040bc5] rounded-full p-1 cursor-pointer ${course.data.quizConfig.isTimed ? 'justify-end' : 'justify-start'}`}
+                            // onClick={() => setIsTimed(!isTimed)}
                             >
                                 <div className="w-4 h-4 bg-white rounded-full"></div>
                             </div>
@@ -236,8 +247,8 @@ const CourseDetailsPage = () => {
                             <div className="flex items-center space-x-2">
                                 {/* Hours */}
                                 <select
-                                    value={hours}
-                                    onChange={(e) => setHours(e.target.value)}
+                                    value={formattedHours}
+                                    // onChange={(e) => setHours(e.target.value)}
                                     className="border border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded px-2 py-1 text-gray-700"
                                 >
                                     {hourOptions.map((hour) => (
@@ -251,7 +262,7 @@ const CourseDetailsPage = () => {
 
                                 {/* Minutes */}
                                 <select
-                                    value={minutes}
+                                    value={formattedMinutes}
                                     onChange={(e) => setMinutes(e.target.value)}
                                     className="border border-gray-200 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded px-2 py-1 text-gray-700"
                                 >
