@@ -23,7 +23,7 @@ const OTP_VerificationPage = (props) => {
 
 
     const verifyHandler = () => {
-        axios.post(`${env.base_url}/api/v1/auth/verify-email`, { email, otp: parseInt(otp) })
+        axios.post(`${import.meta.env.VITE_API_URL}/api/v1/auth/verify-email`, { email, otp: parseInt(otp) })
       .then(response => {
         console.log(response.data);
         navigate('/create-free-account', { 

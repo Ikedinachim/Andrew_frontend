@@ -23,6 +23,7 @@ import PerformanceReportPage from './pages/PerformanceReportPage';
 import QuizPerformanceReport from './pages/QuizPerformanceReport';
 import ViewModules from './pages/ViewModules';
 import MCQPage from './pages/mcq_page';
+import UserProfile from './pages/UserProfile';
 
 function App() {
 
@@ -50,6 +51,7 @@ function App() {
         <Route path="/dashboard/quiz-performance-report" element={<QuizPerformanceReport />} />
         <Route path="/dashboard/module-details-new-start" element={<ModuleDetailsNewStart />} />
         <Route path="/dashboard/module-details-continue" element={<ModuleDetailsContinue />} />
+        <Route path="/dashboard/user-profile" element={<UserProfile />} />
       </Route>
     </Routes>
   );
