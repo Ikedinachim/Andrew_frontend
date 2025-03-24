@@ -22,7 +22,9 @@ const SigninPage = (props) => {
     const email = emailRef.current?.value || '';
     const password = passwordRef.current?.value || '';
     dispatch(signIn({ email, password }));
-    if (status == 'success') {
+    console.log(status, user);
+    
+    if (status == 'success' || user) {
       navigate('/dashboard');
     }
    

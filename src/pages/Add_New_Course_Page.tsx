@@ -1,10 +1,11 @@
 // Add_New_Course_Page.tsx
-import { ChangeEvent, useRef, useState } from 'react';
+import { ChangeEvent, useCallback, useRef, useState } from 'react';
 import QuizDropDown from '../components/QuizDropDown';
 import GoalCard from '../components/GoalCard';
 import TimelineCard from '../components/TimelineCard';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import CourseMaterialTag from '../components/CourseMaterialTag';
 // Assuming this is the correct import path
 
 interface PopupProps {
@@ -50,6 +51,7 @@ const Add_New_Course_Page = () => {
   const [mediaOption, setMediaOption] = useState('')
   const [fileTitle, setFileTitle] = useState('')
   const [fileDescription, setFileDescription] = useState('')
+  const [files, setFiles] = useState([])
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const daysRef = useRef()
@@ -58,6 +60,7 @@ const Add_New_Course_Page = () => {
   const titleRef = useRef()
   const fileTitleRef = useRef()
   const fileDescriptionRef = useRef()
+  const UrlLinkRef = useRef()
   const { user, status, error } = useSelector((state) => state.user);
   const [hours, setHours] = useState('10');
   const [minutes, setMinutes] = useState('00');
@@ -83,6 +86,7 @@ const Add_New_Course_Page = () => {
     { label: 'PDF', value: 'PDF' },
     { label: 'Doc', value: 'DOC' },
     { label: 'Audio', value: 'Audio' },
+    { label: 'URL Link', value: 'URL Link' },
   ];
   // Options for duration unit selection
   const durationOptions: Option[] = [
@@ -95,10 +99,23 @@ const Add_New_Course_Page = () => {
     setIsOpen(!isOpen);
   };
   const uploadMaterial = () => {
-    setFileTitle(fileTitleRef.current.value)
-    setFileDescription(fileDescriptionRef.current.value)
+    if(mediaOption === 'URL Link'){
+      setFiles([...files, { title: fileTitleRef.current.value, description: fileDescriptionRef.current.value, UrlLink: UrlLinkRef.current.value, fileType: mediaOption }])
+    
+    }else{
+
+      setFiles([...files, { title: fileTitleRef.current.value, description: fileDescriptionRef.current.value, file: selectedFile, fileType: mediaOption }])
+    }
+  
     setIsPopupOpen(false);
   }
+
+  const deleteMaterial = (title, description) => {
+    const newFiles = files.filter(file => file.title !== title && file.description !== description)
+    setFiles(newFiles)
+    setIsPopupOpen(false);
+  }
+  
   // const uploadMaterial = () => {
   //   // http request for email verification
   //   let title = titleRef.current.value;
@@ -137,6 +154,7 @@ const Add_New_Course_Page = () => {
   }
   // Handle file selection
   const handleFileSelect = (event: ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault()
     const file = event.target.files?.[0];
     if (file) {
       setSelectedFile(file);
@@ -147,6 +165,7 @@ const Add_New_Course_Page = () => {
   const handleButtonClick = () => {
     fileInputRef.current?.click();
   };
+  
 
   // Handle file upload
   const handleUpload = async () => {
@@ -167,11 +186,24 @@ const Add_New_Course_Page = () => {
         timeDuration: +((parseInt(hours, 10) * 60) + parseFloat(minutes,10)),
 
       }),
-      materials: selectedFile,
-      [`materialTitle_${selectedFile.name}`]: fileTitle,
-      [`materialDescription_${selectedFile.name}`]: fileDescription
+      materials: [],
+      // [`materialTitle_${selectedFile.name}`]: fileTitle,
+      // [`materialDescription_${selectedFile.name}`]: fileDescription
     }
-
+    files.forEach(file => {
+      if (file.fileType === 'URL Link') {
+        datat[`materials`].push(JSON.stringify({title: file.title, 
+          description: file.description,
+          type: "link",
+          fileUrl: file.UrlLink
+        }));
+      } else {
+        datat[`materialTitle_${file.file.name}`] = file.title
+        datat[`materialDescription_${file.file.name}`] = file.description
+        datat[`materials`].push(file.file)
+      }
+      
+    });
 
   
   console.log(datat);
@@ -225,7 +257,7 @@ const handleDrop = (e: React.DragEvent<HTMLButtonElement>) => {
   }
 };
 const MaterialUploadForm = () => (
-  <div className="w-[445px] h-[570px] rounded-[16px] shadow-md flex flex-col p-8 relative bg-white">
+  <div className="w-[445px] rounded-[16px] shadow-md flex flex-col p-8 relative bg-white">
     <img
       src="../../src/assets/Close.svg"
       alt=""
@@ -235,7 +267,8 @@ const MaterialUploadForm = () => (
     <h2 className="text-[24px] text-[#333333] font-semibold mb-8">Upload Materials</h2>
     <QuizDropDown
       options={mediaOptions}
-      onSelect={(val) => { setMediaOption(val) }}
+      onSelect={setMediaOption}
+      selectedVal ={ mediaOption}
       width='381px'
       desc='Select Material Type'
     />
@@ -243,8 +276,9 @@ const MaterialUploadForm = () => (
       <input
         type="text"
         placeholder="Enter Title for file"
-        className="focus:outline-0 w-full bg-transparent"
+        className="focus:outline-0  w-full bg-transparent"
         ref={fileTitleRef}
+        
       />
     </div>
     <div className="text-[16px] mb-[20px] text-[#aaaaaa] w-[381px] h-[99px] rounded-xl border border-[#aaaaaa] px-3 py-4 flex items-center">
@@ -253,6 +287,7 @@ const MaterialUploadForm = () => (
         placeholder="Enter description"
         className="focus:outline-0 w-full bg-transparent"
         ref={fileDescriptionRef}
+        
       />
     </div>
     <>
@@ -263,7 +298,15 @@ const MaterialUploadForm = () => (
         accept=".pdf,.doc,.docx,.mp3,.mp4,.wav,.avi"
         style={{ display: 'none' }}
       />
-      <button
+     { mediaOption === 'URL Link' ? 
+     <div className="text-[16px] mt-4 mb-4 text-[#aaaaaa] w-[381px] h-[48px] rounded-xl border border-[#aaaaaa] px-3 py-4 flex items-center">
+     <input
+       type="text"
+       placeholder="Enter link here"
+       className="focus:outline-0 w-full bg-transparent"
+       ref={UrlLinkRef}
+     />
+   </div> : <button
         className="text-[12px] mb-[32px] text-[#aaaaaa] w-[381px] h-[125px] rounded-xl border border-dashed border-[#aaaaaa] px-3 py-4 flex flex-col items-center justify-center"
         onClick={handleButtonClick}
         onDragOver={handleDragOver}
@@ -273,7 +316,7 @@ const MaterialUploadForm = () => (
           {selectedFile
             ? `Selected: ${selectedFile.name}`
             : 'Drag and drop the file or browse file from device'}
-        </p>      </button>
+        </p>      </button>}
     </>
     <div className="flex flex-row justify-between items-center">
       <button
@@ -370,24 +413,10 @@ return (
         </div>
       </div>
       <h2 className="text-2xl font-semibold text-[#333333] mt-8">Course Materials</h2>
-      <div className='h-[80px] w-[834px] bg-white shadow-md p-5 relative flex flex-row items-center justify-between '>
-        <div className='flex flex-row'>
-
-          <img src="../../src/assets/PDF.svg" alt="" />
-          <div className='h-[40px] flex flex-col justify-start items-start ml-[23px]'>
-            <h2 className='text-xl font-semibold text-[#333333]'>Title</h2>
-            <p className='text-[14px] font-[400px] text-[#333333] '>Description of the uploaded file max 2 lines</p>
-          </div>
-        </div>
-        <div className='flex flex-row'>
-          <p className=' text-[#333333] font-semibold text-[16px]'>Type:PDF</p>
-          <div className='ml-[51px] flex flex-col h-10 items-center justify-between text-[10px] font-normal '>
-            <img src="../../src/assets/Replace.svg" alt="" />
-            <p>Replace file</p>
-          </div>
-        </div>
-        <img className='absolute right-[-10px] top-[-10px]' src="../../src/assets/CloseCircle.svg" alt="" />
-      </div>
+      {files.map((file) => (
+        <CourseMaterialTag title={file.title} description={file.description} fileType={file.fileType} deleteMaterial = {deleteMaterial} />
+      ))}
+     
 
 
 
@@ -400,7 +429,7 @@ return (
         <img src="../../src/assets/Close.svg" alt="close" className='absolute top-[8px] right-[8px]' />
       </div>
       <div className="flex flex-row">
-        <QuizDropDown options={options} onSelect={(val) => { setQuizType(val) }} width={'477px'} desc={'Select Quiz Type (can select more than one)'} />
+        <QuizDropDown options={options} onSelect={setQuizType} selectedVal={quizType} width={'477px'} desc={'Select Quiz Type (can select more than one)'} />
         <div className="text-[16px] text-[#aaaaaa] w-[477px] h-[48px] rounded-xl border border-[#aaaaaa] px-3 py-4 flex items-center">
           <input type="text" name="" id="" placeholder="Enter required number of questions" className="focus:outline-0 w-full" ref={numberOfQuestionsRef} />
 
@@ -481,7 +510,7 @@ return (
       </button> */}
 
       <Popup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)}>
-        <MaterialUploadForm />
+        <MaterialUploadForm   />
       </Popup>
       <Popup isOpen={isCustomDayPopupOpen} onClose={() => setIsCustomDayPopupOpen(false)}>
         <CustomDayDialog />

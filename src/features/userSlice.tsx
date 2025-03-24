@@ -23,7 +23,7 @@ export const signIn = createAsyncThunk(
       const data = await response.json();
       // Return the user data (e.g. token, user profile, etc.)
       console.log(data);
-      window.localStorage.setItem('token', data.data.accessToken);
+      window.localStorage.setItem('token', data.accessToken);
       
       return data;
     } catch (error) {
@@ -45,6 +45,9 @@ const userSlice = createSlice({
       state.user = null;
       state.status = 'idle';
       state.error = null;
+      window.localStorage.removeItem('token');
+      console.log('signed out');
+      
     },
   },
   extraReducers: (builder) => {

@@ -27,7 +27,8 @@ const Dashboard: React.FC = () => {
   if (status == 'loading' || status == 'idle') {
     return <LoadingPage/>
   }
-
+  console.log(courses);
+  
 
   return (
     <div>

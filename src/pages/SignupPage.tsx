@@ -74,7 +74,7 @@ const SignupPage = (props) => {
         <button
           onClick={() => handleSignUp()}
           type="submit"
-          className="group relative w-[80%] mx-auto flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#040BC5] hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          className="group relative w-[80%] mx-auto flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-[8px] text-white bg-[#040BC5] hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >
           Sign up
         </button>
