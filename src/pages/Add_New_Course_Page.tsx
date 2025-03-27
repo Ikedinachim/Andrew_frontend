@@ -169,80 +169,65 @@ const Add_New_Course_Page = () => {
 
   // Handle file upload
   const handleUpload = async () => {
-    if (!selectedFile) {
-      alert('Please select a file first');
-      return;
-    }
-    const datat = {
-      title: titleRef.current.value,
-      description: descriptionRef.current.value,
-      timeline:  3,
-      goal: selectedGoal,
-      quizConfig: JSON.stringify({
+    setUploading(true);
+  
+    const formData = new FormData();
+    formData.append('title', titleRef.current.value);
+    formData.append('description', descriptionRef.current.value);
+    formData.append('timeline', '3');
+    formData.append('goal', selectedGoal);
+    formData.append(
+      'quizConfig',
+      JSON.stringify({
         quizTypes: [quizType],
         numberOfQuestions: +numberOfQuestionsRef.current.value,
         difficultyLevel: difficulty,
         isTimed: isTimed,
-        timeDuration: +((parseInt(hours, 10) * 60) + parseFloat(minutes,10)),
-
-      }),
-      materials: [],
-      // [`materialTitle_${selectedFile.name}`]: fileTitle,
-      // [`materialDescription_${selectedFile.name}`]: fileDescription
-    }
-    files.forEach(file => {
-      if (file.fileType === 'URL Link') {
-        datat[`materials`].push(JSON.stringify({title: file.title, 
-          description: file.description,
-          type: "link",
-          fileUrl: file.UrlLink
-        }));
-      } else {
-        datat[`materialTitle_${file.file.name}`] = file.title
-        datat[`materialDescription_${file.file.name}`] = file.description
-        datat[`materials`].push(file.file)
-      }
-      
-    });
-
+        timeDuration: (parseInt(hours) * 60) + parseInt(minutes),
+      })
+    );
   
-  console.log(datat);
-
-
-  setUploading(true);
-  const formData = new FormData();
-  formData.append('file', selectedFile);
-  formData.append('title', titleRef.current.value);
-  formData.append('description', descriptionRef.current.value);
-  formData.append('type', mediaOption);
-  formData.append('courseId', 'dfadsfdsa');
-  try {
-    console.log(user)
-    const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/courses/`, datat, {
-      headers: {
-        
-        'Content-Type': 'multipart/form-data',
-        Authorization: `Bearer ${window.localStorage.getItem('token')}`
-      },
-      onUploadProgress: (progressEvent) => {
-        // You can handle upload progress here if needed
-        const percentCompleted = Math.round(
-          (progressEvent.loaded * 100) / (progressEvent.total || 1)
-        );
-        console.log(`Upload Progress: ${percentCompleted}%`);
-      },
-    });
-
-    console.log('File uploaded successfully:', response.data);
-    setSelectedFile(null);
-    // Add success message or handle response as needed
-  } catch (error) {
-    console.error('Error uploading file:', error);
-    // Handle error appropriately
-  } finally {
-    setUploading(false);
-  }
-};
+    const linkMaterials = files
+      .filter(file => file.fileType === 'URL Link')
+      .map(file => ({
+        title: file.title,
+        description: file.description,
+        type: 'link',
+        fileUrl: file.UrlLink,
+      }));
+  
+    if (linkMaterials.length > 0) {
+      formData.append('materials', JSON.stringify(linkMaterials));
+    }
+  
+    files
+      .filter(file => file.fileType !== 'URL Link')
+      .forEach(file => {
+        const fileObj = file.file;
+        formData.append('materials', fileObj);
+        formData.append(`materialTitle_${fileObj.name}`, file.title);
+        formData.append(`materialDescription_${fileObj.name}`, file.description);
+      });
+  
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/v1/courses/`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        }
+      );
+  
+      console.log('Success:', response.data);
+    } catch (error) {
+      console.error('Upload error:', error.response?.data || error.message);
+    } finally {
+      setUploading(false);
+    }
+  };
 
 // Handle drag and drop
 const handleDragOver = (e: React.DragEvent<HTMLButtonElement>) => {
