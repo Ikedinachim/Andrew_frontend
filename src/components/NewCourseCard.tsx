@@ -1,16 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, UseDispatch } from "react-redux";
-import { getSingleCourse } from "../features/courseDetailSlice";
+import { useDispatch, UseDispatch, useSelector } from "react-redux";
+import { getSingleCourse, resetCourseDetailStatus } from "../features/courseDetailSlice";
+import { getModules } from "../features/moduleSlice";
 
 const NewCourseCard: React.FC = ({ course }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { _, status, error } = useSelector((state) => state.courseDetail);
+
   const handleLearnMore = () => {
     // Handle the "Learn More" button click
     dispatch(getSingleCourse(course._id))
-    navigate(`/dashboard/course-details/${course._id}`);
+    dispatch(getModules(course._id))
+    
   };
+  console.log(status);
+  
+  useEffect(() => {
+    if (status == 'success') {
+      navigate(`/dashboard/course-details/${course._id}`);
+      dispatch(resetCourseDetailStatus());
+    }
+  }, [status, navigate])
 
   return (
     <div className="bg-white p-6 rounded-md shadow-md mb-6 relative flex flex-row justify-between">

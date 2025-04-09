@@ -5,7 +5,7 @@ const CourseMaterialTag = (props) => {
         <div className='h-[80px] w-[834px] bg-white mb-4 shadow-md p-5 relative flex flex-row items-center justify-between '>
         <div className='flex flex-row'>
 
-          <img src="../../src/assets/PDF.svg" alt="" />
+          {props.fileType == 'URL' || props.fileType == 'link'? <img src="../../src/assets/URL.svg" alt="" /> : <img src="../../src/assets/PDF.svg" alt="" />}
           <div className='h-[40px] flex flex-col justify-start items-start ml-[23px]'>
             <h2 className='text-xl font-semibold text-[#333333]'>{props.title}</h2>
             <p className='text-[14px] font-[400px] text-[#333333] '>{props.description}</p>
@@ -18,7 +18,7 @@ const CourseMaterialTag = (props) => {
             <p>Replace file</p>
           </div>
         </div>
-        <img onClick={() => {props.deleteMaterial(props.title, props.description)}} className='absolute right-[-10px] top-[-10px]' src="../../src/assets/CloseCircle.svg" alt="" />
+        <img onClick={() => { props.materialId != 1 ? props.deleteCourseMaterialFromDB(props.materialId, props.courseId) : props.deleteMaterial(props.title, props.description)}} className=' cursor-pointer absolute right-[-10px] top-[-10px]' src="../../src/assets/CloseCircle.svg" alt="" />
       </div>
     );
 };

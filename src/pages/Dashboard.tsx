@@ -25,7 +25,7 @@ const Dashboard: React.FC = () => {
   }, [dispatch]);
 
   if (status == 'loading' || status == 'idle') {
-    return <LoadingPage/>
+    return <LoadingPage content = 'Fetching Courses'/>
   }
   console.log(courses);
   

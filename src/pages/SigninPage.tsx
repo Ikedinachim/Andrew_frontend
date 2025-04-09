@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { signIn } from "../features/userSlice";
+import { resetUserStatus, signIn } from "../features/userSlice";
 const SigninPage = (props) => {
   let navigate = useNavigate()
   const [errormessage, setErrorMessage] = useState('')
@@ -12,11 +12,12 @@ const SigninPage = (props) => {
   const dispatch = useDispatch();
   const { user, status, error } = useSelector((state) => state.user);
 
-  // useEffect(() => {
-  //   if (user) {
-  //     navigate('/dashboard');
-  //   }
-  // }, [user, navigate]);
+  useEffect(() => {
+    if (status == 'success') {
+      navigate('/dashboard');
+      dispatch(resetUserStatus())
+    }
+  }, [user, navigate]);
 
   const handleSignIn = async (e) => {
     const email = emailRef.current?.value || '';
@@ -24,9 +25,7 @@ const SigninPage = (props) => {
     dispatch(signIn({ email, password }));
     console.log(status, user);
     
-    if (status == 'success' || user) {
-      navigate('/dashboard');
-    }
+   
    
     
     // axios.post(`${import.meta.env.VITE_API_URL}/api/v1/auth/login`, { email, password })

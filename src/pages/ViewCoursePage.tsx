@@ -29,7 +29,7 @@ const ViewCoursePage: React.FC = () => {
       }, [dispatch]);
     
       if (status == 'loading' || status == 'idle') {
-        return <LoadingPage/>
+        return <LoadingPage content = 'Fetching Courses'/>
       }
       
 
@@ -67,6 +67,7 @@ const ViewCoursePage: React.FC = () => {
              content={course.description}
              modules={8}
              weeks={4}
+             _id = {course._id}
          />
               })
           }

@@ -1,17 +1,20 @@
-// Add_New_Course_Page.tsx
+// EditNewCoursePage.tsx
 import { ChangeEvent, useCallback, useRef, useState } from 'react';
 import QuizDropDown from '../components/QuizDropDown';
 import GoalCard from '../components/GoalCard';
 import TimelineCard from '../components/TimelineCard';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import CourseMaterialTag from '../components/CourseMaterialTag';
 import LoadingPage from './LoadingPage';
+import Swal from 'sweetalert2';
+import { deleteCourseMaterial } from '../features/materialSlice';
+import { getSingleCourse } from '../features/courseDetailSlice';
 // Assuming this is the correct import path
 
 interface PopupProps {
   isOpen: boolean;
-  onClose: () => void;
+  onClose: () => void;              
   children: React.ReactNode;
 }
 
@@ -37,18 +40,20 @@ const Popup: React.FC<PopupProps> = ({ isOpen, onClose, children }) => {
   );
 };
 
-const Add_New_Course_Page = () => {
+const EditNewCoursePage = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const { course, status, error } = useSelector((state) => state.courseDetail);  
+  const { materialData, materialStatus, materialError } = useSelector((state) => state.material);  
   const [isCustomDayPopupOpen, setIsCustomDayPopupOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [difficulty, setDifficulty] = useState("easy");
-  const [isTimed, setIsTimed] = useState(false);
+  const [difficulty, setDifficulty] = useState(course.data.quizConfig.difficultyLevel);
+  const [isTimed, setIsTimed] = useState(course.data.quizConfig.isTimed);
   const [selectedGoal, setSelectedGoal] = useState('')
   const [selectedTimeline, setSelectedTimeline] = useState('')
   const [duration, setDuration] = useState('')
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [errormessage, setErrorMessage] = useState('')
-  const [quizType, setQuizType] = useState('')
+  const [quizType, setQuizType] = useState(course.data.quizConfig.quizTypes[0])
   const [mediaOption, setMediaOption] = useState('')
   const [fileTitle, setFileTitle] = useState('')
   const [fileDescription, setFileDescription] = useState('')
@@ -63,10 +68,10 @@ const Add_New_Course_Page = () => {
   const fileTitleRef = useRef()
   const fileDescriptionRef = useRef()
   const UrlLinkRef = useRef()
+  const dispatch = useDispatch()
   const { user } = useSelector((state) => state.user);
-  const { courses, status, uploadStatus, error } = useSelector((state) => state.course);
-  const [hours, setHours] = useState('00');
-  const [minutes, setMinutes] = useState('00');
+  const [hours, setHours] = useState(course.data.quizConfig.timeDuration / 60);
+  const [minutes, setMinutes] = useState(course.data.quizConfig.timeDuration % 60 );
 
   // Example: 0–23 hours
   const hourOptions = Array.from({ length: 24 }, (_, i) => {
@@ -168,6 +173,47 @@ const Add_New_Course_Page = () => {
   const handleButtonClick = () => {
     fileInputRef.current?.click();
   };
+
+  const deleteCourseMaterialFromDB = (materialId, courseId) => {
+     Swal.fire({
+                title: 'Are you sure?',
+                text: "Deleting Material Will Affect Modules!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#D42953',
+                cancelButtonColor: '#666666',
+                confirmButtonText: 'Yes, delete it!',
+                background: '#ffffff',
+                backdrop: `rgba(0,0,0,0.4)`,
+                customClass: {
+                    container: 'blur-background'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                  console.log(materialData);
+                  
+                    dispatch(deleteCourseMaterial({courseId: courseId, materialId: materialId}));
+                    dispatch(getSingleCourse(course.data._id));
+                    console.log(materialStatus);
+                    
+                    if(materialStatus == 'success'){
+                      Swal.fire(
+                          'Deleted!',
+                          'Your Material has been deleted.',
+                          'success'
+                      );
+
+                    }else{
+                      Swal.fire(
+                          'Error!',
+                          `There was an error deleting your Material. ${materialError}`,
+                          'error'
+                      );
+                    
+                    }
+                }
+            });
+  }
   
 
   // Handle file upload
@@ -214,8 +260,8 @@ const Add_New_Course_Page = () => {
   
     try {
       setLoading(true)
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/v1/courses/`,
+      const response = await axios.put(
+        `${import.meta.env.VITE_API_URL}/api/v1/courses/${course.data._id}`,
         formData,
         {
           headers: {
@@ -228,7 +274,7 @@ const Add_New_Course_Page = () => {
       console.log('Success:', response.data);
     } catch (e) {
       alert(`Error Creating Course`);
-      console.log(`Upload error:, ${error } ${e}`);
+      console.log(`Upload error:,  ${e}`);
     } finally { 
       setUploading(false);
       setLoading(false)
@@ -366,6 +412,9 @@ const CustomDayDialog = () => (
 if (uploading){
   return <LoadingPage content = 'Uploading Course' />
 }
+if (status == 'loading'){
+  return <LoadingPage content = 'Fetching Course Details!' />
+}
 return (
   <div>
     {/* Your main page content */}
@@ -373,9 +422,9 @@ return (
       <div className="h-max-[283px] ">
         <div>
 
-          <input type="text" ref={titleRef} placeholder="Enter Course Title..." className=" mb-3 focus:outline-0 w-full font-semibold text-[#AAAAAA] text-[32px]" />
+          <input type="text" defaultValue={course.data.title} ref={titleRef} placeholder="Enter Course Title..." className=" mb-3 focus:outline-0 w-full font-semibold text-[#AAAAAA] text-[32px]" />
           <div className="flex flex-row items-center">
-            <textarea name="afdaf" ref={descriptionRef} id="" placeholder="Add course description" className=" focus:outline-0 h-[221px] w-full border-1 border-[#cdcef3] rounded-3xl p-5"></textarea>
+            <textarea name="afdaf" defaultValue={course.data.description} ref={descriptionRef} id="" placeholder="Add course description" className=" focus:outline-0 h-[221px] w-full border-1 border-[#cdcef3] rounded-3xl p-5"></textarea>
             <div className="h-[221px] w-[235px] ml-5 bg-[#f3f5f9] rounded-2xl flex flex-col items-center justify-center">
               <img src="../../src/assets/upload_img.svg" alt="" className="mb-2" />
               <p className="text-[16px] text-[#333333] font-semibold w-[187px] text-center">Upload or select image for course</p>
@@ -406,8 +455,11 @@ return (
         </div>
       </div>
       <h2 className="text-2xl font-semibold text-[#333333] mt-8">Course Materials</h2>
+      {course.data.materials.map((file) => (
+        <CourseMaterialTag title={file.title} description={file.description} fileType={file.type} deleteCourseMaterialFromDB = {deleteCourseMaterialFromDB} materialId = {file._id} courseId = {file.courseId} />
+      ))}
       {files.map((file) => (
-        <CourseMaterialTag title={file.title} description={file.description} fileType={file.fileType} deleteMaterial = {deleteMaterial} />
+        <CourseMaterialTag title={file.title} description={file.description} fileType={file.fileType} deleteMaterial = {deleteMaterial} materialId = {1}/>
       ))}
      
 
@@ -424,7 +476,7 @@ return (
       <div className="flex flex-row">
         <QuizDropDown options={options} onSelect={setQuizType} selectedVal={quizType} width={'477px'} desc={'Select Quiz Type (can select more than one)'} />
         <div className="text-[16px] text-[#aaaaaa] w-[477px] h-[48px] rounded-xl border border-[#aaaaaa] px-3 py-4 flex items-center">
-          <input type="text" name="" id="" placeholder="Enter required number of questions" className="focus:outline-0 w-full" ref={numberOfQuestionsRef} />
+          <input type="text" defaultValue={course.data.quizConfig.numberOfQuestions} name="" id="" placeholder="Enter required number of questions" className="focus:outline-0 w-full" ref={numberOfQuestionsRef} />
 
         </div>
       </div>
@@ -493,7 +545,7 @@ return (
           </div>
         </div>
       </div>
-      <button onClick={async ()  => await handleUpload()} className="bg-[#040BC5] mt-[40px]   text-white p-[12px] rounded-[8px] w-[248px] ">Upload Course</button>
+      <button onClick={async ()  => await handleUpload()} className="bg-[#040BC5] mt-[40px]   text-white p-[12px] rounded-[8px] w-[248px] ">Update Course</button>
 
       {/* <button 
         onClick={() => setIsPopupOpen(true)}
@@ -513,4 +565,4 @@ return (
 );
 };
 
-export default Add_New_Course_Page;
+export default EditNewCoursePage;

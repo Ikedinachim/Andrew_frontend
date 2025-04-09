@@ -1,6 +1,8 @@
 import React, { useRef, useState } from 'react';
 import QuizDropDown from '../components/QuizDropDown';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import LoadingPage from './LoadingPage';
 
 const ModuleDetailsNewStart = () => {
 
@@ -15,7 +17,8 @@ const ModuleDetailsNewStart = () => {
     const takeQuizHandler = () => {
         navigate('/mcq-page');
     };      
-
+    const {moduleDetailData, moduleDetailStatus, moduleDetailError} = useSelector((state) => state.moduleDetail)
+    const { course, status, error } = useSelector((state) => state.courseDetail);
     const options = [
         { label: 'True/False', value: 'True/False' },
         { label: 'MCQ', value: 'MCQ' },
@@ -34,11 +37,14 @@ const ModuleDetailsNewStart = () => {
         const value = i.toString().padStart(2, '0');
         return value;
     });
+    if (moduleDetailStatus == 'loading'){
+        return <LoadingPage content = 'Fetching Module Detail' />
+    }
     return (
         <div>
-            <p className='text-[16px] text-[#333333] mb-6'>Courses &gt; Masterclass of Python &gt;</p>
-            <p className='font-semibold text-[14px] text-[#aaaaaa] mb-3'>Module 1 | Course-Masterclass of Python</p>
-            <h2 className='text-[32px] text-[#333333] mb-5 font-semibold' >Introduction to Python for Data Science</h2>
+            <p className='text-[16px] text-[#333333] mb-6'>Courses &gt; {course.data.title} &gt;</p>
+            <p className='font-semibold text-[14px] text-[#aaaaaa] mb-3'>Module 1 | Course-{course.data.title}</p>
+            <h2 className='text-[32px] text-[#333333] mb-5 font-semibold' >{moduleDetailData.data.title}</h2>
             <div className="flex items-center mb-4">
 
                 <img src="../../src/assets/Difficulty.svg" alt="" className='mx-1' />

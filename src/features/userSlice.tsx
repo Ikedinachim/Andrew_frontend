@@ -41,6 +41,10 @@ const userSlice = createSlice({
   },
   reducers: {
     // You can add synchronous reducers if needed
+    resetUserStatus: (state) => {
+      state.status = 'reset';
+      
+    },
     signOut(state) {
       state.user = null;
       state.status = 'idle';
@@ -72,6 +76,7 @@ const userSlice = createSlice({
 
 // Export actions (for sign out, etc.)
 export const { signOut } = userSlice.actions;
+export const { resetUserStatus } = userSlice.actions;
 
 // Export the reducer to add to your store
 export default userSlice.reducer;

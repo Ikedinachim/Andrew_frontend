@@ -1,10 +1,11 @@
-import PacmanLoader from "react-spinners/ClipLoader";
+import ScaleLoader from "react-spinners/ScaleLoader";
 
 
-const LoadingPage = () => {
+const LoadingPage = (props) => {
     return (
-        <div className="flex items-center justify-center h-screen">
-        <PacmanLoader color="#040BC" size={150} />
+        <div className="flex flex-col items-center text-[#040BC5] justify-center h-screen">
+        <ScaleLoader width={20} color="#040BC5" />
+        <h1 className="font-bold text-2xl mt-5">{props.content}</h1>
       </div>
     );
 };

@@ -1,6 +1,27 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { getSingleCourse, resetCourseDetailStatus } from '../features/courseDetailSlice';
+import { getModules } from '../features/moduleSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const CourseCardGrid = (props) => {
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const { _, status, error } = useSelector((state) => state.courseDetail);
+
+
+     const handleLearnMore = () => {
+        // Handle the "Learn More" button click
+        dispatch(getSingleCourse(props._id))
+        dispatch(getModules(props._id))
+        
+      };
+     useEffect(() => {
+        if (status == 'success') {
+          navigate(`/dashboard/course-details/${props._id}`);
+          dispatch(resetCourseDetailStatus());
+        }
+      }, [status, navigate])
     return (
         <div className="bg-white p-6 rounded-md shadow-md mb-6 pr-0  h-[334px] w-[334px]   flex flex-col ">
             <img src={props.img} alt="" className='w-16 h-64 mb-[33px]' />
@@ -28,7 +49,7 @@ const CourseCardGrid = (props) => {
             </div>
 
             <div className="flex justify-between items-center w-[60%]">
-                <button className="bg-white font-medium text-[#333333] border shadow-md border-[#AAAAAA] px-3 py-2 rounded-[8px]">Learn more</button>
+                <button className="bg-white font-medium text-[#333333] border shadow-md border-[#AAAAAA] px-3 py-2 rounded-[8px]" onClick={() => handleLearnMore()}>Learn more</button>
             </div>
 
             {/* </div> */}
