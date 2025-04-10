@@ -1,5 +1,6 @@
 // src/features/userSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { getAllCourse } from './courseSlice';
 
 // Async thunk for sign-in
 export const generateModule = createAsyncThunk(
@@ -41,6 +42,39 @@ export const getModules = createAsyncThunk(
       try {
         
         const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/modules/course/${course_id}`, {
+          method: 'GET',
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${window.localStorage.getItem('token')}`
+            },
+          
+          
+        });
+  
+        if (!response.ok) {
+          // Extract the error message if available
+          const errorData = await response.json().catch(() => ({}));
+          return rejectWithValue(errorData.message || 'Retrieving Modules Failed');
+        }
+  
+        const data = await response.json();
+        // Return the user data (e.g. token, user profile, etc.)
+        console.log(data);
+        
+        return data;
+      } catch (error) {
+        return rejectWithValue(error.message);
+      }
+    }
+  );
+
+
+  export const getAllModules = createAsyncThunk(
+    'module/getAllModules',
+    async (course_id, { rejectWithValue }) => {
+      try {
+        
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/modules??page=1&limit=5`, {
           method: 'GET',
           headers: {
               'Content-Type': 'application/json',
@@ -112,7 +146,22 @@ const moduleSlice = createSlice({
       .addCase(getModules.rejected, (state, action) => {
         state.moduleStatus = 'failed';
         state.moduleError = action.payload || 'Unable to generate module';
+      })
+      .addCase(getAllModules.pending, (state) => {
+        state.moduleStatus = 'loading';
+        state.moduleError = null;
+      })
+      // Fulfilled
+      .addCase(getAllModules.fulfilled, (state, action) => {
+        state.moduleStatus = 'success';
+        state.moduleData = action.payload; 
+      })
+      // Rejected
+      .addCase(getAllModules.rejected, (state, action) => {
+        state.moduleStatus = 'failed';
+        state.moduleError = action.payload || 'Unable to fetch modules';
       });
+
      
   },
 });

@@ -26,6 +26,33 @@ export const createNewQuiz = createAsyncThunk(
   }
 );
 
+export const submitQuiz = createAsyncThunk(
+  'courseDetail/submitQuiz',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/quizzes/module/${data.moduleId}/submit`, {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${window.localStorage.getItem('token')}`
+        },
+        body: JSON.stringify(data.body),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        return rejectWithValue(errorData.message || 'Failed to fetch course');
+      }
+
+      const data = await response.json();
+      console.log(data);    
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 
 const quizSlice = createSlice({
   name: 'quiz',
@@ -56,6 +83,20 @@ const quizSlice = createSlice({
       })
       // Rejected
       .addCase(createNewQuiz.rejected, (state, action) => {
+        state.quizStatus = 'failed';
+        state.quizError = action.payload || 'Unable to get quizes';
+      })
+      .addCase(submitQuiz.pending, (state) => {
+        state.quizStatus = 'loading';
+        state.quizError = null;
+      })
+      // Fulfilled
+      .addCase(submitQuiz.fulfilled, (state, action) => {
+        state.quizStatus = 'success';
+        state.quizData = action.payload; // e.g. { token, userData } 
+      })
+      // Rejected
+      .addCase(submitQuiz.rejected, (state, action) => {
         state.quizStatus = 'failed';
         state.quizError = action.payload || 'Unable to get quizes';
       });

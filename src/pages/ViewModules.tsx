@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CourseCardGridNew from '../components/CourseCardGridNew';
 import CourseCardGrid from '../components/CourseCardGrid';
 import ProgressCard from '../components/ProgressCard';
 import ModuleCardGrid from '../components/ModuleCardGrid';
 import ModuleCard from '../components/ModuleCard';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllModules } from '../features/moduleSlice';
+import LoadingPage from './LoadingPage';
 
 const ViewModules = () => {
     const [isOpen, setIsOpen] = React.useState(false);
@@ -13,9 +16,23 @@ const ViewModules = () => {
         setIsOpen(!isOpen);
     };
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { moduleData, moduleStatus, moduleError } = useSelector((state) => state.module)
     const handleCardClick = () => {
         navigate('/dashboard/module-details-new-start');
-    };      
+    };
+    useEffect(() => {
+        // Fetch data from the API
+        // Update the state with the fetched data
+        dispatch(getAllModules())
+
+    }, [dispatch]);
+
+    if (moduleStatus == 'loading' || moduleStatus == 'idle') {
+        return <LoadingPage content='Fetching Modules' />
+    }
+    console.log(moduleData.data.data);
+
     return (
         <div>
 
@@ -42,24 +59,22 @@ const ViewModules = () => {
             </div>
 
             {view == "grid" ? <div className='grid  grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8  p-4 '>
-                <ModuleCardGrid />
-                <ModuleCardGrid />
-                <ModuleCardGrid />
-                <ModuleCardGrid />
-                <ModuleCardGrid />
-        
-                <ModuleCardGrid />
-        
-               
+
+
+                {moduleData.data.data.map((module) => {
+                    return <ModuleCardGrid key={module._id} title={module.title} desc={module.description} id={module._id} courseId={module.courseId} />
+                }
+                )}
+
+
             </div> :
                 <div className='w-full'>
-                    <ModuleCard />
-                    <ModuleCard />
-                    <ModuleCard />
-                    <ModuleCard />
-                    <ModuleCard />
-                    <ModuleCard />
-              
+                    {moduleData.data.data.map((module) => {
+                        return <ModuleCard key={module._id} title={module.title} desc={module.description} id={module._id} courseId={module.courseId} />
+                    }
+                    )}
+
+
 
                 </div>
             }

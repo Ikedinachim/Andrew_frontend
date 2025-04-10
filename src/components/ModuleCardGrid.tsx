@@ -1,10 +1,16 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { getModuleDetail } from '../features/moduleDetailSlice';
+import { getSingleCourse } from '../features/courseDetailSlice';
 
-const ModuleCardGrid = () => {
+const ModuleCardGrid = (props) => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const handleCardClick = () => {
-        navigate('/dashboard/module-details');
+        dispatch(getModuleDetail(props.id));
+        dispatch(getSingleCourse(props.courseId));
+        navigate(`/dashboard/module-details/${props.id}`);
     };      
     return (
         <div className="bg-white p-6 rounded-md shadow-md mb-6   w-[364px]    flex flex-col ">
@@ -19,11 +25,10 @@ const ModuleCardGrid = () => {
                 </div>
             </p>
             <h2 className="text-xl font-semibold text-[#333333]">
-                Introduction to Python for Data Science
+                {props.title}
             </h2>
             <p className="text-[#AAAAAA]">
-                Learn how to analyze, visualize, and manipulate data using
-                Python libraries...
+                {props.desc}
             </p>
             <div className="flex items-center mb-2">
                 

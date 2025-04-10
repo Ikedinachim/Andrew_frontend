@@ -29,6 +29,34 @@ export const deleteCourseMaterial= createAsyncThunk(
     }
   );
   
+  // delete course
+export const uploadCourseMaterial= createAsyncThunk(
+  'material/uploadCoursematerial',
+  async (body , { rejectWithValue }) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/materials`, {
+        method: 'POST',
+        headers: { 
+          'Authorization': `Bearer ${window.localStorage.getItem('token')}`
+        },
+        body: body
+      });
+      console.log('upload material');
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        return rejectWithValue(errorData.message || 'Failed to upload material');
+      }
+
+      const data = await response.json();
+      console.log(data);    
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
   
   const materialSlice = createSlice({
     name: 'material',
@@ -61,6 +89,21 @@ export const deleteCourseMaterial= createAsyncThunk(
       .addCase(deleteCourseMaterial.rejected, (state, action) => {
         state.materialStatus = 'failed';
         state.materialError = action.payload || 'Unable to get courses';
+      })
+      // Pending
+      .addCase(uploadCourseMaterial.pending, (state) => {
+        state.materialStatus = 'loading';
+        state.materialError = null;
+      })
+      // Fulfilled
+      .addCase(uploadCourseMaterial.fulfilled, (state, action) => {
+        state.materialStatus = 'success';
+        state.materialData = action.payload; // e.g. { token, userData } 
+      })
+      // Rejected
+      .addCase(uploadCourseMaterial.rejected, (state, action) => {
+        state.materialStatus = 'failed';
+        state.materialError = action.payload || 'Unable to upload material';
       })
        
     },
