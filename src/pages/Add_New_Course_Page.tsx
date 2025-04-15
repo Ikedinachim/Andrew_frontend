@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import CourseMaterialTag from '../components/CourseMaterialTag';
 import LoadingPage from './LoadingPage';
+import ToggleSwitch from '../components/ToggleSwitch';
 // Assuming this is the correct import path
 
 interface PopupProps {
@@ -140,6 +141,7 @@ const Add_New_Course_Page = () => {
     console.log(goal)
     setSelectedGoal(goal)
   }
+
   const handleTimelineSelect = (timeline: string) => {
     console.log(timeline)
     setSelectedTimeline(timeline)
@@ -147,7 +149,6 @@ const Add_New_Course_Page = () => {
       setIsCustomDayPopupOpen(true)
     }
   }
-
 
   const selectCustomDaysHandler = () => {
     console.log(daysRef.current?.value)
@@ -168,7 +169,6 @@ const Add_New_Course_Page = () => {
   const handleButtonClick = () => {
     fileInputRef.current?.click();
   };
-  
 
   // Handle file upload
   const handleUpload = async () => {
@@ -235,169 +235,168 @@ const Add_New_Course_Page = () => {
     }
   };
 
-// Handle drag and drop
-const handleDragOver = (e: React.DragEvent<HTMLButtonElement>) => {
-  e.preventDefault();
-};
+  // Handle drag and drop
+  const handleDragOver = (e: React.DragEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+  };
 
-const handleDrop = (e: React.DragEvent<HTMLButtonElement>) => {
-  e.preventDefault();
-  const file = e.dataTransfer.files?.[0];
-  if (file) {
-    setSelectedFile(file);
-  }
-};
-const MaterialUploadForm = () => (
-  <div className="w-[445px] rounded-[16px] shadow-md flex flex-col p-8 relative bg-white">
-    <img
-      src="../../src/assets/Close.svg"
-      alt=""
-      className="absolute top-5 right-4 cursor-pointer"
-      onClick={() => setIsPopupOpen(false)}
-    />
-    <h2 className="text-[24px] text-[#333333] font-semibold mb-8">Upload Materials</h2>
-    <QuizDropDown
-      options={mediaOptions}
-      onSelect={setMediaOption}
-      selectedVal ={ mediaOption}
-      width='381px'
-      desc='Select Material Type'
-    />
-    <div className="text-[16px] mt-4 mb-4 text-[#aaaaaa] w-[381px] h-[48px] rounded-xl border border-[#aaaaaa] px-3 py-4 flex items-center">
-      <input
-        type="text"
-        placeholder="Enter Title for file"
-        className="focus:outline-0  w-full bg-transparent"
-        ref={fileTitleRef}
-        
-      />
-    </div>
-    <div className="text-[16px] mb-[20px] text-[#aaaaaa] w-[381px] h-[99px] rounded-xl border border-[#aaaaaa] px-3 py-4 flex items-center">
-      <input
-        type="text"
-        placeholder="Enter description"
-        className="focus:outline-0 w-full bg-transparent"
-        ref={fileDescriptionRef}
-        
-      />
-    </div>
-    <>
-      <input
-        type="file"
-        ref={fileInputRef}
-        onChange={handleFileSelect}
-        accept=".pdf,.doc,.docx,.mp3,.mp4,.wav,.avi"
-        style={{ display: 'none' }}
-      />
-     { mediaOption === 'URL' ? 
-     <div className="text-[16px] mt-4 mb-4 text-[#aaaaaa] w-[381px] h-[48px] rounded-xl border border-[#aaaaaa] px-3 py-4 flex items-center">
-     <input
-       type="text"
-       placeholder="Enter link here"
-       className="focus:outline-0 w-full bg-transparent"
-       ref={UrlLinkRef}
-     />
-   </div> : <button
-        className="text-[12px] mb-[32px] text-[#aaaaaa] w-[381px] h-[125px] rounded-xl border border-dashed border-[#aaaaaa] px-3 py-4 flex flex-col items-center justify-center"
-        onClick={handleButtonClick}
-        onDragOver={handleDragOver}
-        onDrop={handleDrop}
-      >        <img src="../../src/assets/Upload.svg" alt="" />
-        <p className="w-[146px]">
-          {selectedFile
-            ? `Selected: ${selectedFile.name}`
-            : 'Drag and drop the file or browse file from device'}
-        </p>      </button>}
-    </>
-    <div className="flex flex-row justify-between items-center">
-      <button
-        className="bg-white text-[#FEC260] px-6 py-[12px] border border-[#FEC260] rounded-[8px]"
+  const handleDrop = (e: React.DragEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const file = e.dataTransfer.files?.[0];
+    if (file) {
+      setSelectedFile(file);
+    }
+  };
+
+  const MaterialUploadForm = () => (
+    <div className="w-[445px] rounded-[16px] shadow-md flex flex-col p-8 relative bg-white">
+      {/* <img
+        src="../../public/assets/Close.svg"
+        alt=""
+        className="absolute top-5 right-4 cursor-pointer"
         onClick={() => setIsPopupOpen(false)}
-      >
-        Cancel
-      </button>
-      <button onClick={() => uploadMaterial()} className="bg-[#040BC5] text-white px-6 py-[12px] rounded-[8px]">
-        Upload
-      </button>
-    </div>
-  </div>
-);
-
-const CustomDayDialog = () => (
-  <div className="w-[445px]  rounded-[16px] shadow-md flex flex-col p-8 relative bg-white">
-    <img
-      src="../../src/assets/Close.svg"
-      alt="Close"
-      className="absolute top-5 right-4 cursor-pointer"
-      onClick={() => setIsPopupOpen(false)}
-    />
-    <h2 className="text-[24px] text-[#333333] font-semibold mb-8">Select Custom Days</h2>
-
-
-    {/* New section for custom duration */}
-    <div className="flex flex-row items-center space-x-2 mt-4 mb-4 justify-center">
-      <input
-        type="number"
-        placeholder="Duration"
-        ref={daysRef}
-        className="h-[50px] w-[100px] px-2 py-1 text-[16px] focus:outline-none rounded-xl border border-[#aaaaaa]"
-      />
+      /> */}
+      <h2 className="text-lg text-[#333333] font-semibold mb-6">Upload Materials</h2>
       <QuizDropDown
-        options={durationOptions}
-        onSelect={(val: Option) => setDuration(val)}
-        width="120px"
-        desc="Select Unit"
+        options={mediaOptions}
+        onSelect={setMediaOption}
+        selectedVal ={ mediaOption}
+        width='381px'
+        desc='Select Material Type'
       />
+      <div className="text-sm mt-4 mb-4 text-[#333] w-[381px] h-[48px] rounded-lg border border-[#aaaaaa] px-3 py-4 flex items-center">
+        <input
+          type="text"
+          placeholder="Enter Title for file"
+          className="focus:outline-0  w-full bg-transparent"
+          ref={fileTitleRef}
+          
+        />
+      </div>
+      <div className="text-sm mb-[20px] text-[#333] w-[381px] h-[99px] rounded-lg border border-[#aaaaaa] px-3 py-4 flex items-center">
+        <input
+          type="text"
+          placeholder="Enter description"
+          className="focus:outline-0 w-full bg-transparent"
+          ref={fileDescriptionRef}
+        />
+      </div>
+      <>
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handleFileSelect}
+          accept=".pdf,.doc,.docx,.mp3,.mp4,.wav,.avi"
+          style={{ display: 'none', cursor:'pointer'}}
+        />
+      { mediaOption === 'URL' ? 
+      <div className="text-sm mb-4 text-[#333] w-[381px] h-[48px] rounded-lg border border-[#aaaaaa] px-3 py-4 flex items-center">
+      <input
+        type="text"
+        placeholder="Enter link here"
+        className="focus:outline-0 w-full bg-transparent"
+        ref={UrlLinkRef}
+      />
+    </div> : <button
+          className="text-[12px] mb-[32px] text-[#aaaaaa] w-[381px] h-[125px] rounded-xl border border-dashed border-[#aaaaaa] px-3 py-4 flex flex-col items-center justify-center"
+          onClick={handleButtonClick}
+          onDragOver={handleDragOver}
+          onDrop={handleDrop}
+        >        <img src="../../public/assets/Upload.svg" alt="" />
+          <p className="w-[146px]">
+            {selectedFile
+              ? `Selected: ${selectedFile.name}`
+              : 'Drag and drop the file or browse file from device'}
+          </p>      </button>}
+      </>
+      <div className="flex flex-row justify-between items-center mt-2">
+        <button
+          className="bg-white text-[#FEC260] px-6 py-[12px] border border-[#FEC260] rounded-lg hover:shadow-lg hover:font-bold cursor-pointer"
+          onClick={() => setIsPopupOpen(false)}
+        >
+          Cancel
+        </button>
+        <button onClick={() => uploadMaterial()} className="bg-[#040BC5] text-white px-6 py-[12px] border-2 border-white rounded-lg cursor-pointer hover:shadow-lg hover:border-2 hover:border-[#040BC5] hover:bg-[#F3F5F9] hover:text-[#040BC5] hover:font-bold">
+          Upload
+        </button>
+      </div>
     </div>
+  );
 
-    <div className="flex flex-row justify-between items-center">
-      <button
-        className="bg-white text-[#FEC260] px-6 py-[12px] border border-[#FEC260] rounded-[8px]"
-        onClick={() => setIsCustomDayPopupOpen(false)}
-      >
-        Cancel
-      </button>
-      <button className="bg-[#040BC5] text-white px-6 py-[12px] rounded-[8px]" onClick={() => selectCustomDaysHandler()}>
-        OK
-      </button>
+  const CustomDayDialog = () => (
+    <div className="w-[445px] rounded-2xl shadow-md flex flex-col p-6 relative bg-white">
+      {/* <img
+        src="../../public/assets/Close.svg"
+        alt="Close"
+        className="absolute top-5 right-4 cursor-pointer"
+        onClick={() => setIsPopupOpen(false)}
+      /> */}
+      <h2 className="text-lg text-[#333333] font-semibold">Select Custom Days</h2>
+
+      {/* New section for custom duration */}
+      <div className="flex flex-row items-center space-x-2 mt-6 mb-8 justify-center">
+        <input
+          type="number"
+          placeholder="00"
+          min="1"
+          ref={daysRef}
+          className="h-[50px] w-[70px] px-2 py-1 text-lg focus:outline-none rounded-xl border border-[#aaaaaa] text-center"
+        />
+        <QuizDropDown
+          options={durationOptions}
+          onSelect={(val: Option) => setDuration(val)}
+          width="120px"
+          desc="Select Unit"
+        />
+      </div>
+
+      <div className="flex flex-row justify-between items-center">
+        <button
+          className="bg-white text-[#FEC260] px-6 py-[12px] border border-[#FEC260] rounded-lg cursor-pointer hover:shadow-lg hover:font-bold"
+          onClick={() => setIsCustomDayPopupOpen(false)}
+        >
+          Cancel
+        </button>
+        <button className="bg-[#040BC5] text-white px-6 py-[8px] border-2 border-white rounded-lg cursor-pointer hover:shadow-lg hover:border-2 hover:border-[#040BC5] hover:bg-[#F3F5F9] hover:text-[#040BC5] hover:font-bold" onClick={() => selectCustomDaysHandler()}>
+          OK
+        </button>
+      </div>
     </div>
-  </div>
-);
-if (uploading){
-  return <LoadingPage content = 'Uploading Course' />
-}
+  );
+
+  if (uploading){
+    return <LoadingPage content = 'Uploading Course' />
+  }
+
 return (
   <div>
     {/* Your main page content */}
     <div>
-      <div className="h-max-[283px] ">
+      <div className="h-max-[283px]">
         <div>
-
-          <input type="text" ref={titleRef} placeholder="Enter Course Title..." className=" mb-3 focus:outline-0 w-full font-semibold text-[#AAAAAA] text-[32px]" />
-          <div className="flex flex-row items-center">
-            <textarea name="afdaf" ref={descriptionRef} id="" placeholder="Add course description" className=" focus:outline-0 h-[221px] w-full border-1 border-[#cdcef3] rounded-3xl p-5"></textarea>
-            <div className="h-[221px] w-[235px] ml-5 bg-[#f3f5f9] rounded-2xl flex flex-col items-center justify-center">
-              <img src="../../src/assets/upload_img.svg" alt="" className="mb-2" />
-              <p className="text-[16px] text-[#333333] font-semibold w-[187px] text-center">Upload or select image for course</p>
+          <input type="text" ref={titleRef} placeholder="Enter Course Title..." className=" mt-4 mb-6 focus:outline-0 w-full font-medium text-[#AAAAAA] text-3xl" />
+          <div className="flex flex-row w-full">
+            <textarea name="afdaf" ref={descriptionRef} id="" placeholder="Add course description..." className=" focus:outline-0 h-auto w-[85%] border-1 border-[#cdcef3] rounded-2xl p-5"></textarea>
+            <div className="h-[200px] w-[15%] ml-5 bg-[#f3f5f9] rounded-2xl flex flex-col items-center justify-center p-8 cursor-pointer">
+              <img src="../../public/assets/upload_img.svg" alt="" className="mb-2" />
+              <p className="text-sm text-[#333333] font-semibold text-center">Upload or select image for course</p>
             </div>
-
           </div>
         </div>
       </div>
-      <div className="flex flex-row mt-8">
+      <div className="flex flex-row mt-8 justify-between">
         <div>
-          <h2 className="text-2xl font-semibold text-[#333333] mb-6">Select Course goal:</h2>
-          <div className="flex flex-row ">
-
-            <GoalCard img="../../src/assets/Personal Development.svg" title="Personal Development" onClick={handleGoalSelect} />
-            <GoalCard img="../../src/assets/Career Growth.svg" title="Career Growth" onClick={handleGoalSelect} />
-            <GoalCard img="../../src/assets/leaner.svg" title="Exam preparation" onClick={handleGoalSelect} />
-            <GoalCard img="../../src/assets/Others.svg" title="Others" onClick={handleGoalSelect} />
+          <h2 className="text-xl font-medium text-[#333333] mb-6">Select Course goal:</h2>
+          <div className="flex flex-row gap-auto">
+            <GoalCard img="../../public/assets/Personal Development.svg" title="Personal Development" onClick={handleGoalSelect} />
+            <GoalCard img="../../public/assets/Career Growth.svg" title="Career Growth" onClick={handleGoalSelect} />
+            <GoalCard img="../../public/assets/leaner.svg" title="Exam preparation" onClick={handleGoalSelect} />
+            <GoalCard img="../../public/assets/Others.svg" title="Others" onClick={handleGoalSelect} />
           </div>
         </div>
         <div className="ml-4">
-          <h2 className="text-2xl font-semibold text-[#333333] mb-6">Select Timeline:</h2>
-          <div className="flex flex-row">
+          <h2 className="text-xl font-medium text-[#333333] mb-6">Select Timeline:</h2>
+          <div className="flex flex-row justify-between">
             <TimelineCard title="7 days" onClick={handleTimelineSelect} />
             <TimelineCard title="2 weeks" onClick={handleTimelineSelect} />
             <TimelineCard title="4 weeks" onClick={handleTimelineSelect} />
@@ -405,33 +404,42 @@ return (
           </div>
         </div>
       </div>
-      <h2 className="text-2xl font-semibold text-[#333333] mt-8">Course Materials</h2>
+      <hr className="w-full border-t-3 border-[#F3F5F9] mb-2 mt-10" />
+
+      <h2 className="text-xl font-medium text-[#333333] mt-8">Upload Course Materials</h2>
+      {/* Upload Materials */}
       {files.map((file) => (
         <CourseMaterialTag title={file.title} description={file.description} fileType={file.fileType} deleteMaterial = {deleteMaterial} />
       ))}
-     
+      <button onClick={() => setIsPopupOpen(true)} className="bg-[#040BC5] shadow-md text-white px-6 py-[12px] rounded-md mt-6 hover:bg-[#ABAEEC] hover:border-[#585CD8] hover:shadow-lg hover:text-[#333333] transition-all duration-300 cursor-pointer">Upload Materials</button>
 
+      <hr className="w-full border-t-3 border-[#F3F5F9] mb-2 mt-10" />
 
-
-      <button onClick={() => setIsPopupOpen(true)} className="bg-[#040BC5]  text-white px-6 py-[12px] rounded-[8px] mt-6 mb-8 ">Upload Materials</button>
-      <h2 className="text-2xl font-semibold text-[#333333] mb-6">Quiz Configuration</h2>
-      <div className="flex flex-row border  bg-[#f3f5f9] border-[#cdcef3] relative text-[16px]  p-4 rounded-[8px] mb-6 min-h-[87px] max-w-[1068px] items-center text-[#333333] ">
-        <img src="../../src/assets/Quiz1.svg" alt="hands" className='mr-[24px]' />
+      {/* Quiz Config */}
+      <h2 className="text-xl font-medium text-[#333333] mt-8">Quiz Configuration</h2>
+      <div className="flex flex-row border bg-[#f3f5f9] border-[#cdcef3] relative text-sm p-3 rounded-md my-4 max-w-full items-center text-[#333333] ">
+        <img src="../../public/assets/Quiz1.svg" alt="hands" className='mr-[12px]' />
         <p>This quiz configuration will be applied to all modules and quizzes you take for the course.
           You can change config for a specific quiz before starting the quiz.</p>
-        <img src="../../src/assets/Close.svg" alt="close" className='absolute top-[8px] right-[8px]' />
+        {/* <img src="../../public/assets/Close.svg" alt="close" className='absolute top-[8px] right-[8px]' /> */}
       </div>
+
+      {/* Quiz Config Dropdown */}
       <div className="flex flex-row">
         <QuizDropDown options={options} onSelect={setQuizType} selectedVal={quizType} width={'477px'} desc={'Select Quiz Type (can select more than one)'} />
-        <div className="text-[16px] text-[#aaaaaa] w-[477px] h-[48px] rounded-xl border border-[#aaaaaa] px-3 py-4 flex items-center">
-          <input type="text" name="" id="" placeholder="Enter required number of questions" className="focus:outline-0 w-full" ref={numberOfQuestionsRef} />
 
+        {/* Number of Questions */}
+        <div className="text-sm text-[#333] w-[300px] h-[48px] rounded-lg border border-[#AAAAAA] px-3 py-4 flex items-center">
+          <input type="number" min="5" name="" id="" placeholder="Enter required number of questions" className="focus:outline-0 w-full" ref={numberOfQuestionsRef} />
         </div>
       </div>
-      <div className="flex items-end gap-6  w-full mt-4 ">
-        <div>
-          <h3 className="text-lg font-semibold">Difficulty Level:</h3>
-          <div className="flex gap-4 mt-2">
+
+      {/* Difficulty and Timing Settings */}
+      <div className="flex flex-wrap gap-16 w-full mt-5 items-start">
+        {/* Select Difficulty Level */}
+        <div className="min-w-[200px]">
+          <h3 className="text-base font-semibold mb-3">Difficulty:</h3>
+          <div className="flex gap-4 text-sm pt-0.5">
             {['Easy', 'Medium', 'Hard'].map(level => (
               <label key={level} className="flex items-center gap-1 cursor-pointer">
                 <input
@@ -441,33 +449,39 @@ return (
                   onChange={() => setDifficulty(level)}
                   className="hidden"
                 />
-                <span className={`w-4 h-4 border-2 rounded-full flex items-center justify-center ${difficulty === level ? 'border-black' : 'border-gray-400'}`}>
-                  {difficulty === level && <span className="w-2 h-2 bg-black rounded-full"></span>}
+                <span className={`w-4 h-4 border-2 rounded-full flex items-center justify-center ${difficulty === level ? 'border-[#040BC5]' : 'border-[#AAAAAA]'}`}>
+                  {difficulty === level && <span className="w-2 h-2 bg-[#040BC5] rounded-full"></span>}
                 </span>
-                {level.charAt(0).toUpperCase() + level.slice(1)}
+                {level}
               </label>
             ))}
           </div>
         </div>
 
-        <div className="flex items-center gap-2 ml-3">
-          <span className="text-sm font-medium">Timed</span>
-          <div
-            className={`w-12 h-6 flex items-center bg-[#040bc5] rounded-full p-1 cursor-pointer ${isTimed ? 'justify-end' : 'justify-start'}`}
-            onClick={() => setIsTimed(!isTimed)}
-          >
-            <div className="w-4 h-4 bg-white rounded-full"></div>
+        {/* Timing selection */}
+        <div className="min-w-[200px]">
+          <h3 className="text-base font-semibold mb-2">Timing:</h3>
+          <div className="flex items-center gap-3 pt-1">
+            <span className="text-sm font-medium">Not Timed</span>
+            <div
+              className={`w-12 h-6 flex items-center bg-[#040BC5] rounded-full p-1 cursor-pointer transition-all duration-300 ${isTimed ? 'justify-end' : 'justify-start'}`}
+              onClick={() => setIsTimed(!isTimed)}
+            >
+              <div className="w-4 h-4 bg-white rounded-full"></div>
+            </div>
+            <span className="text-sm font-medium">Timed</span>
           </div>
-          <span className="text-sm font-medium">Not Timed</span>
         </div>
-        <div className="flex flex-col items-start space-y-2">
-          <label className="font-semibold text-gray-700">Select Time Duration</label>
-          <div className="flex items-center space-x-2">
+
+        {/* Enter duration */}
+        <div className="min-w-[200px]">
+          <label className="text-base font-semibold block mb-2">Duration:</label>
+          <div className="flex gap-2 items-center">
             {/* Hours */}
             <select
               value={hours}
               onChange={(e) => setHours(e.target.value)}
-              className="border border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded px-2 py-1 text-gray-700"
+              className="border text-sm border-[#F3F5F9] focus:outline-none focus:ring-1 focus:ring-[#040BC5] rounded px-2 py-1 text-[#333333]"
             >
               {hourOptions.map((hour) => (
                 <option key={hour} value={hour}>
@@ -476,13 +490,13 @@ return (
               ))}
             </select>
 
-            <span>:</span>
+            <span className="text-lg font-semibold">:</span>
 
             {/* Minutes */}
             <select
               value={minutes}
               onChange={(e) => setMinutes(e.target.value)}
-              className="border border-gray-200 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded px-2 py-1 text-gray-700"
+              className="border text-sm border-[#F3F5F9] bg-[#F3F5F9] focus:outline-none focus:ring-1 focus:ring-[#040BC5] rounded px-2 py-1 text-[#333333]"
             >
               {minuteOptions.map((minute) => (
                 <option key={minute} value={minute}>
@@ -493,7 +507,11 @@ return (
           </div>
         </div>
       </div>
-      <button onClick={async ()  => await handleUpload()} className="bg-[#040BC5] mt-[40px]   text-white p-[12px] rounded-[8px] w-[248px] ">Upload Course</button>
+
+
+      {/* Save Course */}
+      <button onClick={async ()  => await handleUpload()} className="bg-[#040BC5] mt-[40px] text-white p-[12px] rounded-[8px] w-[248px]
+      shadow-md hover:bg-[#ABAEEC] hover:border-[#585CD8] hover:shadow-lg hover:text-[#333333] transition-all duration-300 cursor-pointer ">Upload Course</button>
 
       {/* <button 
         onClick={() => setIsPopupOpen(true)}

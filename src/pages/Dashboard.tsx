@@ -50,10 +50,12 @@ const Dashboard: React.FC = () => {
         </div>
         {/* Sidebar Right */}
         <div>
-          <RecentActivityCard />
+          <RecommendationCard />
+          
           <StreakCard />
 
-          <RecommendationCard />
+          <RecentActivityCard />
+          
         </div>
       </div>
     </div>

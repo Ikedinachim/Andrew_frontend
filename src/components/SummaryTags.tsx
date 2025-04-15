@@ -3,13 +3,13 @@ import React from 'react';
 const SummaryTags = (props) => {
     return (
         <div>
-            <div className='w-[258px] h-[116px] rounded-2xl shadow-md p-6 flex flex-row justify-between'>
+            <div className='rounded-2xl shadow-md p-4 flex flex-row justify-between align-center mr-4'>
                 <div>
-                    <p className='text-[#AAAAAA] text-[16px] font-normal mb-2'>{props.topic}</p>
-                    <p className='text-[#333333] text-[16px] font-semibold'>{props.subTopic}</p>
+                    <p className='text-[#AAAAAA] text-xs font-normal mb-2'>{props.topic}</p>
+                    <p className='text-[#333333] text-sm font-semibold'>{props.subTopic}</p>
                 </div>
-                <div className={`${props.good ? 'text-[#00ED6D]' : 'text-[#D42953]'} font-semibold text-[12px]`}>
-                    {props.good ? <img src="../../src/assets/GreenGraph.svg" alt="" /> : <img src="../../src/assets/RedGraph.svg" alt="" /> }
+                <div className={`${props.good ? 'text-[#00ED6D]' : 'text-[#D42953]'} font-semibold text-[10px]`}>
+                    {props.good ? <img src="../../public/assets/GreenGraph.svg" alt="" /> : <img src="../../public/assets/RedGraph.svg" alt="" /> }
                     <p>{props.remark}</p>
                     <p>{props.subremark}</p>
                 </div>

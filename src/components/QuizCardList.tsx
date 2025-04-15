@@ -7,9 +7,9 @@ const QuizCardList = (props) => {
             <div className="flex items-center mb-4">
 
                 <span className="text-[#AAAAAA] text-sm">2nd Febuary 2025 | </span>
-                <img src="../../src/assets/Difficulty.svg" alt="" className='mx-1' />
+                <img src="../../public/assets/Difficulty.svg" alt="" className='mx-1' />
                 <span className="text-[#AAAAAA] text-sm">  Medium |</span>
-                <img src="../../src/assets/Quiz3.svg" alt="" className='mx-1' />
+                <img src="../../public/assets/Quiz3.svg" alt="" className='mx-1' />
                 <span className="text-[#AAAAAA] text-sm">  5 Quizes </span>
             </div>
             <p className='font-semibold mb-2 '>Score- </p>

@@ -10,10 +10,10 @@ import GreetingCard from '../components/GreetingCard';
 import { Outlet } from 'react-router-dom';
 
 const AppLayout: React.FC = () => {
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = React.useState(true);
 
   const toggleDrawer = () => {
-    setIsOpen(!isOpen);
+    setIsOpen(true);
   };
 
   return (
@@ -39,7 +39,7 @@ const AppLayout: React.FC = () => {
         >
           {/* Menu Icon (Appears when Sidebar is Closed) */}
           <img
-            src="../../src/assets/menu.svg"
+            src="../../public/assets/bi_filter.svg"
             alt="Menu Toggle"
             onClick={toggleDrawer}
             className={`cursor-pointer z-50 fixed top-[27px] left-[12px] ${isOpen ? 'hidden' : 'block'

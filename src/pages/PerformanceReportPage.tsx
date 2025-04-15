@@ -4,14 +4,21 @@ import ReportCard from '../components/ReportCard';
 const PerformanceReportPage = () => {
     return (
         <div>
-            <h1 className='font-semibold text-[#333333] text-[32px] mb-[12px]'>Performance Reports</h1>
-            <p className='font-normal text-xl text-[#aaaaaa] mb-[32px]'>See all reports of your Quizes</p>
-            <div className='grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-2 gap-4  mx-auto w-full'>
+            <h2 className="text-3xl font-semibold text-[#333333] mt-4 ml-4 mb-3">
+            Performance Reports
+            </h2>
 
-            <ReportCard />
-            <ReportCard />
-            <ReportCard />
-            <ReportCard />
+            <div className="flex justify-between items-center px-4 mt-6">
+                <p className="text-sm text-[#AAAAAA]">
+                    See all the reports of your quizzes
+                </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-6 p-4 max-w-7xl mx-auto mt-4">
+                <ReportCard />
+                <ReportCard />
+                <ReportCard />
+                <ReportCard />
             </div>
 
 

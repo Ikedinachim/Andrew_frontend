@@ -7,28 +7,39 @@ const ReportCard = () => {
         navigate('/dashboard/quiz-performance-report');
     };
     return (
-        <div className='max-w-[517px] rounded-3xl p-5 shadow-md' onClick={ () => handleClick()}>
-                <h3 className='font-semibold text-[#333333] text-xl'>Quiz XYZ</h3>
-                <div className="flex items-center mb-4">
+        <div
+            className="bg-white border-1 border-white rounded-3xl px-6 py-7 shadow-lg hover:shadow-xl hover:border-[#040BC5] transition-shadow duration-300 cursor-pointer"
+            onClick={handleClick}
+            >
 
-                    <span className="text-[#AAAAAA] text-sm">  2nd Febuary 2025  | </span>
-                    <img src="../../src/assets/Difficulty.svg" alt="" className='mx-1' />
-                    <span className="text-[#AAAAAA] text-sm">  Medium |</span>
-                    <img src="../../src/assets/Quiz3.svg" alt="" className='mx-1' />
-                    <span className="text-[#AAAAAA] text-sm">  5 questions |</span>
-                </div>
-                <div className='flex flex-row'>
-                    <p className='text-[#AAAAAA] font-semibold text-[16px] mr-1'>Course Name- </p>
-                    <p className='font-semibold text-[16px] text-[#333333]'>Masterclass of Python</p>
-                </div>
-                <div className='flex flex-row mb-4'>
-                    <p className='text-[#AAAAAA] font-semibold text-[16px] mr-1'>Module Name- </p>
-                    <p className='font-semibold text-[16px] text-[#333333]'>Introduction to Python for Data Science</p>
-                </div>
-                <p className='font-semibold text-[16px] text-[#333333]'>Score-</p>
+            <h3 className="font-semibold text-[#333333] text-xl mb-3">Quiz XYZ</h3>
 
+            <div className="flex flex-wrap items-center text-xs text-[#AAAAAA] mb-4 space-x-2">
+                <span>2nd February 2025</span>
+                <span>|</span>
+                <img src="../../public/assets/Difficulty.svg" alt="Difficulty" className="w-4 h-4" />
+                <span>Medium</span>
+                <span>|</span>
+                <img src="../../public/assets/Quiz3.svg" alt="Questions" className="w-4 h-4" />
+                <span>5 questions</span>
             </div>
-    );
-};
+
+            <div className="mb-2 flex flex-wrap">
+                <span className="text-[#AAAAAA] text-[15px] mr-1">Course:</span>
+                <span className="text-[#333333] font-semibold text-[15px]">Masterclass of Python</span>
+            </div>
+
+            <div className="mb-4 flex flex-wrap">
+                <span className="text-[#AAAAAA] text-[15px] mr-1">Module:</span>
+                <span className="text-[#333333] font-semibold text-[15px]">
+                Introduction to Python for Data Science
+                </span>
+            </div>
+
+            <p className="text-lg text-[#333333] font-bold mr-2">Score -</p>
+            </div>
+
+                );
+            };
 
 export default ReportCard;
