@@ -1,24 +1,77 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import QuizDropDown from '../components/QuizDropDown';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import LoadingPage from './LoadingPage';
+import axios from 'axios';
+import { createNewQuiz, resetQuizStatus } from '../features/quizSlice';
 
 const ModuleDetailsNewStart = () => {
 
-    const [quizType, setQuizType] = useState('')
-    const [difficulty, setDifficulty] = useState("easy");
-    const [isTimed, setIsTimed] = useState(false);
-    const [hours, setHours] = useState('10');
-    const [minutes, setMinutes] = useState('00');
-
+    const { course, status, error } = useSelector((state) => state.courseDetail)
+    const [quizType, setQuizType] = useState(course.data.quizConfig.quizTypes[0])
+    const [difficulty, setDifficulty] = useState(course.data.quizConfig.difficultyLevel);
+    const [isTimed, setIsTimed] = useState(course.data.quizConfig.isTimed);
+    const [hours, setHours] = useState(course.data.quizConfig.timeDuration / 60);
+    const [minutes, setMinutes] = useState(course.data.quizConfig.timeDuration % 60);
+    const { quizData, quizStatus, quizError } = useSelector((state) => state.quiz);
     const numberOfQuestionsRef = useRef()
     const navigate = useNavigate();
-    const takeQuizHandler = () => {
-        navigate('/mcq-page');
-    };      
-    const {moduleDetailData, moduleDetailStatus, moduleDetailError} = useSelector((state) => state.moduleDetail)
-    const { course, status, error } = useSelector((state) => state.courseDetail);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (quizStatus == 'success') {
+            navigate('/mcq-page');
+            dispatch(resetQuizStatus())
+        }
+        if (quizStatus == 'failed') {
+            alert(`Quiz creation failed: ${quizError}`)
+            dispatch(resetQuizStatus())
+        }
+
+    }, [quizStatus])
+
+    const formData = new FormData();
+    const takeQuizHandler = async () => {
+        // update quiz type
+        formData.append(
+            'quizConfig',
+            JSON.stringify({
+                quizTypes: [quizType],
+                numberOfQuestions: +numberOfQuestionsRef.current.value,
+                difficultyLevel: difficulty,
+                isTimed: isTimed,
+                timeDuration: (parseInt(hours) * 60) + parseInt(minutes),
+            })
+        );
+        try {
+
+            const response = await axios.put(
+                `${import.meta.env.VITE_API_URL}/api/v1/courses/${course.data._id}`,
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    },
+                }
+            );
+
+
+            console.log('Success:', response.data);
+            dispatch(createNewQuiz(moduleDetailData.data._id))
+            console.log(quizStatus)
+        } catch (e) {
+            alert(`Error Creating Course`);
+            console.log(`Upload error:,  ${e}`);
+        } finally {
+
+        }
+
+
+        
+    };
+    const { moduleDetailData, moduleDetailStatus, moduleDetailError } = useSelector((state) => state.moduleDetail)
     const options = [
         { label: 'True/False', value: 'True/False' },
         { label: 'MCQ', value: 'MCQ' },
@@ -37,8 +90,11 @@ const ModuleDetailsNewStart = () => {
         const value = i.toString().padStart(2, '0');
         return value;
     });
-    if (moduleDetailStatus == 'loading'){
-        return <LoadingPage content = 'Fetching Module Detail' />
+    if (moduleDetailStatus == 'loading') {
+        return <LoadingPage content='Fetching Module Detail' />
+    }
+    if (quizStatus == 'loading') {
+        return <LoadingPage content='Genreating Quiz! This might take a while' />
     }
     return (
         <div>
@@ -61,9 +117,9 @@ const ModuleDetailsNewStart = () => {
                 <img src="../../src/assets/Close.svg" alt="close" className='absolute top-[8px] right-[8px]' />
             </div>
             <div className="flex flex-row">
-                <QuizDropDown options={options} onSelect={(val) => { setQuizType(val) }} width={'477px'} desc={'Select Quiz Type (can select more than one)'} />
+                <QuizDropDown selectedVal={quizType} options={options} onSelect={(val) => { setQuizType(val) }} width={'477px'} desc={'Select Quiz Type (can select more than one)'} />
                 <div className="text-[16px] text-[#aaaaaa] w-[477px] h-[48px] rounded-xl border border-[#aaaaaa] px-3 py-4 flex items-center">
-                    <input type="text" name="" id="" placeholder="Enter required number of questions" className="focus:outline-0 w-full" ref={numberOfQuestionsRef} />
+                    <input type="text" defaultValue={course.data.quizConfig.numberOfQuestions} name="" id="" placeholder="Enter required number of questions" className="focus:outline-0 w-full" ref={numberOfQuestionsRef} />
 
                 </div>
             </div>
@@ -144,8 +200,8 @@ const ModuleDetailsNewStart = () => {
                 <li className='mb-[11px]'>Enjoy the learning process and use the quiz as a tool for self-improvement!</li>
             </ul>
             <button onClick={() => takeQuizHandler()} className="bg-[#040BC5] text-white py-2 px-[12px] rounded-[8px]">
-        Start Quiz
-      </button>
+                Start Quiz
+            </button>
         </div>
     );
 };

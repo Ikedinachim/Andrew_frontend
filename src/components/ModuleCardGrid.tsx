@@ -18,7 +18,7 @@ const ModuleCardGrid = (props) => {
             <p className='text-[12px] font-semibold '>
                 <div className='flex flex-row items-center'>
 
-                    <span className='text-[12px] text-[#AAAAAA]'> Module 1 </span>
+                    <span className='text-[12px] text-[#AAAAAA]'> Module {props.order} </span>
                     <span className='text-[12px] text-[#AAAAAA] mx-2'>  |  </span>
                     <div className='w-[5px] h-[5px] rounded-[100%] bg-[#00ED6D] mr-2'></div>
                     <span className='text-[#00ED6D] mr-2'>On-Track</span>

@@ -62,7 +62,7 @@ const ViewModules = () => {
 
 
                 {moduleData.data.data.map((module) => {
-                    return <ModuleCardGrid key={module._id} title={module.title} desc={module.description} id={module._id} courseId={module.courseId} />
+                    return <ModuleCardGrid key={module._id} title={module.title} desc={module.description} id={module._id} courseId={module.courseId} order ={module.order} />
                 }
                 )}
 
@@ -70,7 +70,7 @@ const ViewModules = () => {
             </div> :
                 <div className='w-full'>
                     {moduleData.data.data.map((module) => {
-                        return <ModuleCard key={module._id} title={module.title} desc={module.description} id={module._id} courseId={module.courseId} />
+                        return <ModuleCard key={module._id} title={module.title} desc={module.description} id={module._id} courseId={module.courseId} order ={module.order} />
                     }
                     )}
 

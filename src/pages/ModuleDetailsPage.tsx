@@ -12,27 +12,15 @@ const ModuleDetailsPage = () => {
     const dispatch = useDispatch();
     const {moduleDetailData, moduleDetailStatus, moduleDetailError} = useSelector((state) => state.moduleDetail)
     const { course, status, error } = useSelector((state) => state.courseDetail);
-    const { quizData, quizStatus, quizError } = useSelector((state) => state.quiz);
-    useEffect(() => {
-        if (quizStatus == 'success'){
-            navigate('/dashboard/module-details-new-start');
-            dispatch(resetQuizStatus())
-        }
-        if (quizStatus == 'failed'){
-            alert( `Quiz creation failed: ${quizError}`)
-            dispatch(resetQuizStatus())
-        }
-        
-    }, [quizStatus])
+    
+   
     const takeQuizHandler = () => {
-        dispatch(createNewQuiz(moduleDetailData.data._id))
-        console.log(quizStatus)
+        navigate('/dashboard/module-details-new-start');
+       
         
        
     }; 
-    if (quizStatus == 'loading'){
-        return <LoadingPage content = 'Genreating Quiz! This might take a while'/>
-    }
+   
      
     const viewInsightHandler = () => {
         navigate('/dashboard/performance-report');

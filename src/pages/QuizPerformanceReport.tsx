@@ -1,19 +1,42 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
 import SummaryTags from '../components/SummaryTags';
 import ProgressArc from '../components/ProgressArc';
 import PerformanceTrend from '../components/PerformanceTrend';
+import { useDispatch, useSelector } from 'react-redux';
+import LoadingPage from './LoadingPage';
+import { useParams } from 'react-router-dom';
+import { getQuizReport } from '../features/reportSlice';
 
 const QuizPerformanceReport = () => {
-    const dummyData = [
-        { name: "Quiz 1", value: 20 },
-        { name: "Quiz 2", value: 30 },
-        { name: "Quiz 3", value: 50 },
-        { name: "Quiz 4", value: 45 },
-        { name: "Quiz 5", value: 60 },
-        { name: "Quiz 6", value: 75 },
-        { name: "Quiz 7", value: 90 },
+    const { reportData, reportStatus, reportError } = useSelector((state) => state.report);
+    const dispatch = useDispatch();
+
+  const { id } = useParams<{ id: string }>();
+  
+  // Now you can use this id for your API calls
+  useEffect(() => {
+    if (id) {
+      dispatch(getQuizReport(id));
+    }
+  }, [id, dispatch]);
+
+    let dummyData = [
+        { name: "Quiz 1", value: '20' },
+        { name: "Quiz 2", value: '30' },
+        { name: "Quiz 3", value: '50' },
+        { name: "Quiz 4", value: '45' },
+        { name: "Quiz 5", value: '60' },
+        { name: "Quiz 6", value: '75' },
+        { name: "Quiz 7", value: '90' },
       ];
+      if (reportStatus == 'loading' || reportStatus == 'idle' || reportStatus == 'processing') {
+          return <LoadingPage content='Fetching Report Details Please Be Patient' />
+        }
+        dummyData = reportData.data.trend.map((trend, index) => {
+          return {name: `Attempt ${trend.attemptNumber}`, value: trend.percentage.slice(0,-1)}});
+    console.log(reportData);
+    
     return (
         <div>
             <h1 className='font-semibold text-[#333333] text-2xl'>Hi Joe, this is how you performed on this quiz,</h1>
@@ -28,16 +51,16 @@ const QuizPerformanceReport = () => {
                     <img src="../../src/assets/Clock.svg" alt="" className='mx-1' />
                     <span className="text-[#AAAAAA] text-sm">  Duration: 30 mins |</span>
                     <img src="../../src/assets/Quiz3.svg" alt="" className='mx-1' />
-                    <span className="text-[#AAAAAA] text-sm">  20 questions </span>
+                    <span className="text-[#AAAAAA] text-sm">  {reportData.data.totalQuestions} questions </span>
                 </div>
                 <div className='flex flex-row'>
                     <div className='flex flex-row mr-8'>
                         <p className='text-[#AAAAAA] font-semibold text-[16px] mr-1'>Course Name- </p>
-                        <p className='font-semibold text-[16px] text-[#333333]'>Masterclass of Python</p>
+                        <p className='font-semibold text-[16px] text-[#333333]'>{reportData.data.courseName}</p>
                     </div>
                     <div className='flex flex-row'>
                         <p className='text-[#AAAAAA] font-semibold text-[16px] mr-1'>Module Name- </p>
-                        <p className='font-semibold text-[16px] text-[#333333]'>Introduction to Python for Data Science</p>
+                        <p className='font-semibold text-[16px] text-[#333333]'>{reportData.data.moduleName}</p>
                     </div>
                 </div>
 
@@ -45,7 +68,7 @@ const QuizPerformanceReport = () => {
             </div>
             <div className='flex flex-row justify-between my-[32px]'>
                 <div className='w-[335px] h-[268px] shadow-md p-6 rounded-2xl flex flex-col items-center justify-center'>
-                    <CircularProgressbar className='h-[156px] font-semibold' value={65} text='65%' styles={buildStyles({
+                    <CircularProgressbar className='h-[156px] font-semibold' value={reportData.data.percentage} text={`${reportData.data.percentage}%`} styles={buildStyles({
                         textColor: '#333333',
                         pathColor: '#1D4ED8',
                         trailColor: '#E5E7EB',
@@ -55,12 +78,12 @@ const QuizPerformanceReport = () => {
 
                 </div>
                <PerformanceTrend data={dummyData} improvement={12}/>
-               <ProgressArc correct={20} total={30}  />
+               <ProgressArc correct={reportData.data.correctAnswers} total={reportData.data.totalQuestions}  />
             </div>
             <h1 className='font-semibold text-[#333333] text-2xl'>Key Takeaways (AI Summary)</h1>
             <div className='flex flex-row justify-between'>
 
-                <SummaryTags topic='Strongest Area:' subTopic='Data Structures' good={true} remark='90%' subremark='Correct' />
+                <SummaryTags topic='Strongest Area:' subTopic={reportData.data.goodAt} good={true} remark='90%' subremark='Correct' />
                 <SummaryTags topic='Fastest Topic:' subTopic='Sorting Algorithms' good={true} remark='Avg 8 sec' subremark='Taken' />
                 <SummaryTags topic='Weakest Area:' subTopic='Graph Traversal' good={false} remark='50%' subremark='correct' />
                 <SummaryTags topic='Struggled With:' subTopic='DFS vs BFS' good={false} remark='50%' subremark='correct' />

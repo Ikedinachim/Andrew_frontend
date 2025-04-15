@@ -28,15 +28,15 @@ export const createNewQuiz = createAsyncThunk(
 
 export const submitQuiz = createAsyncThunk(
   'courseDetail/submitQuiz',
-  async (data, { rejectWithValue }) => {
+  async (datat, { rejectWithValue }) => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/quizzes/module/${data.moduleId}/submit`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/quizzes/${datat.quizId}/submit`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${window.localStorage.getItem('token')}`
         },
-        body: JSON.stringify(data.body),
+        body: JSON.stringify(datat.body),
       });
 
       if (!response.ok) {
