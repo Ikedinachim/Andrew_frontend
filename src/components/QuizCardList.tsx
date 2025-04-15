@@ -20,9 +20,9 @@ const QuizCardList = (props) => {
             <div className="flex items-center mb-4">
 
                 <span className="text-[#AAAAAA] text-sm">{formattedDate} | </span>
-                <img src="../../public/assets/Difficulty.svg" alt="" className='mx-1' />
+                <img src="/assets/Difficulty.svg" alt="" className='mx-1' />
                 <span className="text-[#AAAAAA] text-sm">  Medium |</span>
-                <img src="../../public/assets/Quiz3.svg" alt="" className='mx-1' />
+                <img src="/assets/Quiz3.svg" alt="" className='mx-1' />
                 <span className="text-[#AAAAAA] text-sm">  5 Quizes </span>
             </div>
             <p className='font-semibold mb-2 '>Score- </p>

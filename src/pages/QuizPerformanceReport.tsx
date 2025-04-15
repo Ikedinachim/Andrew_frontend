@@ -50,13 +50,13 @@ const QuizPerformanceReport = () => {
                 <div className="flex flex-wrap items-center text-xs text-[#AAAAAA] mb-4 space-x-2">
                     <span>2nd February 2025</span>
                     <span>|</span>
-                    <img src="../../public/assets/Difficulty.svg" alt="Difficulty" className="w-4 h-4" />
+                    <img src="/assets/Difficulty.svg" alt="Difficulty" className="w-4 h-4" />
                     <span>Medium</span>
                     <span>|</span>
-                    <img src="../../public/assets/Clock.svg" alt="" className='mx-1' />
+                    <img src="/assets/Clock.svg" alt="" className='mx-1' />
                     <span>  Duration: 30 mins </span>
                     <span>|</span>
-                    <img src="../../public/assets/Quiz3.svg" alt="Questions" className="w-4 h-4" />
+                    <img src="/assets/Quiz3.svg" alt="Questions" className="w-4 h-4" />
                     <span>5 questions</span>
                 </div>
 

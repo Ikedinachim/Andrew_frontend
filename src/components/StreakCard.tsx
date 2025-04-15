@@ -17,7 +17,7 @@ const StreakCard: React.FC = () => {
             key={day}
             className={`flex flex-col items-center p-2 rounded-lg ${activeDays.includes(day) ? "bg-[#F3F5F9]" : ""}`}
           >
-            <img src="../../public/assets/Streak.svg" alt="" />
+            <img src="/assets/Streak.svg" alt="" />
             <span className="text-xs text-[#333333] mt-1">{day}</span>
           </div>
         ))}

@@ -28,7 +28,7 @@ const ProgressCard: React.FC = () => {
           </div>
           <span className="text-[#AAAAAA] text-sm mr-3 mt-2 sm:mt-0">3 of 8 modules</span>
           <span className="text-[#AAAAAA] text-sm mr-2">|</span>
-          <img src="../../public/assets/Clock.svg" alt="Clock Icon" className="mx-1 w-4 h-4" />
+          <img src="/assets/Clock.svg" alt="Clock Icon" className="mx-1 w-4 h-4" />
           <span className="text-[#AAAAAA] text-sm mr-3">4 weeks left</span>
           <span className="text-[#AAAAAA] text-sm mr-2">|</span>
           <span className="font-semibold text-sm">Course Grade--</span>
@@ -44,7 +44,7 @@ const ProgressCard: React.FC = () => {
       </div>
 
       <img
-        src="../../public/assets/Programming 2.svg"
+        src="/assets/Programming 2.svg"
         alt="Course Image..."
         className="md:w-[12%] max-w-[12%] h-auto self-start hidden md:block"
       />

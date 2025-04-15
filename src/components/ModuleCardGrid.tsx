@@ -31,7 +31,7 @@ const ModuleCardGrid = (props) => {
         </p>
 
         <div className="flex items-center mb-3">
-            <img src="../../public/assets/Clock1.svg" alt="" className="mr-1 w-4 h-4" />
+            <img src="/assets/Clock1.svg" alt="" className="mr-1 w-4 h-4" />
             <span className="text-[#FEC260] text-xs">
                 <span className='mr-2'>Complete module by 02/05 to stay on track</span>
                 <span className="mr-2">|</span>

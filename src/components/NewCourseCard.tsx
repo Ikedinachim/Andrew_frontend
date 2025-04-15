@@ -44,7 +44,7 @@ const NewCourseCard: React.FC = ({ course }) => {
         <div className="flex items-center mb-5 mt-3">
           <span className="text-[#AAAAAA] text-sm mr-3 mt-2 sm:mt-0">15 modules</span>
           <span className="text-[#AAAAAA] text-sm mr-2">|</span>
-          <img src="../../public/assets/Clock.svg" alt="Clock Icon" className="mx-1 w-4 h-4" />
+          <img src="/assets/Clock.svg" alt="Clock Icon" className="mx-1 w-4 h-4" />
           <span className="text-[#AAAAAA] text-sm">4 weeks left</span>
         </div>
 
@@ -53,7 +53,7 @@ const NewCourseCard: React.FC = ({ course }) => {
         </div>
       </div>
       <img
-        src="../../public/assets/hacker.svg"
+        src="/assets/hacker.svg"
         alt="Course Image..."
         className="md:w-[12%] max-w-[12%] h-auto self-start hidden md:block"
       />
