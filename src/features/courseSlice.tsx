@@ -31,34 +31,75 @@ export const getAllCourse = createAsyncThunk(
     }
   }
 );
+export const uploadCourse = createAsyncThunk(
+  'course/uploadCourse',
+  async (courseData: FormData, { rejectWithValue }) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/courses`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${window.localStorage.getItem('token')}`
+        },
+        body: courseData
+      });
 
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        return rejectWithValue(errorData.message || 'Course upload failed');
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+// Modify the courseSlice to include upload status
 const courseSlice = createSlice({
   name: 'course',
   initialState: {
-    courses: {},    // Will all courses
+    courses: {},
     status: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
+    uploadStatus: 'idle', // Add this to track upload status separately
     error: null,
   },
   reducers: {
-    // You can add synchronous reducers if needed
-
+    // Synchronous reducers if needed
   },
   extraReducers: (builder) => {
     builder
-      // Pending
+      // Existing getAllCourse cases
       .addCase(getAllCourse.pending, (state) => {
         state.status = 'loading';
         state.error = null;
       })
-      // Fulfilled
       .addCase(getAllCourse.fulfilled, (state, action) => {
         state.status = 'success';
-        state.courses = action.payload; // e.g. { token, userData } 
+        state.courses = action.payload;
       })
-      // Rejected
       .addCase(getAllCourse.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload || 'Unable to get courses';
+      })
+      // Add new uploadCourse cases
+      .addCase(uploadCourse.pending, (state) => {
+        state.uploadStatus = 'loading';
+        state.error = null;
+      })
+      .addCase(uploadCourse.fulfilled, (state, action) => {
+        state.uploadStatus = 'success';
+        // Add the newly uploaded course to the courses state
+        if (Array.isArray(state.courses.data)) {
+          state.courses.data.push(action.payload.data);
+        }
+      })
+      .addCase(uploadCourse.rejected, (state, action) => {
+        state.uploadStatus = 'failed';
+        state.error = action.payload || 'Unable to upload course';
+        console.log(state.error);
+        
       });
   },
 });

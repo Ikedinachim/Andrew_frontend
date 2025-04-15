@@ -26,6 +26,7 @@ import MCQPage from './pages/mcq_page';
 import UserProfile from './pages/UserProfile';
 import UserProfileLayout from './pages/UserProfileLayout';
 import UserProfileLearningStats from './pages/UserProfileLearningStats';
+import EditNewCoursePage from './pages/EditNewCoursePage';
 
 function App() {
 
@@ -46,9 +47,10 @@ function App() {
         <Route index element={<Dashboard />} />
         <Route path="/dashboard/view-courses" element={<ViewCoursePage />} />
         <Route path="/dashboard/add-new-course" element={<AddNewCoursePage />} />
+        <Route path="/dashboard/edit-new-course" element={<EditNewCoursePage />} />
         <Route path="/dashboard/view-modules" element={<ViewModules />} />
         <Route path="/dashboard/course-details/:id" element={<CourseDetailsPage />} />
-        <Route path="/dashboard/module-details" element={<ModuleDetailsPage />} />
+        <Route path="/dashboard/module-details/:id" element={<ModuleDetailsPage />} />
         <Route path="/dashboard/performance-report" element={<PerformanceReportPage />} />
         <Route path="/dashboard/quiz-performance-report" element={<QuizPerformanceReport />} />
         <Route path="/dashboard/module-details-new-start" element={<ModuleDetailsNewStart />} />

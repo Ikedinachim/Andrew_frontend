@@ -6,6 +6,7 @@ import TimelineCard from '../components/TimelineCard';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import CourseMaterialTag from '../components/CourseMaterialTag';
+import LoadingPage from './LoadingPage';
 // Assuming this is the correct import path
 
 interface PopupProps {
@@ -53,6 +54,7 @@ const Add_New_Course_Page = () => {
   const [fileDescription, setFileDescription] = useState('')
   const [files, setFiles] = useState([])
   const [uploading, setUploading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const daysRef = useRef()
   const numberOfQuestionsRef = useRef()
@@ -61,8 +63,9 @@ const Add_New_Course_Page = () => {
   const fileTitleRef = useRef()
   const fileDescriptionRef = useRef()
   const UrlLinkRef = useRef()
-  const { user, status, error } = useSelector((state) => state.user);
-  const [hours, setHours] = useState('10');
+  const { user } = useSelector((state) => state.user);
+  const { courses, status, uploadStatus, error } = useSelector((state) => state.course);
+  const [hours, setHours] = useState('00');
   const [minutes, setMinutes] = useState('00');
 
   // Example: 0–23 hours
@@ -86,7 +89,7 @@ const Add_New_Course_Page = () => {
     { label: 'PDF', value: 'PDF' },
     { label: 'Doc', value: 'DOC' },
     { label: 'Audio', value: 'Audio' },
-    { label: 'URL Link', value: 'URL Link' },
+    { label: 'URL', value: 'URL' },
   ];
   // Options for duration unit selection
   const durationOptions: Option[] = [
@@ -99,7 +102,7 @@ const Add_New_Course_Page = () => {
     setIsOpen(!isOpen);
   };
   const uploadMaterial = () => {
-    if(mediaOption === 'URL Link'){
+    if(mediaOption === 'URL'){
       setFiles([...files, { title: fileTitleRef.current.value, description: fileDescriptionRef.current.value, UrlLink: UrlLinkRef.current.value, fileType: mediaOption }])
     
     }else{
@@ -188,7 +191,7 @@ const Add_New_Course_Page = () => {
     );
   
     const linkMaterials = files
-      .filter(file => file.fileType === 'URL Link')
+      .filter(file => file.fileType === 'URL')
       .map(file => ({
         title: file.title,
         description: file.description,
@@ -201,7 +204,7 @@ const Add_New_Course_Page = () => {
     }
   
     files
-      .filter(file => file.fileType !== 'URL Link')
+      .filter(file => file.fileType !== 'URL')
       .forEach(file => {
         const fileObj = file.file;
         formData.append('materials', fileObj);
@@ -210,6 +213,7 @@ const Add_New_Course_Page = () => {
       });
   
     try {
+      setLoading(true)
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/v1/courses/`,
         formData,
@@ -222,10 +226,12 @@ const Add_New_Course_Page = () => {
       );
   
       console.log('Success:', response.data);
-    } catch (error) {
-      console.error('Upload error:', error.response?.data || error.message);
-    } finally {
+    } catch (e) {
+      alert(`Error Creating Course`);
+      console.log(`Upload error:, ${error } ${e}`);
+    } finally { 
       setUploading(false);
+      setLoading(false)
     }
   };
 
@@ -283,7 +289,7 @@ const MaterialUploadForm = () => (
         accept=".pdf,.doc,.docx,.mp3,.mp4,.wav,.avi"
         style={{ display: 'none' }}
       />
-     { mediaOption === 'URL Link' ? 
+     { mediaOption === 'URL' ? 
      <div className="text-[16px] mt-4 mb-4 text-[#aaaaaa] w-[381px] h-[48px] rounded-xl border border-[#aaaaaa] px-3 py-4 flex items-center">
      <input
        type="text"
@@ -357,7 +363,9 @@ const CustomDayDialog = () => (
     </div>
   </div>
 );
-
+if (uploading){
+  return <LoadingPage content = 'Uploading Course' />
+}
 return (
   <div>
     {/* Your main page content */}

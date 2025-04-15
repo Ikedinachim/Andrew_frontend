@@ -5,9 +5,9 @@ const SideBar: React.FC = (props) => {
 
   return (
     <div>
-      <div className="flex flex-row max-w-[243px] max-h-[80px] items-center justify-between mb-[60px] mt-[19px]">
+      <div className="flex flex-row max-w-[243px] max-h-[80px] items-center justify-start mb-[60px] mt-[19px]">
         <img src="../../src/assets/menu.svg" alt="" onClick={() => props.toggleDrawer()} />
-        <div className="bg-[#D9D9D9] w-[178px] h-[60px]"></div>
+        <div><img src="./src/assets/logo.svg" alt="Andrew AI" className="ms-3"/></div>
       </div>
       <NavLink to={'/dashboard/add-new-course'} className=" text-white bg-[#040BC5] hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 py-3 px-6 rounded-[8px] font-medium text-[16px]">
         + Add New Course

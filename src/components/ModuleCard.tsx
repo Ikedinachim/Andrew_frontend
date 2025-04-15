@@ -1,10 +1,16 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { getModuleDetail } from '../features/moduleDetailSlice';
+import { getSingleCourse } from '../features/courseDetailSlice';
 
-const ModuleCard = () => {
+const ModuleCard = (props) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const handleCardClick = () => {
-      navigate('/dashboard/module-details');
+      dispatch(getModuleDetail(props.id))
+      dispatch(getSingleCourse(props.courseId))
+      navigate(`/dashboard/module-details/${props.id}`);
   };      
     return (
         <div className="bg-white p-6 rounded-md shadow-md mb-6 relative flex flex-col">
@@ -19,14 +25,10 @@ const ModuleCard = () => {
           </div>
         </p>
         <h2 className="text-xl font-bold text-[#333333]">
-          Introduction to Python for Data Science
+          {props.title}
         </h2>
         <p className="text-[#AAAAAA]">
-        Sets the foundation by introducing Python as a powerful 
-        tool for data analysis. It covers the basics of Python, 
-        including variables, loops, functions, and data types, 
-        while guiding learners through setting up their Python 
-        environment using Jupyter Notebook, Anaconda, or VS Code. 
+        {props.desc}
         </p>
         <div className="flex items-center mb-2">
                 

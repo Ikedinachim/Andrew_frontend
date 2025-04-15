@@ -4,16 +4,29 @@ import { useDispatch, useSelector } from 'react-redux';
 import QuizDropDown from '../components/QuizDropDown';
 import LoadingPage from './LoadingPage';
 import PdfCard from '../components/PdfCard';
+import { generateModule, getModules, resetModuleStatus } from '../features/moduleSlice';
+import ModuleCard from '../components/ModuleCard';
+import ModuleListCard from '../components/ModuleListCard';
+import Swal from 'sweetalert2';
+import { deleteCourse } from '../features/courseDetailSlice';
+import { useNavigate } from 'react-router-dom';
 
 const CourseDetailsPage = () => {
     const [difficulty, setDifficulty] = useState("easy");
     const [isTimed, setIsTimed] = useState(false);
-    const [hours, setHours] = useState('10');
     const [minutes, setMinutes] = useState('00');
+    const [hours, setHours] = useState('00');
+    const [loading, setLoading] = useState(false);
     const [tab, selectTab] = useState(0)
     const dispatch = useDispatch()
+    const [showDialog, setShowDialog] = React.useState(false);
+    const cancelRef = React.useRef();
+    const open = () => setShowDialog(true);
+    const close = () => setShowDialog(false);
+    const navigate = useNavigate()
     let currentDate = ""
     const { course, status, error } = useSelector((state) => state.courseDetail);
+    const { moduleData, moduleStatus, moduleError } = useSelector((state) => state.module);
     // Example: 0–23 hours
     const hourOptions = Array.from({ length: 24 }, (_, i) => {
         const value = i.toString().padStart(2, '0');
@@ -22,26 +35,48 @@ const CourseDetailsPage = () => {
     const tabClick = (index: number) => {
         selectTab(index)
     }
+
+    const generateModuleHandler = (id) => {
+        setLoading(true)
+        dispatch(generateModule(id))
+        setLoading(false)
+    }
     // Example: 0–59 minutes
     const minuteOptions = Array.from({ length: 60 }, (_, i) => {
         const value = i.toString().padStart(2, '0');
         return value;
     });
-
+    
     const options = [
         { label: 'Option 1', value: 'option1' },
         { label: 'Option 2', value: 'option2' },
         { label: 'Option 3', value: 'option3' },
     ];
-
+    // useEffect(() => {
+    //     console.log('use effect getModules()');
+        
+    //     dispatch(getModules(course.data._id))
+    // }, [dispatch])
     if (status == 'loading' || status == 'idle') {
-        return <LoadingPage />
+        return <LoadingPage content = 'Loading Course' />
     }
-    const date = new Date(course.data.createdAt);
+    if (moduleStatus == 'loading' || moduleStatus == 'idle') {
+        return <LoadingPage content = 'Generating Modules' />
+    }
+  
 
+    if (moduleStatus == 'failed'){
+        alert( `Module creation failed: ${moduleError}`)
+        dispatch(resetModuleStatus())
+    }
+    
+    
+    
+    const date = new Date(course.data.createdAt);
+    
     const optionDate = { day: 'numeric', month: 'long', year: 'numeric' };
     const formattedDate = date.toLocaleDateString('en-GB', optionDate);
-    console.log(course.data.title)
+    console.log(moduleData)
 
     // convert time duration to hours and minute 
     const time_in_minutes = course.data.quizConfig.timeDuration;
@@ -50,17 +85,46 @@ const CourseDetailsPage = () => {
     const formattedHours = normalizedHours.toString().padStart(2, '0');
     const normalizedMinutes = time_in_minutes % 60;
     const formattedMinutes = normalizedMinutes.toString().padStart(2, '0');
+    
+    const handleDeleteCourse = () => {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#D42953',
+            cancelButtonColor: '#666666',
+            confirmButtonText: 'Yes, delete it!',
+            background: '#ffffff',
+            backdrop: `rgba(0,0,0,0.4)`,
+            customClass: {
+                container: 'blur-background'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                dispatch(deleteCourse(course.data._id))
+                navigate('/dashboard')
+                Swal.fire(
+                    'Deleted!',
+                    'Your course has been deleted.',
+                    'success'
+                );
+            }
+        });
+    };
+    
+
     return (
-        <div className='flex flex-row justify-between items-start '>
+        <div className='flex flex-row justify-between items-start backdrop-blur-2xl'>
             <div>
                 <div className='flex flex-row  max-w-[780px] justify-between'>
                     <p className='text-[16px] text-[#333333]'>Courses  </p>
                     <div className='w-[192px] flex flex-row items-center justify-between mt-2' >
-                        <div className='text-[#D42953] text-[12px] flex flex-row '>
+                        <div className='text-[#D42953] text-[12px] flex flex-row cursor-pointer' onClick={() => handleDeleteCourse()}>
                             <img src="../../src/assets/Bin.svg" alt="" />
                             <p>Delete Course</p>
                         </div>
-                        <div className='text-[#040BC5] text-[12px] flex flex-row' >
+                        <div className='text-[#040BC5] text-[12px] flex flex-row cursor-pointer' onClick={() => {navigate('/dashboard/edit-new-course')}} >
                             <img src="../../src/assets/Edit.svg" alt="" />
                             <p>Edit Course</p>
                         </div>
@@ -90,7 +154,7 @@ const CourseDetailsPage = () => {
                     <span className="text-[#AAAAAA] text-sm">  8 modules</span>
                 </div>
                 <p className='font-semibold mb-2 '>Current Grade- </p>
-                <button className="bg-[#040BC5] text-white px-4 py-2 rounded-md mr-2">Continue Learning</button>
+                <button onClick={() => generateModuleHandler(course.data._id)} className="bg-[#040BC5] text-white px-4 py-2 rounded-md mr-2">Continue Learning</button>
 
                 <div className='max-w-[495px] flex flex-row justify-between mt-10 mb-8'>
                     <div className='flex flex-col items-start justify-start ' onClick={() => tabClick(0)}>
@@ -110,87 +174,20 @@ const CourseDetailsPage = () => {
                 </div>
 
                 {tab == 0 && <div>
-                    <div className="bg-white p-6 rounded-md shadow-md mb-6 relative ">
-                        <div className='max-w-[712px]'>
-                            <p className='text-[12px] font-semibold '>
-                                <div className='flex flex-row items-center'>
+                    {moduleData?.data?.modules?.slice().sort((a, b) => a.order - b.order).map((module, index) => {
+                        return <ModuleListCard title = {module.title} description = {module.description} order = {module.order} _id = {module._id}/>
+                    })}
 
-                                    <span className='text-[12px] text-[#AAAAAA]'>Module 1 | </span>
-                                    <div className='w-[5px] h-[5px] rounded-[100%] bg-[#00ED6D] mx-2'></div>
-                                    <span className='text-[#00ED6D] mr-2'> On-Track</span>
-                                </div>
-                            </p>
-                            <h2 className="text-xl font-bold text-[#333333]">
-                                Introduction to Python for Data Science
-                            </h2>
-                            <p className="text-[#AAAAAA] w-full text-[16px] ">
-                                Sets the foundation by introducing Python as a powerful tool for data analysis.
-                                It covers the basics of Python, including variables, loops, functions, and data types,
-                                while guiding learners th...
-                            </p>
-                            <p className='text-[12px] font-semibold mt-3 mb-4 '>
-                                <div className='flex flex-row items-center text-[#FEC260]'>
-
-                                    <span className='text-[12px] '>Complete module by 02/05 to stay on track |</span>
-                                    <span className=' mr-2'> 4 weeks left</span>
-                                </div>
-                            </p>
-
-                            <p className='font-semibold mb-2 '>Current Score- </p>
-                            <button className="bg-white border-[#040bc5] border-4 text-[#040bc5] font-semibold text-[16px]   px-4 py-2 rounded-md mr-2">Continue Module</button>
-
-
-                        </div>
-                    </div>
-
-                    <div className="bg-white p-6 rounded-md shadow-md mb-6 relative ">
-                        <div className='max-w-[712px]'>
-                            <p className='text-[12px] font-semibold '>
-                                <div className='flex flex-row items-center'>
-
-                                    <span className='text-[12px] text-[#AAAAAA]'>Module 2 | </span>
-                                    <div className='w-[5px] h-[5px] rounded-[100%] bg-[#FEC260] mx-2'></div>
-                                    <span className='text-[#FEC260] mr-2'> To-do</span>
-                                </div>
-                            </p>
-                            <h2 className="text-xl font-bold text-[#333333]">
-                                Data Manipulation with Pandas & NumPy
-                            </h2>
-                            <p className="text-[#AAAAAA] w-full text-[16px] ">
-                                Explore essential data structures such as Pandas DataFrames and
-                                NumPy arrays. This module focuses on handling large datasets efficiently,
-                                performing operations like filtering, grouping, an...
-                            </p>
-
-                            <button className="bg-white border-[#040bc5] border-4 text-[#040bc5] font-semibold text-[16px]   px-4 py-2 rounded-md mr-2 mt-4">Start Module</button>
-
-
-                        </div>
-                    </div>
+                   {moduleData.data.modules.length == 0 ? <h1 className=''>There are no modules for this course yet! Click Continue Learning to Generate Modules</h1> : <></>}
                 </div>}
                 {tab == 1 && <div>
-
-
-
                     {
                         course.data.materials.map((material) => {
                             return <PdfCard title={material.title} description={material.description} type={material.type} />
                         })
                     }
-                    <div className=' w-[834px] bg-white shadow-md p-5 relative flex flex-row items-center justify-between mb-6'>
-                        <div className='flex flex-row'>
+                {course.data.materials.length == 0 && <h1 className=''>There are no materials for this course yet! Please add Materials</h1>}
 
-                            <img src="../../src/assets/url.svg" alt="" />
-                            <div className=' flex flex-col justify-start items-start ml-[23px] max-w-[554px]'>
-                                <h2 className='text-xl font-semibold text-[#333333]'>Title</h2>
-                                <p className='text-[14px] font-[400px] text-[#333333] '>The Masterclass of Python course is designed to take
-                                    learners from the basics of Python programming to advanced concepts,
-                                    making it ideal for both beginners and experience...</p>
-                            </div>
-                        </div>
-                        <p className=' text-[#333333] font-semibold text-[16px]'>Type:URL</p>
-
-                    </div>
                 </div>}
 
                 {tab == 2 && <div>

@@ -5,7 +5,11 @@ import storage from 'redux-persist/lib/storage';
 import counterReducer from '../features/counterSlice';
 import userReducer from '../features/userSlice';
 import courseReducer from '../features/courseSlice';
+import moduleReducer from '../features/moduleSlice';
+import quizReducer from '../features/quizSlice';
+import materialReducer from '../features/materialSlice';
 import courseDetailReducer from '../features/courseDetailSlice';
+import moduleDetailReducer from '../features/moduleDetailSlice';
 
 // Persist config for each reducer
 const counterPersistConfig = {
@@ -38,8 +42,12 @@ export const store = configureStore({
   reducer: {
     counter: persistedCounterReducer,
     user: persistedUserReducer,
-    course: persistedCourseReducer,
-    courseDetail: persistedCourseDetailReducer,
+    course: courseReducer,
+    courseDetail: courseDetailReducer,
+    module: moduleReducer,
+    quiz: quizReducer,
+    moduleDetail: moduleDetailReducer,
+    material: materialReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
