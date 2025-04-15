@@ -103,18 +103,18 @@ const ModuleDetailsNewStart = () => {
             <h2 className='text-[32px] text-[#333333] mb-5 font-semibold' >{moduleDetailData.data.title}</h2>
             <div className="flex items-center mb-4">
 
-                <img src="../../src/assets/Difficulty.svg" alt="" className='mx-1' />
+                <img src="../../public/assets/Difficulty.svg" alt="" className='mx-1' />
                 <span className="text-[#AAAAAA] text-sm">  Medium |</span>
-                <img src="../../src/assets/Quiz3.svg" alt="" className='mx-1' />
+                <img src="../../public/assets/Quiz3.svg" alt="" className='mx-1' />
                 <span className="text-[#AAAAAA] text-sm">  15 Quizes |</span>
-                <img src="../../src/assets/Clock.svg" alt="" className='mx-1' />
+                <img src="../../public/assets/Clock.svg" alt="" className='mx-1' />
                 <span className="text-[#AAAAAA] text-sm">  30 mins left  </span>
             </div>
             <div className="flex flex-row border  bg-[#f3f5f9] border-[#cdcef3] relative text-[16px]  p-4 rounded-[8px] mb-6 min-h-[87px] max-w-[1068px] items-center text-[#333333] ">
-                <img src="../../src/assets/Quiz1.svg" alt="hands" className='mr-[24px]' />
+                <img src="../../public/assets/Quiz1.svg" alt="hands" className='mr-[24px]' />
                 <p>This quiz configuration will be applied to all modules and quizzes you take for the course.
                     You can change config for a specific quiz before starting the quiz.</p>
-                <img src="../../src/assets/Close.svg" alt="close" className='absolute top-[8px] right-[8px]' />
+                <img src="../../public/assets/Close.svg" alt="close" className='absolute top-[8px] right-[8px]' />
             </div>
             <div className="flex flex-row">
                 <QuizDropDown selectedVal={quizType} options={options} onSelect={(val) => { setQuizType(val) }} width={'477px'} desc={'Select Quiz Type (can select more than one)'} />

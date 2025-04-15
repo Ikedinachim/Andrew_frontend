@@ -8,23 +8,34 @@ interface PerformanceTrendProps {
 
 const PerformanceTrend: React.FC<PerformanceTrendProps> = ({ data, improvement }) => {
   return (
-    <div className="bg-white shadow-lg p-6 rounded-xl h-[268px] w-[335px]">
+    <div className="bg-white shadow-lg p-6 rounded-xl">
       <h2 className="text-lg font-semibold">Performance Trend</h2>
-      <p className="text-sm text-gray-600 mt-1">
-        <span className="text-green-600 font-semibold">{improvement}%</span> improvement from last quiz
+      <p className="text-sm text-[#AAAAAA] mt-1">
+        <span className="text-[#00ED6D] font-semibold">{improvement}%</span> improvement from last quiz
       </p>
-      <div className="w-full h-48 mt-4">
-        <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={data}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis domain={[0, 100]} />
+  
+      <div className="w-full h-48 mt-4 ml-[-12px]">
+        <ResponsiveContainer width="95%" height="100%">
+          <LineChart data={data} margin={{ left: -18, right: 10, top: 10, bottom: 0 }}>
+            <CartesianGrid 
+              stroke="#F3F5F9"
+              vertical={false}
+            />
+            <XAxis dataKey="name" tick={{ fontSize: 12, fill: "#AAAAAA"}} axisLine={false} tickLine={false} />
+            <YAxis domain={[0, 100]} tick={{ fontSize: 12, fill: "#AAAAAA" }} axisLine={false} tickLine={false}/>
             <Tooltip />
-            <Line type="monotone" dataKey="value" stroke="#1D4ED8" strokeWidth={3} dot={{ r: 6, fill: "#1D4ED8" }} />
+            <Line 
+              type="monotone" 
+              dataKey="value" 
+              stroke="#040BC5" 
+              strokeWidth={3} 
+              dot={{ r: 3, fill: "#040BC5" }} 
+            />
           </LineChart>
         </ResponsiveContainer>
       </div>
     </div>
+  
   );
 };
 

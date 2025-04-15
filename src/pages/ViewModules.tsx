@@ -35,30 +35,30 @@ const ViewModules = () => {
 
     return (
         <div>
-
-            <h2 className="text-2xl font-semibold text-[#333333] mb-3">Modules</h2>
-            <div className='flex flex-row justify-between items-center'>
-                <p className='text-xl text-[#aaaaaa]'>Improve skills though the courses and assessments of courses</p>
-                <div className="flex rounded-lg bg-gray-200 w-[96px] p-1">
+            <h2 className="text-3xl font-semibold text-[#333333] mt-4 ml-4 mb-3">
+            All Modules
+            </h2>
+            <div className="flex justify-between items-center px-4">
+            <p className="text-sm text-[#AAAAAA]">
+                Improve skills through the courses and assessments of courses
+            </p>
+                <div className="flex rounded-lg bg-gray-200 p-1">
                     <button
-                        onClick={() => setView("list")}
-                        className={`flex items-center justify-center px-3 py-2 rounded-tl-md rounded-bl-md shadow-md transition-colors ${view === "list" ? "bg-[#ABAEEC]" : "bg-white"
-                            }`}
+                    onClick={() => setView("list")}
+                    className={`flex items-center justify-center p-2 rounded-md transition-colors duration-300 ${view === "list" ? "bg-[#ABAEEC]" : "bg-white"}`}
                     >
-                        <img src="../../src/assets/List.svg" alt="" />
+                    <img src="../../public/assets/List.svg" alt="List View" className="w-5 h-5" />
                     </button>
                     <button
-                        onClick={() => setView("grid")}
-                        className={`flex items-center justify-center px-3 py-2 rounded-md transition-colors ${view === "grid" ? "bg-[#ABAEEC]" : "bg-white"
-                            }`}
+                    onClick={() => setView("grid")}
+                    className={`flex items-center justify-center p-2 rounded-md transition-colors duration-300 ${view === "grid" ? "bg-[#ABAEEC]" : "bg-white"}`}
                     >
-                        <img src="../../src/assets/Grid.svg" alt="" />
-
+                    <img src="../../public/assets/Grid.svg" alt="Grid View" className="w-5 h-5" />
                     </button>
                 </div>
             </div>
 
-            {view == "grid" ? <div className='grid  grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8  p-4 '>
+            {view == "grid" ? <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-6 p-4 max-w-7xl mx-auto mt-4'>
 
 
                 {moduleData.data.data.map((module) => {

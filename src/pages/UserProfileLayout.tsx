@@ -17,17 +17,17 @@ const UserProfileLayout = () => {
         <div className='flex flex-row'>
             <div className="flex flex-col w-[224px] items-center text-center mr-6">
                 <div className='shadow-md bg-green-300 w-full rounded-[8px]'>
-                    <img className='w-25 h-25 object-cover rounded-[100%] mt-[20px] mb-[16px] mx-auto ' src="../../src/assets/profile.svg" alt="" />
+                    <img className='w-25 h-25 object-cover rounded-[100%] mt-[20px] mb-[16px] mx-auto ' src="../../public/assets/profile.svg" alt="" />
                     <p className='font-semibold text-[14px] text-white'>Shikhar Pokharel</p>
                     <p className='text-[12px] text-white mt-3'>UI/UX Designer</p>
                     <div className='flex flex-row mt-3 w-20 justify-between mx-auto'>
-                        <img src="../../src/assets/facebook.svg" alt="" />
-                        <img src="../../src/assets/instagram.svg" alt="" />
-                        <img src="../../src/assets/twitter.svg" alt="" />
+                        <img src="../../public/assets/facebook.svg" alt="" />
+                        <img src="../../public/assets/instagram.svg" alt="" />
+                        <img src="../../public/assets/twitter.svg" alt="" />
                     </div>
 
                     <button className='bg-white rounded-2xl mt-5 flex flex-row items-center px-[14px] mb-8 py-[4px] mx-auto text-[#333333]'>
-                        <img src="../../src/assets/edit1.svg" alt="" />
+                        <img src="../../public/assets/edit1.svg" alt="" />
                         <p>Edit Profile</p>
                     </button>
                 </div>

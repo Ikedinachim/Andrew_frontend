@@ -32,6 +32,36 @@ export const signIn = createAsyncThunk(
   }
 );
 
+export const getUserProfile = createAsyncThunk(
+  'user/signIn',
+  async (_, { rejectWithValue }) => {
+    try {
+      console.log(import.meta.env.VITE_API_URL);
+      
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/users/me`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', 
+          'Authorization': `Bearer ${window.localStorage.getItem('token')}`
+         },
+      });
+
+      if (!response.ok) {
+        // Extract the error message if available
+        const errorData = await response.json().catch(() => ({}));
+        return rejectWithValue(errorData.message || 'Sign-in failed');
+      }
+
+      const data = await response.json();
+      // Return the user data (e.g. token, user profile, etc.)
+      console.log(data);
+      
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 const userSlice = createSlice({
   name: 'user',
   initialState: {

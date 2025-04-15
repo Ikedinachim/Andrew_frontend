@@ -8,11 +8,14 @@ import GreetingCard from '../components/GreetingCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllCourse } from '../features/courseSlice';
 import LoadingPage from './LoadingPage';
+import { getUserProfile } from '../features/userSlice';
 
 const Dashboard: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const dispatch = useDispatch()
   const { courses, status, error } = useSelector((state) => state.course);
+    const {user, userStatus, userRrror} = useSelector((state: any) => state.user)
+  
   const toggleDrawer = () => {
     setIsOpen(!isOpen);
   };
@@ -20,11 +23,12 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     // Fetch data from the API
     // Update the state with the fetched data
+    dispatch(getUserProfile())
     dispatch(getAllCourse())
 
   }, [dispatch]);
 
-  if (status == 'loading' || status == 'idle') {
+  if (status == 'loading' || status == 'idle' || userStatus == 'idle' || userStatus == 'loading') {
     return <LoadingPage content = 'Fetching Courses'/>
   }
   console.log(courses);
@@ -50,10 +54,12 @@ const Dashboard: React.FC = () => {
         </div>
         {/* Sidebar Right */}
         <div>
-          <RecentActivityCard />
+          <RecommendationCard />
+          
           <StreakCard />
 
-          <RecommendationCard />
+          <RecentActivityCard />
+          
         </div>
       </div>
     </div>

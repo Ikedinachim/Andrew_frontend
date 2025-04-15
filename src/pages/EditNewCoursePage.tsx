@@ -351,7 +351,7 @@ const EditNewCoursePage = () => {
   const MaterialUploadForm = () => (
     <div className="w-[445px] rounded-[16px] shadow-md flex flex-col p-8 relative bg-white">
       <img
-        src="../../src/assets/Close.svg"
+        src="../../public/assets/Close.svg"
         alt=""
         className="absolute top-5 right-4 cursor-pointer"
         onClick={() => setIsPopupOpen(false)}
@@ -403,7 +403,7 @@ const EditNewCoursePage = () => {
             onClick={handleButtonClick}
             onDragOver={handleDragOver}
             onDrop={handleDrop}
-          >        <img src="../../src/assets/Upload.svg" alt="" />
+          >        <img src="../../public/assets/Upload.svg" alt="" />
             <p className="w-[146px]">
               {selectedFile
                 ? `Selected: ${selectedFile.name}`
@@ -427,7 +427,7 @@ const EditNewCoursePage = () => {
   const CustomDayDialog = () => (
     <div className="w-[445px]  rounded-[16px] shadow-md flex flex-col p-8 relative bg-white">
       <img
-        src="../../src/assets/Close.svg"
+        src="../../public/assets/Close.svg"
         alt="Close"
         className="absolute top-5 right-4 cursor-pointer"
         onClick={() => setIsPopupOpen(false)}
@@ -481,7 +481,7 @@ const EditNewCoursePage = () => {
             <div className="flex flex-row items-center">
               <textarea name="afdaf" defaultValue={course.data.description} ref={descriptionRef} id="" placeholder="Add course description" className=" focus:outline-0 h-[221px] w-full border-1 border-[#cdcef3] rounded-3xl p-5"></textarea>
               <div className="h-[221px] w-[235px] ml-5 bg-[#f3f5f9] rounded-2xl flex flex-col items-center justify-center">
-                <img src="../../src/assets/upload_img.svg" alt="" className="mb-2" />
+                <img src="../../public/assets/upload_img.svg" alt="" className="mb-2" />
                 <p className="text-[16px] text-[#333333] font-semibold w-[187px] text-center">Upload or select image for course</p>
               </div>
 
@@ -493,10 +493,10 @@ const EditNewCoursePage = () => {
             <h2 className="text-2xl font-semibold text-[#333333] mb-6">Select Course goal:</h2>
             <div className="flex flex-row ">
 
-              <GoalCard img="../../src/assets/Personal Development.svg" title="Personal Development" onClick={handleGoalSelect} />
-              <GoalCard img="../../src/assets/Career Growth.svg" title="Career Growth" onClick={handleGoalSelect} />
-              <GoalCard img="../../src/assets/leaner.svg" title="Exam preparation" onClick={handleGoalSelect} />
-              <GoalCard img="../../src/assets/Others.svg" title="Others" onClick={handleGoalSelect} />
+              <GoalCard img="../../public/assets/Personal Development.svg" title="Personal Development" onClick={handleGoalSelect} />
+              <GoalCard img="../../public/assets/Career Growth.svg" title="Career Growth" onClick={handleGoalSelect} />
+              <GoalCard img="../../public/assets/leaner.svg" title="Exam preparation" onClick={handleGoalSelect} />
+              <GoalCard img="../../public/assets/Others.svg" title="Others" onClick={handleGoalSelect} />
             </div>
           </div>
           <div className="ml-4">
@@ -523,10 +523,10 @@ const EditNewCoursePage = () => {
         <button onClick={() => setIsPopupOpen(true)} className="bg-[#040BC5]  text-white px-6 py-[12px] rounded-[8px] mt-6 mb-8 ">Upload Materials</button>
         <h2 className="text-2xl font-semibold text-[#333333] mb-6">Quiz Configuration</h2>
         <div className="flex flex-row border  bg-[#f3f5f9] border-[#cdcef3] relative text-[16px]  p-4 rounded-[8px] mb-6 min-h-[87px] max-w-[1068px] items-center text-[#333333] ">
-          <img src="../../src/assets/Quiz1.svg" alt="hands" className='mr-[24px]' />
+          <img src="../../public/assets/Quiz1.svg" alt="hands" className='mr-[24px]' />
           <p>This quiz configuration will be applied to all modules and quizzes you take for the course.
             You can change config for a specific quiz before starting the quiz.</p>
-          <img src="../../src/assets/Close.svg" alt="close" className='absolute top-[8px] right-[8px]' />
+          <img src="../../public/assets/Close.svg" alt="close" className='absolute top-[8px] right-[8px]' />
         </div>
         <div className="flex flex-row">
           <QuizDropDown options={options} onSelect={setQuizType} selectedVal={quizType} width={'477px'} desc={'Select Quiz Type (can select more than one)'} />

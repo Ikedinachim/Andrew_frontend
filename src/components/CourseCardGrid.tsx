@@ -23,37 +23,45 @@ const CourseCardGrid = (props) => {
         }
       }, [status, navigate])
     return (
-        <div className="bg-white p-6 rounded-md shadow-md mb-6 pr-0  h-[334px] w-[334px]   flex flex-col ">
-            <img src={props.img} alt="" className='w-16 h-64 mb-[33px]' />
-            {/* <div className=''> */}
-            <p className='text-[12px] font-semibold '>
-                <div className='flex flex-row items-center'>
+        <div className="bg-white p-4 md:p-6 rounded-xl shadow-md mb-6 w-full flex flex-col">
+            <img 
+                src={props.img} 
+                alt="" 
+                className="w-16 h-16 object-contain mb-4"
+            />
+            
+            <div className="flex items-center text-[12px] font-semibold mb-3">
+                <div className="w-[5px] h-[5px] rounded-full bg-[#040BC5] mr-2"></div>
+                <span className="text-[#040BC5] mr-2">New</span>
+                <span className="text-[#AAAAAA] mr-2">|</span>
+                <span className="text-[#AAAAAA]">2nd February 2025</span>
+            </div>
 
-                    <div className='w-[5px] h-[5px] rounded-[100%] bg-[#040BC5] mr-2'></div>
-                    <span className='text-[#040BC5] mr-2'>New</span>
-                    <span className='text-[12px] text-[#AAAAAA] mr-2'>  |  </span>
-                    <span className='text-[12px] text-[#AAAAAA]'>  2nd Febuary 2025</span>
-                </div>
-            </p>
-            <h2 className="text-xl font-semibold text-[#333333]">
+            <h2 className="text-lg font-semibold text-[#333333] mb-3">
                 {props.title}
             </h2>
-            <p className="text-[#AAAAAA] mb-1">
+
+            <p className="text-[#AAAAAA] text-xs mb-4 line-clamp-3 min-h-[4em]">
                 {props.content}
             </p>
-            <div className="flex items-center mb-4">
 
-                <span className="text-[#AAAAAA] text-sm">{props.modules} modules | </span>
-                <img src="../../src/assets/Clock.svg" alt="" className='mx-1' />
-                <span className="text-[#AAAAAA] text-sm">  {props.weeks} weeks left</span>
+            <div className="flex items-center mb-3 flex-wrap">
+                <span className="text-[#AAAAAA] text-xs mr-2">{props.modules} modules</span>
+                <span className="text-[#AAAAAA] text-xs">|</span>
+                <img src="../../public/assets/Clock.svg" alt="" className="mx-1 w-4 h-4" />
+                <span className="text-[#AAAAAA] text-xs">{props.weeks} weeks left</span>
             </div>
 
-            <div className="flex justify-between items-center w-[60%]">
-                <button className="bg-white font-medium text-[#333333] border shadow-md border-[#AAAAAA] px-3 py-2 rounded-[8px]" onClick={() => handleLearnMore()}>Learn more</button>
+            <div className="flex justify-between items-center w-full md:w-[60%] mt-2">
+                <button
+                className="bg-white font-medium text-[#333333] border shadow-md border-[#AAAAAA] px-5 py-2 rounded-[8px] hover:shadow-lg hover:border-[#040BC5] cursor-pointer w-full"
+                onClick={() => handleLearnMore()}
+                >
+                Start Learning
+                </button>
+            </div>
             </div>
 
-            {/* </div> */}
-        </div>
     );
 };
 

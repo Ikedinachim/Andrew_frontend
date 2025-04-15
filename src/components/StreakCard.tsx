@@ -6,22 +6,23 @@ const StreakCard: React.FC = () => {
   const bestStreak = 5;
 
   return (
-    <div className="bg-white p-6 rounded-2xl shadow-md m-w-96 mb-3">
-      <div className="flex items-center text-2xl font-semibold mb-4">
-        <span className="text-[64px] text-yellow-500 font-bold mr-2">3</span> Day Streak
+    <div className="bg-white px-6 pt-2 pb-4 rounded-xl shadow-xl mb-3">
+      <div className="flex items-center mb-2">
+        <span className="text-[50px] text-[#FEC260] font-bold mr-2">3</span>
+        <span className="self-start text-lg text[#333333] pt-4 font-normal">Day Streak</span>
       </div>
       <div className="flex justify-between">
         {days.map((day) => (
           <div
             key={day}
-            className={`flex flex-col items-center p-2 rounded-lg ${activeDays.includes(day) ? "bg-gray-100" : ""}`}
+            className={`flex flex-col items-center p-2 rounded-lg ${activeDays.includes(day) ? "bg-[#F3F5F9]" : ""}`}
           >
-            <img src="../../src/assets/Streak.svg" alt="" />
-            <span className="text-[16px] font-semibold text-[#333333]">{day}</span>
+            <img src="../../public/assets/Streak.svg" alt="" />
+            <span className="text-xs text-[#333333] mt-1">{day}</span>
           </div>
         ))}
       </div>
-      <p className="text-gray-500 text-sm mt-4">Your best streak is {bestStreak} days</p>
+      <p className="text-[#AAAAAA] text-xs mt-4">Your best streak is {bestStreak} days</p>
     </div>
   );
 };
