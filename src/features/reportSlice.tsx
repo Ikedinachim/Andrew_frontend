@@ -75,7 +75,7 @@ const reportSlice = createSlice({
   },
   reducers: {
     resetReportStatus: (state) => {
-        state.reportStatus = 'reset';
+        state.reportStatus = 'idle';
         state.reportError = null;
       }
     // You can add synchronous reducers if needed

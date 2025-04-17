@@ -8,6 +8,8 @@ import axios from 'axios';
 import CourseMaterialTag from '../components/CourseMaterialTag';
 import LoadingPage from './LoadingPage';
 import ToggleSwitch from '../components/ToggleSwitch';
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 // Assuming this is the correct import path
 
 interface PopupProps {
@@ -68,7 +70,7 @@ const Add_New_Course_Page = () => {
   const { courses, status, uploadStatus, error } = useSelector((state) => state.course);
   const [hours, setHours] = useState('00');
   const [minutes, setMinutes] = useState('00');
-
+  const navigate = useNavigate();
   // Example: 0–23 hours
   const hourOptions = Array.from({ length: 24 }, (_, i) => {
     const value = i.toString().padStart(2, '0');
@@ -226,6 +228,21 @@ const Add_New_Course_Page = () => {
       );
   
       console.log('Success:', response.data);
+      Swal.fire({
+                  title: 'Course Create',
+                  text: `Course Created Successfully`,
+                  icon: 'success',
+                  showCancelButton: false,
+                  confirmButtonColor: '#D42953',
+                  confirmButtonText: 'OK',
+                  background: '#ffffff',
+                  backdrop: `rgba(0,0,0,0.4)`,
+                  customClass: {
+                      container: 'blur-background'
+                  }
+              }).then((result) => {
+                  navigate('/dashboard');
+              });
     } catch (e) {
       alert(`Error Creating Course`);
       console.log(`Upload error:, ${error } ${e}`);

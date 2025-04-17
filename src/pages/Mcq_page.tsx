@@ -4,10 +4,10 @@ import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { submitQuiz } from '../features/quizSlice';
-import { getQuizReport } from '../features/reportSlice';
+import { getQuizReport, resetReportStatus } from '../features/reportSlice';
 import LoadingPage from './LoadingPage';
 import Swal from 'sweetalert2';
+import { resetquizSubmitStatus, submitQuiz } from '../features/submitQuizSlice';
 
 const MCQPage = () => {
     const [isDisabled, setIsDisabled] = useState(false);
@@ -19,16 +19,16 @@ const MCQPage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { quizData, quizStatus, quizError } = useSelector((state) => state.quiz);
+    const { quizSubmitData, quizSubmitStatus, quizSubmitError } = useSelector((state) => state.quizSubmit);
     const { reportData, reportStatus, reportError } = useSelector((state) => state.report);
-    const totalQuestions = quizData.data.totalQuestions;
     let quiz_id = ''
-
+    
     const handleAnswerSelection = (answer: string) => {
         const newAnswer = {
             questionId: quizData.data.questions[current_index]._id,
             answer: answer
         };
-
+        
         setSelectedAnswers(prev => {
             // Check if an answer for this question already exists
             const exists = prev.findIndex(a => a.questionId === newAnswer.questionId);
@@ -47,49 +47,55 @@ const MCQPage = () => {
             quiz_id = quizData.data._id
             window.localStorage.setItem('quiz_id', quiz_id)
             await dispatch(submitQuiz({ quizId: quizData.data._id, body: { userAnswers: selectedAnswers } }));
-            setTimeout(() => {
-                dispatch(getQuizReport(window.localStorage.getItem('quiz_id')));
+            // setTimeout(() => {
+            //     dispatch(getQuizReport(window.localStorage.getItem('quiz_id')));
                 
-            }, 3000)
+            // }, 3000)
             
-          // Only get the report after submission is complete
-          
+            // Only get the report after submission is complete
+            
         } catch (error) {
-          // Handle any errors
+            // Handle any errors
           console.error('Error submitting quiz:', error);
         }
       };
       
       
 
+     
+
+    const cancelHandler = () => {
+        navigate(-1);
+    };
+    
+    if (quizSubmitStatus == 'loading') {
+        return <LoadingPage content='Submitting Quiz' />
+    }
+    const totalQuestions = quizData.data.totalQuestions;
+    let percentage = ((current_index / totalQuestions) * 100);
     const selectHandler = () => {
         if (current_index < totalQuestions - 1) {
             setCurrentIndex(current_index + 1);
             setIsDisabled(false);
             setIsSelected(false);
-        } else {
-            // All questions answered, you can now submit
-            // Add your submit logic here
-           handleQuizSubmission();
-
-        }
-    };
-
-    const cancelHandler = () => {
-        navigate(-1);
-    };
-
-    let percentage = ((current_index / totalQuestions) * 100);
-    if (quizStatus == 'loading') {
-        return <LoadingPage content='Submitting Quiz' />
-    }
-    if (quizStatus == 'success') {
-        console.log(quizData);
+      } else {
+          // All questions answered, you can now submit
+          // Add your submit logic here
+          
+          handleQuizSubmission();
+          console.log('done');
+          
+      }
+  };
+  console.log(quizStatus);
+  
+    if (quizSubmitStatus == 'success') {
+        console.log(quizSubmitData);
         Swal.fire({
             title: 'Quiz Overview',
-            text: `On Your ${quizData.data.attemptNumber} Attempt, Your Scored ${quizData.data.obtainedMarks}/${quizData.data.totalQuestions} - ${quizData.data.percentage} `,
+            text: `On Your ${quizSubmitData.data.attemptNumber} Attempt, Your Scored ${quizSubmitData.data.obtainedMarks}/${quizSubmitData.data.totalQuestions} - ${quizSubmitData.data.percentage} `,
             icon: 'info',
-            showCancelButton: true,
+            showCancelButton: false,
             confirmButtonColor: '#D42953',
             cancelButtonColor: '#666666',
             confirmButtonText: 'Done',
@@ -99,11 +105,12 @@ const MCQPage = () => {
                 container: 'blur-background'
             }
         }).then((result) => {
-            console.log(quizData.data);
+            console.log(quizSubmitData.data);
             
+            dispatch(resetquizSubmitStatus())
+            dispatch(resetReportStatus())
             if (result.isConfirmed) {
-              
-                
+                dispatch(getQuizReport(window.localStorage.getItem('quiz_id')));
                 navigate(`/dashboard/quiz-performance-report/${window.localStorage.getItem('quiz_id')}`);
             }
         })
