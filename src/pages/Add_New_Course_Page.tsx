@@ -268,7 +268,7 @@ const Add_New_Course_Page = () => {
   const MaterialUploadForm = () => (
     <div className="w-[445px] rounded-[16px] shadow-md flex flex-col p-8 relative bg-white">
       {/* <img
-        src="../../public/assets/Close.svg"
+        src="/assets/Close.svg"
         alt=""
         className="absolute top-5 right-4 cursor-pointer"
         onClick={() => setIsPopupOpen(false)}
@@ -319,7 +319,7 @@ const Add_New_Course_Page = () => {
           onClick={handleButtonClick}
           onDragOver={handleDragOver}
           onDrop={handleDrop}
-        >        <img src="../../public/assets/Upload.svg" alt="" />
+        >        <img src="/assets/Upload.svg" alt="" />
           <p className="w-[146px]">
             {selectedFile
               ? `Selected: ${selectedFile.name}`
@@ -343,7 +343,7 @@ const Add_New_Course_Page = () => {
   const CustomDayDialog = () => (
     <div className="w-[445px] rounded-2xl shadow-md flex flex-col p-6 relative bg-white">
       {/* <img
-        src="../../public/assets/Close.svg"
+        src="/assets/Close.svg"
         alt="Close"
         className="absolute top-5 right-4 cursor-pointer"
         onClick={() => setIsPopupOpen(false)}
@@ -395,7 +395,7 @@ return (
           <div className="flex flex-row w-full">
             <textarea name="afdaf" ref={descriptionRef} id="" placeholder="Add course description..." className=" focus:outline-0 h-auto w-[85%] border-1 border-[#cdcef3] rounded-2xl p-5"></textarea>
             <div className="h-[200px] w-[15%] ml-5 bg-[#f3f5f9] rounded-2xl flex flex-col items-center justify-center p-8 cursor-pointer">
-              <img src="../../public/assets/upload_img.svg" alt="" className="mb-2" />
+              <img src="/assets/upload_img.svg" alt="" className="mb-2" />
               <p className="text-sm text-[#333333] font-semibold text-center">Upload or select image for course</p>
             </div>
           </div>
@@ -405,10 +405,10 @@ return (
         <div>
           <h2 className="text-xl font-medium text-[#333333] mb-6">Select Course goal:</h2>
           <div className="flex flex-row gap-auto">
-            <GoalCard img="../../public/assets/Personal Development.svg" title="Personal Development" onClick={handleGoalSelect} />
-            <GoalCard img="../../public/assets/Career Growth.svg" title="Career Growth" onClick={handleGoalSelect} />
-            <GoalCard img="../../public/assets/leaner.svg" title="Exam preparation" onClick={handleGoalSelect} />
-            <GoalCard img="../../public/assets/Others.svg" title="Others" onClick={handleGoalSelect} />
+            <GoalCard img="/assets/Personal Development.svg" title="Personal Development" onClick={handleGoalSelect} />
+            <GoalCard img="/assets/Career Growth.svg" title="Career Growth" onClick={handleGoalSelect} />
+            <GoalCard img="/assets/leaner.svg" title="Exam preparation" onClick={handleGoalSelect} />
+            <GoalCard img="/assets/Others.svg" title="Others" onClick={handleGoalSelect} />
           </div>
         </div>
         <div className="ml-4">
@@ -435,10 +435,10 @@ return (
       {/* Quiz Config */}
       <h2 className="text-xl font-medium text-[#333333] mt-8">Quiz Configuration</h2>
       <div className="flex flex-row border bg-[#f3f5f9] border-[#cdcef3] relative text-sm p-3 rounded-md my-4 max-w-full items-center text-[#333333] ">
-        <img src="../../public/assets/Quiz1.svg" alt="hands" className='mr-[12px]' />
+        <img src="/assets/Quiz1.svg" alt="hands" className='mr-[12px]' />
         <p>This quiz configuration will be applied to all modules and quizzes you take for the course.
           You can change config for a specific quiz before starting the quiz.</p>
-        {/* <img src="../../public/assets/Close.svg" alt="close" className='absolute top-[8px] right-[8px]' /> */}
+        {/* <img src="/assets/Close.svg" alt="close" className='absolute top-[8px] right-[8px]' /> */}
       </div>
 
       {/* Quiz Config Dropdown */}

@@ -49,13 +49,13 @@ const ViewCoursePage: React.FC = () => {
                 onClick={() => setView("list")}
                 className={`flex items-center justify-center p-2 rounded-md transition-colors duration-300 ${view === "list" ? "bg-[#ABAEEC]" : "bg-white"}`}
                 >
-                <img src="../../public/assets/List.svg" alt="List View" className="w-5 h-5" />
+                <img src="/assets/List.svg" alt="List View" className="w-5 h-5" />
                 </button>
                 <button
                 onClick={() => setView("grid")}
                 className={`flex items-center justify-center p-2 rounded-md transition-colors duration-300 ${view === "grid" ? "bg-[#ABAEEC]" : "bg-white"}`}
                 >
-                <img src="../../public/assets/Grid.svg" alt="Grid View" className="w-5 h-5" />
+                <img src="/assets/Grid.svg" alt="Grid View" className="w-5 h-5" />
                 </button>
             </div>
             </div>
@@ -67,7 +67,7 @@ const ViewCoursePage: React.FC = () => {
                     return (
                     <CourseCardGrid
                         key={course._id}
-                        img='../../public/assets/hacker.svg'
+                        img='/assets/hacker.svg'
                         title={course.title}
                         content={course.description}
                         modules={8}

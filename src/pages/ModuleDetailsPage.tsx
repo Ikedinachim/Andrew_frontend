@@ -45,11 +45,11 @@ const ModuleDetailsPage = () => {
                         <div className="bg-[#040BC5] h-2 rounded-full w-[76px]"></div>
                     </div>
                     <span className="text-[#AAAAAA] text-sm">15% completed | </span>
-                    <img src="../../public/assets/Difficulty.svg" alt="" className='mx-1' />
+                    <img src="/assets/Difficulty.svg" alt="" className='mx-1' />
                     <span className="text-[#AAAAAA] text-sm">  Medium |</span>
-                    <img src="../../public/assets/Quiz3.svg" alt="" className='mx-1' />
+                    <img src="/assets/Quiz3.svg" alt="" className='mx-1' />
                     <span className="text-[#AAAAAA] text-sm">  {moduleDetailData.data.quizzes.length} Quizes |</span>
-                    <img src="../../public/assets/Clock.svg" alt="" className='mx-1' />
+                    <img src="/assets/Clock.svg" alt="" className='mx-1' />
                     <span className="text-[#AAAAAA] text-sm">  30 mins left  </span>
                 </div>
                 <div className='flex flex-row'>

@@ -50,32 +50,32 @@ function LandingPage() {
         {
           title: 'Personalized Study Plans',
           subtitle: 'Upload your materials, and AI will structure your learning journey into digestible modules.',
-          image: './public/assets/Carousel1.svg',
+          image: '/assets/Carousel1.svg',
         },
         {
           title: 'Unlimited AI-Generated Quizzes',
           subtitle: 'Test your knowledge with dynamic quizzes and detailed reports on strengths and weaknesses',
-          image: './public/assets/Carousel2.svg',
+          image: '/assets/Carousel2.svg',
         },
         {
           title: 'Smart Progress Tracking',
           subtitle: 'Real time insights into your learning journey with AI-powered analytics and recommendations',
-          image: './public/assets/Carousel3.svg',
+          image: '/assets/Carousel3.svg',
         },
         {
           title: 'AI-Driven Study Recommendations',
           subtitle: 'Targeted learning suggestions, including relevant pages and topics from your materials and external resources',
-          image: './public/assets/Carousel4.svg',
+          image: '/assets/Carousel4.svg',
         },
         {
           title: 'Key Performance Insights',
           subtitle: 'Get detailed reports on your quiz performance, strength areas, and where to focus next to master the topic',
-          image: './public/assets/Carousel5.svg',
+          image: '/assets/Carousel5.svg',
         },
         {
           title: 'Seamless Integrations',
           subtitle: 'Works with PDFs, docs, audio and video files, and online materials for a truly immersive learning experience',
-          image: './public/assets/Carousel6.svg',
+          image: '/assets/Carousel6.svg',
         },
       ];
 
@@ -149,7 +149,7 @@ function LandingPage() {
         >
           {/* NavBar */}
           <nav className="flex flex-col sm:flex-row items-center justify-between px-6 sm:px-8 py-4 space-y-4 sm:space-y-0">
-            <a href="/"><img src="./public/assets/logo.svg" alt="Andrew AI" /></a>
+            <a href="/"><img src="/assets/logo.svg" alt="Andrew AI" /></a>
             {/* <div className="text-2xl font-bold text-[#040BC5]">ANDREW</div> */}
             <div className="flex space-x-10 items-center">
               <a
@@ -196,7 +196,7 @@ function LandingPage() {
 
             {/* Screenshot Image */}
             <img
-              src="./public/assets/DashboardScreen.svg"
+              src="/assets/DashboardScreen.svg"
               alt="Dashboard"
               className="mt-16 w-full max-w-4xl mx-auto rounded-t-lg z-10 object-contain px-4 sm:px-0"
             />
@@ -205,8 +205,8 @@ function LandingPage() {
 
           {/* Overlapping Circles*/}
           <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 flex items-center justify-center space-x-4 z-0">
-            <img src="./public/assets/BgCircle1.svg" alt="Circle 1" className="w-250 h-90" />
-            <img src="./public/assets/BgCircle2.svg" alt="Circle 2" className="w-250 h-90 -ml-24" />
+            <img src="/assets/BgCircle1.svg" alt="Circle 1" className="w-250 h-90" />
+            <img src="/assets/BgCircle2.svg" alt="Circle 2" className="w-250 h-90 -ml-24" />
           </div>
         </div>
         
@@ -353,7 +353,7 @@ function LandingPage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-7xl w-full px-4 sm:px-8">
             {/* Card 1 */}
             <div className="bg-white shadow-lg p-8 sm:p-10 rounded-xl flex flex-col items-center justify-center">
-              <img src="../../public/assets/Student.png" alt="Students" className="mb-4 w-18 h-auto" />
+              <img src="/assets/Student.png" alt="Students" className="mb-4 w-18 h-auto" />
               <h4 className="text-base font-medium text-[#333333] mb-3">Students</h4>
               <p className="text-sm text-[#AAAAAA]">
                 Master subjects and prepare for exams with AI-powered study guidance.
@@ -362,7 +362,7 @@ function LandingPage() {
 
             {/* Card 2 */}
             <div className="bg-white shadow-lg p-8 sm:p-10 rounded-xl flex flex-col items-center text-center">
-              <img src="../../public/assets/Professional 1.png" alt="Teachers" className="mb-4 w-18 h-auto" />
+              <img src="/assets/Professional 1.png" alt="Teachers" className="mb-4 w-18 h-auto" />
               <h4 className="text-base font-medium text-[#333333] mb-3">Teachers</h4>
               <p className="text-sm text-[#AAAAAA]">
                 Structure course materials for your students and generate dynamic quizzes.
@@ -371,7 +371,7 @@ function LandingPage() {
 
             {/* Card 3 */}
             <div className="bg-white shadow-lg p-8 sm:p-10 rounded-xl flex flex-col items-center text-center">
-              <img src="../../public/assets/Lifelong leraner 1.png" alt="Lifelong Learners" className="mb-4 w-18 h-auto" />
+              <img src="/assets/Lifelong leraner 1.png" alt="Lifelong Learners" className="mb-4 w-18 h-auto" />
               <h4 className="text-base font-medium text-[#333333] mb-3">Lifelong Learners</h4>
               <p className="text-sm text-[#AAAAAA]">
                 Personalize your learning experience with AI support, insights, and recommendations.
@@ -414,7 +414,7 @@ function LandingPage() {
             </div>
 
             <div className="flex justify-center md:justify-end">
-              <img src="./public/assets/SFBU.svg" alt="Partner Logo" className="w-96 sm:w-56 md:w-96 h-auto" />
+              <img src="/assets/SFBU.svg" alt="Partner Logo" className="w-96 sm:w-56 md:w-96 h-auto" />
             </div>
           </div>
         </div>

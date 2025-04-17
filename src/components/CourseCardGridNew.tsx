@@ -5,7 +5,7 @@ const CourseCardGridNew = () => {
     return (
         <div className="bg-white p-4 md:p-6 rounded-xl shadow-md mb-6 w-full flex flex-col">
             <img
-                src="../../public/assets/Programming 2.svg"
+                src="/assets/Programming 2.svg"
                 alt=""
                 className="w-16 h-16 object-contain mb-4"
             />
@@ -31,7 +31,7 @@ const CourseCardGridNew = () => {
                 </div>
                 <span className="text-[#AAAAAA] text-xs mr-1">3 of 8 modules</span>
                 <span className="text-[#AAAAAA] text-xs">|</span>
-                <img src="../../public/assets/Clock.svg" alt="" className="mx-1 w-4 h-4" />
+                <img src="/assets/Clock.svg" alt="" className="mx-1 w-4 h-4" />
                 <span className="text-[#AAAAAA] text-xs mr-1">4 weeks left</span>
                 <span className="text-[#AAAAAA] text-xs mr-1">|</span>
                 <span className="text-[#AAAAAA] text-xs font-bold">65(A)</span>

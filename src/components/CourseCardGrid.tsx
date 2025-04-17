@@ -48,7 +48,7 @@ const CourseCardGrid = (props) => {
             <div className="flex items-center mb-3 flex-wrap">
                 <span className="text-[#AAAAAA] text-xs mr-2">{props.modules} modules</span>
                 <span className="text-[#AAAAAA] text-xs">|</span>
-                <img src="../../public/assets/Clock.svg" alt="" className="mx-1 w-4 h-4" />
+                <img src="/assets/Clock.svg" alt="" className="mx-1 w-4 h-4" />
                 <span className="text-[#AAAAAA] text-xs">{props.weeks} weeks left</span>
             </div>
 

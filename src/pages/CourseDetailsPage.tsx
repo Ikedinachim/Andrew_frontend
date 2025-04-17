@@ -121,11 +121,11 @@ const CourseDetailsPage = () => {
                     <p className='text-[16px] text-[#333333]'>Courses  </p>
                     <div className='w-[192px] flex flex-row items-center justify-between mt-2' >
                         <div className='text-[#D42953] text-[12px] flex flex-row cursor-pointer' onClick={() => handleDeleteCourse()}>
-                            <img src="../../public/assets/Bin.svg" alt="" />
+                            <img src="/assets/Bin.svg" alt="" />
                             <p>Delete Course</p>
                         </div>
                         <div className='text-[#040BC5] text-[12px] flex flex-row cursor-pointer' onClick={() => {navigate('/dashboard/edit-new-course')}} >
-                            <img src="../../public/assets/Edit.svg" alt="" />
+                            <img src="/assets/Edit.svg" alt="" />
                             <p>Edit Course</p>
                         </div>
                     </div>
@@ -148,9 +148,9 @@ const CourseDetailsPage = () => {
                         <div className="bg-[#040BC5] h-2.5 rounded-full w-[76px]"></div>
                     </div>
                     <span className="text-[#AAAAAA] text-sm">3 completed | </span>
-                    <img src="../../public/assets/Clock.svg" alt="" className='mx-1' />
+                    <img src="/assets/Clock.svg" alt="" className='mx-1' />
                     <span className="text-[#AAAAAA] text-sm">  4 weeks left | </span>
-                    <img src="../../public/assets/Quiz3.svg" alt="" className='mx-1' />
+                    <img src="/assets/Quiz3.svg" alt="" className='mx-1' />
                     <span className="text-[#AAAAAA] text-sm">  8 modules</span>
                 </div>
                 <p className='font-semibold mb-2 '>Current Grade- </p>
@@ -192,10 +192,10 @@ const CourseDetailsPage = () => {
 
                 {tab == 2 && <div>
                     <div className="flex flex-row border  bg-[#f3f5f9] border-[#cdcef3] relative text-[16px]  p-4 rounded-[8px] mb-6 min-h-[87px] max-w-[712px] items-center text-[#333333] ">
-                        <img src="../../public/assets/Quiz1.svg" alt="hands" className='mr-[24px]' />
+                        <img src="/assets/Quiz1.svg" alt="hands" className='mr-[24px]' />
                         <p>This quiz configuration will be applied to all modules and quizzes you take for the course.
                             You can change config for a specific quiz before starting the quiz.</p>
-                        <img src="../../public/assets/Close.svg" alt="close" className='absolute top-[8px] right-[8px]' />
+                        <img src="/assets/Close.svg" alt="close" className='absolute top-[8px] right-[8px]' />
                     </div>
                     <div className="flex flex-col">
                         <div className=" mt-4 text-[16px] text-[#aaaaaa] w-[477px] h-[48px] rounded-xl border border-[#aaaaaa] px-3 py-4 flex items-center">
@@ -276,7 +276,7 @@ const CourseDetailsPage = () => {
 
             </div>
             <div className='flex flex-col align-center'>
-                <img src="../../public/assets/Programming3.svg" alt="" className='w-[166px] h-[166px] m-auto' />
+                <img src="/assets/Programming3.svg" alt="" className='w-[166px] h-[166px] m-auto' />
                 <RecommendationCard />
 
             </div>

@@ -47,13 +47,13 @@ const ViewModules = () => {
                     onClick={() => setView("list")}
                     className={`flex items-center justify-center p-2 rounded-md transition-colors duration-300 ${view === "list" ? "bg-[#ABAEEC]" : "bg-white"}`}
                     >
-                    <img src="../../public/assets/List.svg" alt="List View" className="w-5 h-5" />
+                    <img src="/assets/List.svg" alt="List View" className="w-5 h-5" />
                     </button>
                     <button
                     onClick={() => setView("grid")}
                     className={`flex items-center justify-center p-2 rounded-md transition-colors duration-300 ${view === "grid" ? "bg-[#ABAEEC]" : "bg-white"}`}
                     >
-                    <img src="../../public/assets/Grid.svg" alt="Grid View" className="w-5 h-5" />
+                    <img src="/assets/Grid.svg" alt="Grid View" className="w-5 h-5" />
                     </button>
                 </div>
             </div>
