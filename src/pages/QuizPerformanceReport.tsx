@@ -67,8 +67,8 @@ const QuizPerformanceReport = () => {
 
             <h1 className='font-semibold text-[#333333] text-2xl p-4 my-3'>Key Takeaways (AI Summary)</h1>
             <div className='grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-4 max-w-7xl mx-auto mt-6 pl-4'>
-                <SummaryTags topic='Strongest Area:' subTopic='Data Structures' good={true} remark='90%' subremark='Correct' />
-                <SummaryTags topic='Fastest Topic:' subTopic='Sorting Algorithms' good={true} remark='Avg 8 sec' subremark='Taken' />
+                <SummaryTags topic='Strength Area:' subTopic='Data Structures' good={true} remark='90%' subremark='Correct' />
+                <SummaryTags topic='Strength Area:' subTopic='Sorting Algorithms' good={true} remark='Avg 8 sec' subremark='Taken' />
                 <SummaryTags topic='Weakest Area:' subTopic='Graph Traversal' good={false} remark='50%' subremark='correct' />
                 <SummaryTags topic='Struggled With:' subTopic='DFS vs BFS' good={false} remark='50%' subremark='correct' />
             </div>

@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAllCourse } from '../features/courseSlice';
 import LoadingPage from './LoadingPage';
 
+
 const Dashboard: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const dispatch = useDispatch()

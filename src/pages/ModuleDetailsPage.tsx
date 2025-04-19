@@ -51,8 +51,13 @@ const ModuleDetailsPage = () => {
                 <div className='flex flex-row items-center mt-5 mb-[17px]'>
                     <div className='w-[5px] h-[5px] rounded-[100%] bg-[#00ED6D] mr-2'></div>
                     <span className='text-[#00ED6D] mr-2 text-[12px] font-semibold'>On-Track</span>
+                    <span className='text-[#AAAAAA] text-sm'> | </span>
+                    <img src="../../public/assets/Quiz3.svg" alt="" className='mx-1' />
+                    <span className="text-[#AAAAAA] text-sm">  {moduleDetailData.data.quizzes.length} Quizzes |</span>
+                    <img src="../../public/assets/Clock.svg" alt="" className='mx-1' />
+                    <span className="text-[#AAAAAA] text-sm">  Due Date  </span>
                 </div>
-                <div className="flex items-center mb-4">
+                {/* <div className="flex items-center mb-4">
                     <div className="w-[132px] bg-gray-200 rounded-full h-2 mr-2 ">
                         <div className="bg-[#040BC5] h-2 rounded-full w-[76px]"></div>
                     </div>
@@ -63,8 +68,8 @@ const ModuleDetailsPage = () => {
                     <span className="text-[#AAAAAA] text-sm">  {moduleDetailData.data.quizzes.length} Quizes |</span>
                     <img src="../../public/assets/Clock.svg" alt="" className='mx-1' />
                     <span className="text-[#AAAAAA] text-sm">  30 mins left  </span>
-                </div>
-                <div className='flex flex-row'>
+                </div> */}
+                <div className='flex flex-row mt-6'>
                     <button className="bg-[#040BC5] text-white px-4 py-2 rounded-md mr-2" onClick={() => takeQuizHandler()}>Take Quiz</button>
 
                     <button className="bg-white border-[#040bc5] border-4 text-[#040bc5] font-semibold text-[16px]   px-4 py-2 rounded-md mr-2">Mark as Complete</button>

@@ -40,6 +40,7 @@ const ModuleDetailsNewStart = () => {
     if (moduleDetailStatus == 'loading'){
         return <LoadingPage content = 'Fetching Module Detail' />
     }
+    
     return (
         <div>
             <p className='text-[16px] text-[#333333] mb-6'>Courses &gt; {course.data.title} &gt;</p>
@@ -47,12 +48,12 @@ const ModuleDetailsNewStart = () => {
             <h2 className='text-[32px] text-[#333333] mb-5 font-semibold' >{moduleDetailData.data.title}</h2>
             <div className="flex items-center mb-4">
 
-                <img src="../../public/assets/Difficulty.svg" alt="" className='mx-1' />
+                {/* <img src="../../public/assets/Difficulty.svg" alt="" className='mx-1' />
                 <span className="text-[#AAAAAA] text-sm">  Medium |</span>
                 <img src="../../public/assets/Quiz3.svg" alt="" className='mx-1' />
-                <span className="text-[#AAAAAA] text-sm">  15 Quizes |</span>
-                <img src="../../public/assets/Clock.svg" alt="" className='mx-1' />
-                <span className="text-[#AAAAAA] text-sm">  30 mins left  </span>
+                <span className="text-[#AAAAAA] text-sm">  15 Quizes </span> */}
+                {/* <img src="../../public/assets/Clock.svg" alt="" className='mx-1' />
+                <span className="text-[#AAAAAA] text-sm">  30 mins left  </span> */}
             </div>
             <div className="flex flex-row border  bg-[#f3f5f9] border-[#cdcef3] relative text-[16px]  p-4 rounded-[8px] mb-6 min-h-[87px] max-w-[1068px] items-center text-[#333333] ">
                 <img src="../../public/assets/Quiz1.svg" alt="hands" className='mr-[24px]' />

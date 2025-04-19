@@ -38,24 +38,25 @@ const SignupPage = (props) => {
               </button>
               <div className="flex-grow flex justify-center items-center">
                 <h3 className="ml-2 text-center text-2xl font-semibold text-gray-900">
-                  Welcome to E-learning
+                  Welcome to Andrew.AI
                 </h3>
               </div>
             </div>
-      <button className="rounded-[10px] w-full border shadow-md border-[#AAAAAA] flex items-center justify-center py-3">
+      {/* <button className="rounded-[10px] w-full border shadow-md border-[#AAAAAA] flex items-center justify-center py-3">
         <FcGoogle className="text-2xl ml-1" />
         <h4 className="text-base font-sans font-semibold">Continue with Google</h4>
-      </button>
+      </button> */}
 
-      <div className="relative flex  items-center">
+      {/* <div className="relative flex  items-center">
         <div className="flex-grow border-t border-gray-400"></div>
         <span className="flex-shrink mx-2 text-[12px] text-gray-400">or</span>
         <div className="flex-grow border-t border-gray-400"></div>
-      </div>
-      <div className="rounded-md shadow-sm space-y-4">
+      </div> */}
+
+      <div className="rounded-md space-y-4">
 
         <div>
-          <p className="font-semibold text-base col">Email address</p>
+          <p className="font-semibold text-base col mb-2">Email address</p>
           <label htmlFor="email" className="sr-only">jane@example.com</label>
           <input
             id="email"
@@ -63,7 +64,7 @@ const SignupPage = (props) => {
             name="email"
             type="email"
             required
-            className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+            className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm h-12"
             placeholder="jane@example.com"
           />
         </div>
@@ -74,7 +75,7 @@ const SignupPage = (props) => {
         <button
           onClick={() => handleSignUp()}
           type="submit"
-          className="group relative w-[80%] mx-auto flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-[8px] text-white bg-[#040BC5] hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          className="group relative w-[80%] mx-auto flex justify-center py-2 px-4 border border-transparent text-base font-medium rounded-[8px] text-white bg-[#040BC5] hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 cursor-pointer"
         >
           Sign up
         </button>
@@ -84,7 +85,7 @@ const SignupPage = (props) => {
         <span className="text-sm text-gray-600">Already have an account? </span>
         <button
           onClick={() => handleLogIn()}
-          className="text-sm font-medium text-black hover:text-indigo-500 underline"
+          className="text-sm font-medium text-black hover:text-indigo-500 underline cursor-pointer"
         >
           Log in
         </button>

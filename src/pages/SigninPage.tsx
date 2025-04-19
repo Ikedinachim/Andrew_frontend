@@ -57,20 +57,20 @@ const SigninPage = (props) => {
             </button>
             <div className="flex-grow flex justify-center items-center">
               <h3 className="ml-2 text-center text-2xl font-semibold text-gray-900">
-                Welcome to E-learning
+                Welcome to Andrew.AI
               </h3>
             </div>
           </div>
-          <button className="rounded-[10px] w-full border shadow-md border-[#AAAAAA] flex items-center justify-center py-3">
+          {/* <button className="rounded-[10px] w-full border shadow-md border-[#AAAAAA] flex items-center justify-center py-3">
             <FcGoogle className="text-2xl ml-1" />
             <h4 className="text-base font-sans font-semibold">Continue with Google</h4>
-          </button>
+          </button> */}
 
-          <div className="relative flex  items-center">
+          {/* <div className="relative flex  items-center">
             <div className="flex-grow border-t border-gray-400"></div>
             <span className="flex-shrink mx-2 text-[12px] text-gray-400">or</span>
             <div className="flex-grow border-t border-gray-400"></div>
-          </div>
+          </div> */}
 
 
           <div>
@@ -115,7 +115,7 @@ const SigninPage = (props) => {
             <button
               onClick={() => handleSignIn()}
               type="submit"
-              className="group mx-auto relative w-[80%] flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-[#040BC5] hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="group mx-auto relative w-[80%] flex justify-center py-2 px-4 border border-transparent text-base font-medium rounded-md text-white bg-[#040BC5] hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 cursor-pointer"
             >
               Sign in
             </button>
@@ -125,7 +125,7 @@ const SigninPage = (props) => {
             <span className="text-sm text-gray-600">Don't have an account? </span>
             <button
               onClick={() => handleSignUp()}
-              className="text-sm font-medium underline text-black hover:text-[#040BC5]"
+              className="text-sm font-medium underline text-black hover:text-[#040BC5] cursor-pointer"
             >
               Sign up
             </button>

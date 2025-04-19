@@ -17,11 +17,23 @@ const Topbar: React.FC = () => {
               />
             </div>
 
-            <div className="flex items-center">
+            {/* <div className="flex items-center">
               <i className="fas fa-bell text-gray-600 mr-4"></i>
-              <img src="../../public/assets/Notification.svg" className='mr-6' alt="" />
+              <img src="../../public/assets/Logout.svg" className='w-8 h-auto' alt="" />
               <div className="h-10 w-10 bg-gray-300 rounded-full"></div>
+            </div> */}
+
+            <div className="relative group">
+              <button onClick={() => signOutHandler()} className="cursor-pointer">
+                <img src="../../public/assets/Logout.svg" className="w-8 h-auto" alt="Logout" />
+              </button>
+
+              {/* Tooltip */}
+              <div className="absolute top-full mb-2 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                Logout
+              </div>
             </div>
+
           </div>
   );
 };

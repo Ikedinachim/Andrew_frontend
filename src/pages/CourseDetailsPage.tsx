@@ -136,7 +136,6 @@ const CourseDetailsPage = () => {
                 </p>
                 <p className='text-[12px] font-semibold '>
                     <div className='flex flex-row items-center my-4'>
-
                         <div className='w-[5px] h-[5px] rounded-[100%] bg-[#00ED6D] mr-2'></div>
                         <span className='text-[#00ED6D] mr-2'>On-Track</span>
                         <span className='text-[12px] text-[#AAAAAA] mr-2'>  |  </span>

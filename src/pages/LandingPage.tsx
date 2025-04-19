@@ -85,7 +85,7 @@ function LandingPage() {
       useEffect(() => {
         const interval = setInterval(() => {
           setActiveIndex((prevIndex) => (prevIndex + 1) % slides.length);
-        }, 10000); 
+        }, 6000); 
 
         // Cleanup the interval on component unmount
         return () => clearInterval(interval);
