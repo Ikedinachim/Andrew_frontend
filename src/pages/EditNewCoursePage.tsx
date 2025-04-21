@@ -88,8 +88,8 @@ const EditNewCoursePage = () => {
   const options = [
     { label: 'True/False', value: 'True/False' },
     { label: 'MCQ', value: 'MCQ' },
-    { label: 'Open-ended', value: 'Open-ended' },
-    { label: 'Coding Exercises', value: 'Coding Exercises' },
+    // { label: 'Open-ended', value: 'Open-ended' },
+    // { label: 'Coding Exercises', value: 'Coding Exercises' },
   ];
   const mediaOptions = [
     { label: 'PDF', value: 'PDF' },

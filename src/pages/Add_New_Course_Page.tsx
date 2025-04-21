@@ -85,8 +85,8 @@ const Add_New_Course_Page = () => {
   const options = [
     { label: 'True/False', value: 'True/False' },
     { label: 'MCQ', value: 'MCQ' },
-    { label: 'Open-ended', value: 'Open-ended' },
-    { label: 'Coding Exercises', value: 'Coding Exercises' },
+    // { label: 'Open-ended', value: 'Open-ended' },
+    // { label: 'Coding Exercises', value: 'Coding Exercises' },
   ];
   const mediaOptions = [
     { label: 'PDF', value: 'PDF' },
@@ -405,19 +405,19 @@ return (
         <div>
           <h2 className="text-xl font-medium text-[#333333] mb-6">Select Course goal:</h2>
           <div className="flex flex-row gap-auto">
-            <GoalCard img="/assets/Personal Development.svg" title="Personal Development" onClick={handleGoalSelect} />
-            <GoalCard img="/assets/Career Growth.svg" title="Career Growth" onClick={handleGoalSelect} />
-            <GoalCard img="/assets/leaner.svg" title="Exam preparation" onClick={handleGoalSelect} />
-            <GoalCard img="/assets/Others.svg" title="Others" onClick={handleGoalSelect} />
+            <GoalCard img="/assets/Personal Development.svg" highlight = {selectedGoal === 'Personal Development'} title="Personal Development" onClick={handleGoalSelect} />
+            <GoalCard img="/assets/Career Growth.svg" highlight = {selectedGoal === 'Career Growth'} title="Career Growth" onClick={handleGoalSelect} />
+            <GoalCard img="/assets/leaner.svg" highlight = {selectedGoal === 'Exam preparation'} title="Exam preparation" onClick={handleGoalSelect} />
+            <GoalCard img="/assets/Others.svg" highlight = {selectedGoal === 'Others'} title="Others" onClick={handleGoalSelect} />
           </div>
         </div>
         <div className="ml-4">
           <h2 className="text-xl font-medium text-[#333333] mb-6">Select Timeline:</h2>
           <div className="flex flex-row justify-between">
-            <TimelineCard title="7 days" onClick={handleTimelineSelect} />
-            <TimelineCard title="2 weeks" onClick={handleTimelineSelect} />
-            <TimelineCard title="4 weeks" onClick={handleTimelineSelect} />
-            <TimelineCard title="Custom" onClick={handleTimelineSelect} />
+            <TimelineCard title="7 days" isSelected = {selectedTimeline === '7 days'} onClick={handleTimelineSelect} />
+            <TimelineCard title="2 weeks" isSelected = {selectedTimeline === '2 weeks'} onClick={handleTimelineSelect} />
+            <TimelineCard title="4 weeks" isSelected = {selectedTimeline === '4 weeks'} onClick={handleTimelineSelect} />
+            <TimelineCard title="Custom" isSelected = {selectedTimeline === 'Custom'} onClick={handleTimelineSelect} />
           </div>
         </div>
       </div>

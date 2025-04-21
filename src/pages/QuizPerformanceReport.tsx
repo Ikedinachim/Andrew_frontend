@@ -5,15 +5,43 @@ import ProgressArc from '../components/ProgressArc';
 import PerformanceTrend from '../components/PerformanceTrend';
 import { useDispatch, useSelector } from 'react-redux';
 import LoadingPage from './LoadingPage';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getQuizReport } from '../features/reportSlice';
+import Swal from 'sweetalert2';
+
 
 const QuizPerformanceReport = () => {
     const { reportData, reportStatus, reportError } = useSelector((state) => state.report);
     const { user, status, error } = useSelector((state) => state.user);
     const dispatch = useDispatch();
-
+    const navigate = useNavigate();
     const { id } = useParams<{ id: string }>();
+
+    interface ReviewButtonProps {
+        url: string;
+        onClick?: () => void;
+    }
+
+    const ReviewButton: React.FC<ReviewButtonProps> = ({ url, onClick }) => {
+        const handleClick = () => {
+            // Open URL in new tab
+            window.open(url, '_blank', 'noopener noreferrer');
+            // Call additional onClick handler if provided
+            if (onClick) onClick();
+        };
+
+        return (
+            <button
+                onClick={handleClick}
+                className="bg-white font-semibold text-[#040BC5] text-sm border-2 mt-4 border-[#040BC5] px-3 py-2 rounded-[8px] hover:shadow-xl hover:bg-[#CDCEF3] hover:text-[#040BC5] cursor-pointer"
+            >
+                Review Material
+            </button>
+        );
+    };
+
+    // Usage example:
+    // <ReviewButton url={recommendation.url} onClick={() => console.log('Button clicked!')} />
 
     // Now you can use this id for your API calls
     useEffect(() => {
@@ -22,7 +50,15 @@ const QuizPerformanceReport = () => {
             dispatch(getQuizReport(id));
         }
     }, [dispatch, reportData.status]);
-
+    const reloadPage = () => {
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
+    while (reportStatus != 'success') {
+        reloadPage()
+        
+        // Function to reload page after 3 seconds delay
+};            }
     let dummyData = [
         { name: "Quiz 1", value: '20' },
         { name: "Quiz 2", value: '30' },
@@ -32,7 +68,26 @@ const QuizPerformanceReport = () => {
         { name: "Quiz 6", value: '75' },
         { name: "Quiz 7", value: '90' },
     ];
-    console.log(reportStatus);
+    console.log(reportStatus, reportError);
+    if (reportStatus == 'failed'){
+        Swal.fire({
+              title: 'No Report For This Quiz',
+              text: reportError,
+              icon: 'warning',
+              showCancelButton: false,
+              confirmButtonColor: '#D42953',
+              cancelButtonColor: '#666666',
+              confirmButtonText: 'OK',
+              background: '#ffffff',
+              backdrop: `rgba(0,0,0,0.4)`,
+              customClass: {
+                container: 'blur-background'
+              }
+            }).then((result) => {
+              if (result.isConfirmed) {
+                navigate(-1)
+              }});
+    }
 
     if (reportStatus == 'loading' || reportStatus == 'idle' || reportData.status == 'processing') {
 
@@ -89,7 +144,7 @@ const QuizPerformanceReport = () => {
                     <p className='mt-4 text-[#333333] font-semibold text-md'> Total Score</p>
 
                 </div>
-               
+
                 <PerformanceTrend data={dummyData} improvement={12} />
                 <ProgressArc correct={reportData.data.correctAnswers} total={reportData.data.totalQuestions} />
             </div>
@@ -113,20 +168,20 @@ const QuizPerformanceReport = () => {
                             {reportData.data.aiRecommendations.topics.map((recommendation, index) => {
                                 return (
                                     <>
-                                    <li key={index} className="my-3 py-2">
-                                        <div>
-                                            <p className='text-[#333333] font-semibold text-[16px] mb-2'>{recommendation.title}</p>
-                                            <p className='text-[#333333] text-sm'>{recommendation.description}</p>
-                                            <button className="bg-white font-semibold text-[#040BC5] text-sm border-2 mt-4 border-[#040BC5]  px-3 py-2 rounded-[8px] hover:shadow-xl hover:bg-[#CDCEF3] hover:text-[#040BC5] cursor-pointer">Retake Quiz</button>
+                                        <li key={index} className="my-3 py-2">
+                                            <div>
+                                                <p className='text-[#333333] font-semibold text-[16px] mb-2'>{recommendation.title}</p>
+                                                <p className='text-[#333333] text-sm'>{recommendation.description}</p>
+                                                <button className="bg-white font-semibold text-[#040BC5] text-sm border-2 mt-4 border-[#040BC5]  px-3 py-2 rounded-[8px] hover:shadow-xl hover:bg-[#CDCEF3] hover:text-[#040BC5] cursor-pointer">Retake Quiz</button>
 
-                                        </div>
-                                    </li>
-                                    <hr className="mx-[-21px] border-t-3 border-[#F3F5F9] mb-2" />
+                                            </div>
+                                        </li>
+                                        <hr className="mx-[-21px] border-t-3 border-[#F3F5F9] mb-2" />
                                     </>
-                                    
+
                                 );
                             })}
-                           
+
                         </ul>
                     </div>
                     <div className="bg-white py-4 px-5 rounded-xl shadow-sm w-auto lg:w-[40%]">
@@ -136,21 +191,27 @@ const QuizPerformanceReport = () => {
                             {reportData.data.studyMaterials.map((recommendation, index) => {
                                 return (
                                     <>
-                                    <li key={index} className="my-3 py-2">
-                                        <div>
-                                            <p className='text-[#333333] font-semibold text-[16px] mb-2'>{recommendation.title}</p>
-                                            <p className='text-[#333333] text-sm'>{recommendation.description}</p>
-                                            <button className="bg-white font-semibold text-[#040BC5] text-sm border-2 mt-4 border-[#040BC5]  px-3 py-2 rounded-[8px] hover:shadow-xl hover:bg-[#CDCEF3] hover:text-[#040BC5] cursor-pointer">Retake Quiz</button>
+                                        <li key={index} className="my-3 py-2">
+                                            <div>
+                                                <p className='text-[#333333] font-semibold text-[16px] mb-2'>{recommendation.title}</p>
+                                                <p className='text-[#333333] text-sm'>{recommendation.description}</p>
+                                                <ReviewButton
+                                                    url={recommendation.url}
+                                                    onClick={() => {
+                                                        // Additional actions here
+                                                        console.log('Review material accessed');
+                                                    }}
+                                                />
 
-                                        </div>
-                                    </li>
-                                    <hr className="mx-[-21px] border-t-3 border-[#F3F5F9] mb-2" />
+                                            </div>
+                                        </li>
+                                        <hr className="mx-[-21px] border-t-3 border-[#F3F5F9] mb-2" />
                                     </>
-                                    
+
                                 );
                             })}
-                            
-                            
+
+
                         </ul>
                     </div>
                 </div>

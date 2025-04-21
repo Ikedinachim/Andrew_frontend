@@ -75,8 +75,8 @@ const ModuleDetailsNewStart = () => {
     const options = [
         { label: 'True/False', value: 'True/False' },
         { label: 'MCQ', value: 'MCQ' },
-        { label: 'Open-ended', value: 'Open-ended' },
-        { label: 'Coding Exercises', value: 'Coding Exercises' },
+        // { label: 'Open-ended', value: 'Open-ended' },
+        // { label: 'Coding Exercises', value: 'Coding Exercises' },
     ];
 
     // Example: 0–23 hours

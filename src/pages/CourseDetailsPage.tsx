@@ -8,8 +8,8 @@ import { generateModule, getModules, resetModuleStatus } from '../features/modul
 import ModuleCard from '../components/ModuleCard';
 import ModuleListCard from '../components/ModuleListCard';
 import Swal from 'sweetalert2';
-import { deleteCourse } from '../features/courseDetailSlice';
-import { useNavigate } from 'react-router-dom';
+import { deleteCourse, getSingleCourse, resetCourseDetailStatus } from '../features/courseDetailSlice';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const CourseDetailsPage = () => {
     const [difficulty, setDifficulty] = useState("easy");
@@ -52,11 +52,13 @@ const CourseDetailsPage = () => {
         { label: 'Option 2', value: 'option2' },
         { label: 'Option 3', value: 'option3' },
     ];
-    // useEffect(() => {
-    //     console.log('use effect getModules()');
+    const { id } = useParams<{ id: string }>();
+    useEffect(() => {
+        console.log('use effect getModules()');
         
-    //     dispatch(getModules(course.data._id))
-    // }, [dispatch])
+        dispatch(getModules(id))
+        dispatch(getSingleCourse(id))
+    }, [dispatch])
     if (status == 'loading' || status == 'idle') {
         return <LoadingPage content = 'Loading Course' />
     }
@@ -77,7 +79,7 @@ const CourseDetailsPage = () => {
     const optionDate = { day: 'numeric', month: 'long', year: 'numeric' };
     const formattedDate = date.toLocaleDateString('en-GB', optionDate);
     console.log(moduleData)
-
+    let progress = course.data.learningSummary.completedModules / course.data.learningSummary.totalModules;
     // convert time duration to hours and minute 
     const time_in_minutes = course.data.quizConfig.timeDuration;
     const hoursDuration = Math.floor(time_in_minutes / 60);
@@ -118,7 +120,7 @@ const CourseDetailsPage = () => {
         <div className='flex flex-row justify-between items-start backdrop-blur-2xl'>
             <div>
                 <div className='flex flex-row  max-w-[780px] justify-between'>
-                    <p className='text-[16px] text-[#333333]'>Courses  </p>
+                    <p onClick={() =>{ dispatch(resetCourseDetailStatus()); navigate('/dashboard/view-courses')}} className='text-[16px] text-[#333333] cursor-pointer'>Courses  </p>
                     <div className='w-[192px] flex flex-row items-center justify-between mt-2' >
                         <div className='text-[#D42953] text-[12px] flex flex-row cursor-pointer' onClick={() => handleDeleteCourse()}>
                             <img src="/assets/Bin.svg" alt="" />
@@ -145,16 +147,16 @@ const CourseDetailsPage = () => {
                 </p>
                 <div className="flex items-center mb-4">
                     <div className="w-[132px] bg-gray-200 rounded-full h-2.5 mr-2 ">
-                        <div className="bg-[#040BC5] h-2.5 rounded-full w-[76px]"></div>
+                        <div style={{ width: `${progress}%` }} className={`bg-[#040BC5] h-2.5 rounded-full `}></div>
                     </div>
-                    <span className="text-[#AAAAAA] text-sm">3 completed | </span>
+                    <span className="text-[#AAAAAA] text-sm">{course.data.learningSummary.completedModules} completed | </span>
                     <img src="/assets/Clock.svg" alt="" className='mx-1' />
-                    <span className="text-[#AAAAAA] text-sm">  4 weeks left | </span>
+                    <span className="text-[#AAAAAA] text-sm">  {course.data.learningSummary.daysLeft} weeks left | </span>
                     <img src="/assets/Quiz3.svg" alt="" className='mx-1' />
-                    <span className="text-[#AAAAAA] text-sm">  8 modules</span>
+                    <span className="text-[#AAAAAA] text-sm">  {course.data.learningSummary.totalModules} modules</span>
                 </div>
                 <p className='font-semibold mb-2 '>Current Grade- </p>
-                <button onClick={() => generateModuleHandler(course.data._id)} className="bg-[#040BC5] text-white px-4 py-2 rounded-md mr-2">Continue Learning</button>
+                { !course.data.modules && <button onClick={() => generateModuleHandler(course.data._id)} className="bg-[#040BC5] text-white px-4 py-2 rounded-md mr-2">Continue Learning</button>}
 
                 <div className='max-w-[495px] flex flex-row justify-between mt-10 mb-8'>
                     <div className='flex flex-col items-start justify-start ' onClick={() => tabClick(0)}>

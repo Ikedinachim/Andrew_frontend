@@ -1,18 +1,35 @@
 import React, { useEffect } from 'react';
 import RecommendationCard from '../components/RecommendationCard';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import QuizCardList from '../components/QuizCardList';
 import { Heading1 } from 'lucide-react';
 import { createNewQuiz, resetQuizStatus } from '../features/quizSlice';
 import LoadingPage from './LoadingPage';
+import { getModuleDetail } from '../features/moduleDetailSlice';
+import { getSingleCourse } from '../features/courseDetailSlice';
 
 const ModuleDetailsPage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const {moduleDetailData, moduleDetailStatus, moduleDetailError} = useSelector((state) => state.moduleDetail)
     const { course, status, error } = useSelector((state) => state.courseDetail);
+    const { id } = useParams<{ id: string }>();
+    useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const moduleData = await dispatch(getModuleDetail(id)).unwrap();
+            if (moduleData?.data.courseId) {
+              await dispatch(getSingleCourse(moduleData.data.courseId));
+            }
+          } catch (error) {
+            // Handle error
+          }
+        };
     
+        fetchData();
+      }, []);
+      
    
     const takeQuizHandler = () => {
         navigate('/dashboard/module-details-new-start');
@@ -53,9 +70,9 @@ const ModuleDetailsPage = () => {
                     <span className="text-[#AAAAAA] text-sm">  30 mins left  </span>
                 </div>
                 <div className='flex flex-row'>
-                    <button className="bg-[#040BC5] text-white px-4 py-2 rounded-md mr-2" onClick={() => takeQuizHandler()}>Take Quiz</button>
+                    <button className="bg-[#040BC5] cursor-pointer text-white px-4 py-2 rounded-md mr-2" onClick={() => takeQuizHandler()}>Take Quiz</button>
 
-                    <button className="bg-white border-[#040bc5] border-4 text-[#040bc5] font-semibold text-[16px]   px-4 py-2 rounded-md mr-2">Mark as Complete</button>
+                    <button className="bg-white border-[#040bc5] cursor-pointer border-4 text-[#040bc5] font-semibold text-[16px]   px-4 py-2 rounded-md mr-2">Mark as Complete</button>
                 </div>
                 <h2 className='font-semibold text-[#333333] text-2xl mt-10 mb-8'>Quiz History</h2>
                 {moduleDetailData.data.quizzes.length == 0 ? <p>No Quiz Taken Yet</p> : moduleDetailData.data.quizzes.map((quiz, index) => {

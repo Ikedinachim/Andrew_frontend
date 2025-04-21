@@ -64,12 +64,12 @@ const Onboarding: React.FC = () => {
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
     }else{
-        navigate('/dashboard');
+        navigate('/sign-in');
     }
   };
 
   const handleSkip = () => {
-    navigate('/dashboard');
+    navigate('/sign-in');
   };
 
   const handleItemClick = (title: string) => {

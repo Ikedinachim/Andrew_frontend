@@ -17,7 +17,7 @@ const ChooseNewPassword = (props) => {
       axios.post(`${import.meta.env.VITE_API_URL}/api/v1/auth/reset-password`, { email, newPassword: password, otp: +otp })
         .then(response => {
           console.log(response.data);
-          navigate('/dashboard');
+          navigate('/sign-in');
         })
         .catch(error => {
           console.error(error);

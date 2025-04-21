@@ -32,7 +32,18 @@ const ViewModules = () => {
         return <LoadingPage content='Fetching Modules' />
     }
     console.log(moduleData.data.data);
-
+    if (moduleData.data.data.length == 0) {
+        return(
+        <div className='flex flex-col items-center justify-center'>
+        <img src="../../public/assets/no_course.svg" alt="" />
+        <h1 className='font-semibold text-[28px] text-[#333333] max-w-[499px] mt-4 mb-8 text-center'>No module contents to show yet!! 
+          Please add new courses to generate modules</h1>
+          <button onClick={ () => navigate('/dashboard/add-new-course')} className=" text-white bg-[#040BC5] hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 py-3 px-8 rounded-[8px] font-semibold text-[16px]">
+            + &nbsp; Add New Course
+          </button>
+    
+        </div>)
+      }
     return (
         <div>
             <h2 className="text-3xl font-semibold text-[#333333] mt-4 ml-4 mb-3">

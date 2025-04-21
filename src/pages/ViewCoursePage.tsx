@@ -26,12 +26,23 @@ const ViewCoursePage: React.FC = () => {
         // Update the state with the fetched data
         dispatch(getAllCourse())
         
-      }, [dispatch]);
+      }, []);
     
       if (status == 'loading' || status == 'idle') {
         return <LoadingPage content = 'Fetching Courses'/>
       }
-      
+      if (courses.data.data.length == 0) {
+        return(
+        <div className='flex flex-col items-center justify-center'>
+        <img src="../../public/assets/no_course.svg" alt="" />
+        <h1 className='font-semibold text-[28px] text-[#333333] max-w-[499px] mt-4 mb-8 text-center'>No course contents to show yet!! 
+          Please add new courses to get started</h1>
+          <button onClick={ () => navigate('/dashboard/add-new-course')} className=" text-white bg-[#040BC5] hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 py-3 px-8 rounded-[8px] font-semibold text-[16px]">
+            + &nbsp; Add New Course
+          </button>
+    
+        </div>)
+      }
 
     return (
         <div>
@@ -61,27 +72,63 @@ const ViewCoursePage: React.FC = () => {
             </div>
 
             {view == "grid" ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-6 p-4 max-w-7xl mx-auto mt-4">
-                <CourseCardGridNew />
 
                 {courses.data.data.map((course) => {
-                    return (
-                    <CourseCardGrid
+                    if (course.modules){
+                        return  <CourseCardGridNew 
                         key={course._id}
-                        img='/assets/hacker.svg'
-                        title={course.title}
-                        content={course.description}
-                        modules={8}
-                        weeks={4}
-                        _id={course._id}
-                    />
+                        _id = {course._id}
+                        title = {course.title}
+                        description = {course.description}
+                        modules = {course.learningSummary.totalModules}
+                        completedModules = {course.learningSummary.completedModules}
+                        daysLeft = {course.learningSummary.daysLeft}
+                        grade = {course.learningSummary.courseGrade}
+                        nextModule = {course.learningSummary.nextIncompleteModule}
+                        createdAt = {course.createdAt}
+                        />
+                    }else{
+                        return (
+                        <CourseCardGrid
+                            key={course._id}
+                            img='/assets/hacker.svg'
+                            title={course.title}
+                            content={course.description}
+                            modules={8}
+                            weeks={4}
+                            _id={course._id}
+                        />
                     );
+
+                    }
                 })}
                 </div> :
                 <div className='w-full'>
-                    <ProgressCard />
+                   
                     {
              courses.data.data.map((course) => {
-             return <NewCourseCard key={course._id} course={course} />
+                if (course.modules){
+                    return  <ProgressCard 
+                    key={course._id}
+                    _id = {course._id}
+                    title = {course.title}
+                    description = {course.description}
+                    modules = {course.learningSummary.totalModules}
+                    completedModules = {course.learningSummary.completedModules}
+                    daysLeft = {course.learningSummary.daysLeft}
+                    grade = {course.learningSummary.courseGrade}
+                    nextModule = {course.learningSummary.nextIncompleteModule}
+                    createdAt = {course.createdAt}
+                    />
+                }else{
+                    return (
+                    <NewCourseCard
+                        key={course._id}
+                        course = {course}
+                    />
+                );
+
+                }
               })
           }
 

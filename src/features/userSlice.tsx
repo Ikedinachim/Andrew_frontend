@@ -22,7 +22,10 @@ export const signIn = createAsyncThunk(
 
       const data = await response.json();
       // Return the user data (e.g. token, user profile, etc.)
-      console.log(data);
+      console.log(data); 
+      // remove previous token(if any) before sign in
+      window.localStorage.removeItem('token');
+      window.localStorage.removeItem('quiz_id');
       window.localStorage.setItem('token', data.accessToken);
       
       return data;
@@ -80,6 +83,7 @@ const userSlice = createSlice({
       state.status = 'idle';
       state.error = null;
       window.localStorage.removeItem('token');
+      window.localStorage.removeItem('quiz_id');
       console.log('signed out');
       
     },

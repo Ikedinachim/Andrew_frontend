@@ -27,9 +27,9 @@ const QuizCardList = (props) => {
             </div>
             <p className='font-semibold mb-2 '>Score- </p>
             <div className='flex flex-row'>
-                <button className="bg-[#040BC5] text-white px-4 py-2 rounded-md mr-2">Restart Quiz</button>
+                <button className="bg-[#040BC5] cursor-pointer text-white px-4 py-2 rounded-md mr-2">Restart Quiz</button>
 
-                <button className="bg-white border-[#040bc5] border-4 text-[#040bc5] font-semibold text-[16px]   px-4 py-2 rounded-md mr-2" onClick={() => viewInsightHandler()}>View Insights</button>
+                <button className="bg-white cursor-pointer border-[#040bc5] border-4 text-[#040bc5] font-semibold text-[16px]   px-4 py-2 rounded-md mr-2" onClick={() => viewInsightHandler()}>View Insights</button>
             </div>
 
         </div>

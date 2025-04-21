@@ -51,7 +51,7 @@ const ModuleListCard = (props) => {
                 </p>
 
                 <p className='font-semibold mb-2 '>Current Score- </p>
-                <button className="bg-white border-[#040bc5] border-4 text-[#040bc5] font-semibold text-[16px]   px-4 py-2 rounded-md mr-2" onClick={() => continueModuleHandler()}>Continue Module</button>
+                <button className="bg-white border-[#040bc5] border-4 text-[#040bc5] font-semibold text-[16px] cursor-pointer   px-4 py-2 rounded-md mr-2" onClick={() => continueModuleHandler()}>Continue Module</button>
 
 
             </div>

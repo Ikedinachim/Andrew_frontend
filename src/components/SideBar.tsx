@@ -1,8 +1,10 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { resetCourseDetailStatus } from "../features/courseDetailSlice";
 
 const SideBar: React.FC = (props) => {
-
+  const dispatch = useDispatch()
   return (
     <div>
       <div className="flex flex-row max-w-[243px] max-h-[80px] items-center justify-start mb-[60px] mt-[19px]">
@@ -28,7 +30,7 @@ const SideBar: React.FC = (props) => {
         <p>Learn</p>
         <hr className="w-full ml-2" />
       </span>
-      <NavLink to={'/dashboard/view-courses'} className={({ isActive }) =>
+      <NavLink to={'/dashboard/view-courses'} onClick={() => {dispatch(resetCourseDetailStatus())}} className={({ isActive }) =>
           isActive
             ? "  flex flex-row bg-[#cdcef3] p-[12px] rounded-[8px] w-full font-semibold text-black"
             : "  flex flex-row p-[12px] rounded-[8px] w-full font-normal text-gray-600"
