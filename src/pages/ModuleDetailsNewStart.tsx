@@ -63,7 +63,7 @@ const ModuleDetailsNewStart = () => {
             </div>
             <div className="flex flex-row">
                 <QuizDropDown options={options} onSelect={(val) => { setQuizType(val) }} width={'477px'} desc={'Select Quiz Type (can select more than one)'} />
-                <div className="text-[16px] text-[#aaaaaa] w-[477px] h-[48px] rounded-xl border border-[#aaaaaa] px-3 py-4 flex items-center">
+                <div className="text-[16px] text-[#333] w-[477px] h-[48px] rounded-xl border border-[#aaaaaa] px-3 py-4 flex items-center">
                     <input type="text" name="" id="" placeholder="Enter required number of questions" className="focus:outline-0 w-full" ref={numberOfQuestionsRef} />
 
                 </div>

@@ -1,8 +1,20 @@
 import React from "react";
+import { Outlet, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { signOut } from '../features/userSlice';
 
 const Topbar: React.FC = () => {
 
- 
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const signOutHandler = () => {
+    const confirmed = window.confirm("Are you sure you want to logout?");
+    if (confirmed) {
+      dispatch(signOut());
+      navigate('/sign-in');
+    }
+  };
 
   return (
     <div className="flex items-center justify-between mb-6">
@@ -16,12 +28,6 @@ const Topbar: React.FC = () => {
                 className="bg-[#F3F5F9] rounded-full pl-10 pr-4 py-2 w-[312px]"
               />
             </div>
-
-            {/* <div className="flex items-center">
-              <i className="fas fa-bell text-gray-600 mr-4"></i>
-              <img src="../../public/assets/Logout.svg" className='w-8 h-auto' alt="" />
-              <div className="h-10 w-10 bg-gray-300 rounded-full"></div>
-            </div> */}
 
             <div className="relative group">
               <button onClick={() => signOutHandler()} className="cursor-pointer">

@@ -27,6 +27,7 @@ import UserProfile from './pages/UserProfile';
 import UserProfileLayout from './pages/UserProfileLayout';
 import UserProfileLearningStats from './pages/UserProfileLearningStats';
 import EditNewCoursePage from './pages/EditNewCoursePage';
+import BlankDashboard from './pages/BlankDashboard';
 
 function App() {
 
@@ -58,7 +59,7 @@ function App() {
         <Route path="/dashboard/user-profile" element={<UserProfileLayout />} >
         <Route path="/dashboard/user-profile/learning-stats" element={<UserProfileLearningStats />} />
         <Route index element={<UserProfile />} />
-        
+      
         </Route>
       </Route>
     </Routes>
