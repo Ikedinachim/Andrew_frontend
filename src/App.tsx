@@ -22,7 +22,7 @@ import OpenEndedPage from './pages/OpenEndedPage';
 import PerformanceReportPage from './pages/PerformanceReportPage';
 import QuizPerformanceReport from './pages/QuizPerformanceReport';
 import ViewModules from './pages/ViewModules';
-import MCQPage from './pages/mcq_page';
+import MCQPage from './pages/Mcq_page';
 import UserProfile from './pages/UserProfile';
 import UserProfileLayout from './pages/UserProfileLayout';
 import UserProfileLearningStats from './pages/UserProfileLearningStats';
@@ -53,7 +53,7 @@ function App() {
         <Route path="/dashboard/course-details/:id" element={<CourseDetailsPage />} />
         <Route path="/dashboard/module-details/:id" element={<ModuleDetailsPage />} />
         <Route path="/dashboard/performance-report" element={<PerformanceReportPage />} />
-        <Route path="/dashboard/quiz-performance-report" element={<QuizPerformanceReport />} />
+        <Route path="/dashboard/quiz-performance-report/:id" element={<QuizPerformanceReport />} />
         <Route path="/dashboard/module-details-new-start" element={<ModuleDetailsNewStart />} />
         <Route path="/dashboard/module-details-continue" element={<ModuleDetailsContinue />} />
         <Route path="/dashboard/user-profile" element={<UserProfileLayout />} >

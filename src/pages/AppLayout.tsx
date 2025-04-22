@@ -39,7 +39,7 @@ const AppLayout: React.FC = () => {
         >
           {/* Menu Icon (Appears when Sidebar is Closed) */}
           <img
-            src="../../public/assets/bi_filter.svg"
+            src="/assets/bi_filter.svg"
             alt="Menu Toggle"
             onClick={toggleDrawer}
             className={`cursor-pointer z-50 fixed top-[27px] left-[12px] ${isOpen ? 'hidden' : 'block'

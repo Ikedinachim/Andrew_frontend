@@ -78,7 +78,7 @@ const MCQItem: React.FC<MCQItemProps> = ({
           {correct ? (
             <div className="absolute -top-4 -right-4">
               <img
-                src="../../public/assets/Success.svg"
+                src="/assets/Success.svg"
                 alt="Correct"
                 className="w-8 h-8"
               />
@@ -86,7 +86,7 @@ const MCQItem: React.FC<MCQItemProps> = ({
           ) : (
             <div className="absolute -top-4 -right-4 w-8 h-8 bg-red-500 rounded-full" >
               <img
-                src="../../public/assets/wrong.svg"
+                src="/assets/wrong.svg"
                 alt="Correct"
                 className="w-8 h-8"
               />

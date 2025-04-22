@@ -16,7 +16,7 @@ const ModuleCardGrid = (props) => {
         <div className="bg-white p-6 rounded-md shadow-md mb-6 w-full flex flex-col">
 
         <div className="flex items-center text-[12px] font-semibold mb-3">
-            <span className="text-[#AAAAAA]">Module 1</span>
+            <span className="text-[#AAAAAA]">Module {props.order}</span>
             <span className="text-[#AAAAAA] mx-2">|</span>
             <div className="w-[5px] h-[5px] rounded-full bg-[#00ED6D] mr-2"></div>
             <span className="text-[#00ED6D]">On-Track</span>
@@ -31,7 +31,7 @@ const ModuleCardGrid = (props) => {
         </p>
 
         <div className="flex items-center mb-3">
-            <img src="../../public/assets/Clock1.svg" alt="" className="mr-1 w-4 h-4" />
+            <img src="/assets/Clock1.svg" alt="" className="mr-1 w-4 h-4" />
             <span className="text-[#FEC260] text-xs">
                 <span className='mr-2'>Complete module by 02/05 to stay on track</span>
                 <span className="mr-2">|</span>

@@ -10,6 +10,8 @@ import quizReducer from '../features/quizSlice';
 import materialReducer from '../features/materialSlice';
 import courseDetailReducer from '../features/courseDetailSlice';
 import moduleDetailReducer from '../features/moduleDetailSlice';
+import reportReducer from '../features/reportSlice';
+import quizSubmitReducer from '../features/submitQuizSlice';
 
 // Persist config for each reducer
 const counterPersistConfig = {
@@ -48,6 +50,8 @@ export const store = configureStore({
     quiz: quizReducer,
     moduleDetail: moduleDetailReducer,
     material: materialReducer,
+    report: reportReducer,
+    quizSubmit: quizSubmitReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

@@ -47,13 +47,13 @@ const ViewModules = () => {
                     onClick={() => setView("list")}
                     className={`flex items-center justify-center p-2 rounded-md transition-colors duration-300 ${view === "list" ? "bg-[#ABAEEC]" : "bg-white"}`}
                     >
-                    <img src="../../public/assets/List.svg" alt="List View" className="w-5 h-5" />
+                    <img src="/assets/List.svg" alt="List View" className="w-5 h-5" />
                     </button>
                     <button
                     onClick={() => setView("grid")}
                     className={`flex items-center justify-center p-2 rounded-md transition-colors duration-300 ${view === "grid" ? "bg-[#ABAEEC]" : "bg-white"}`}
                     >
-                    <img src="../../public/assets/Grid.svg" alt="Grid View" className="w-5 h-5" />
+                    <img src="/assets/Grid.svg" alt="Grid View" className="w-5 h-5" />
                     </button>
                 </div>
             </div>
@@ -62,7 +62,7 @@ const ViewModules = () => {
 
 
                 {moduleData.data.data.map((module) => {
-                    return <ModuleCardGrid key={module._id} title={module.title} desc={module.description} id={module._id} courseId={module.courseId} />
+                    return <ModuleCardGrid key={module._id} title={module.title} desc={module.description} id={module._id} courseId={module.courseId} order ={module.order} />
                 }
                 )}
 
@@ -70,7 +70,7 @@ const ViewModules = () => {
             </div> :
                 <div className='w-full'>
                     {moduleData.data.data.map((module) => {
-                        return <ModuleCard key={module._id} title={module.title} desc={module.description} id={module._id} courseId={module.courseId} />
+                        return <ModuleCard key={module._id} title={module.title} desc={module.description} id={module._id} courseId={module.courseId} order ={module.order} />
                     }
                     )}
 

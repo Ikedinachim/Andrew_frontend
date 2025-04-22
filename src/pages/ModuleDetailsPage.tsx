@@ -12,27 +12,15 @@ const ModuleDetailsPage = () => {
     const dispatch = useDispatch();
     const {moduleDetailData, moduleDetailStatus, moduleDetailError} = useSelector((state) => state.moduleDetail)
     const { course, status, error } = useSelector((state) => state.courseDetail);
-    const { quizData, quizStatus, quizError } = useSelector((state) => state.quiz);
-    useEffect(() => {
-        if (quizStatus == 'success'){
-            navigate('/dashboard/module-details-new-start');
-            dispatch(resetQuizStatus())
-        }
-        if (quizStatus == 'failed'){
-            alert( `Quiz creation failed: ${quizError}`)
-            dispatch(resetQuizStatus())
-        }
-        
-    }, [quizStatus])
+    
+   
     const takeQuizHandler = () => {
-        dispatch(createNewQuiz(moduleDetailData.data._id))
-        console.log(quizStatus)
+        navigate('/dashboard/module-details-new-start');
+       
         
        
     }; 
-    if (quizStatus == 'loading'){
-        return <LoadingPage content = 'Genreating Quiz! This might take a while'/>
-    }
+   
      
     const viewInsightHandler = () => {
         navigate('/dashboard/performance-report');
@@ -62,11 +50,11 @@ const ModuleDetailsPage = () => {
                         <div className="bg-[#040BC5] h-2 rounded-full w-[76px]"></div>
                     </div>
                     <span className="text-[#AAAAAA] text-sm">15% completed | </span>
-                    <img src="../../public/assets/Difficulty.svg" alt="" className='mx-1' />
+                    <img src="/assets/Difficulty.svg" alt="" className='mx-1' />
                     <span className="text-[#AAAAAA] text-sm">  Medium |</span>
-                    <img src="../../public/assets/Quiz3.svg" alt="" className='mx-1' />
+                    <img src="/assets/Quiz3.svg" alt="" className='mx-1' />
                     <span className="text-[#AAAAAA] text-sm">  {moduleDetailData.data.quizzes.length} Quizes |</span>
-                    <img src="../../public/assets/Clock.svg" alt="" className='mx-1' />
+                    <img src="/assets/Clock.svg" alt="" className='mx-1' />
                     <span className="text-[#AAAAAA] text-sm">  30 mins left  </span>
                 </div> */}
                 <div className='flex flex-row mt-6'>

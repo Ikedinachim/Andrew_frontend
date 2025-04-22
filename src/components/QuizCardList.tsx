@@ -1,15 +1,28 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { getQuizReport } from '../features/reportSlice';
+import { useNavigate } from 'react-router-dom';
 
 const QuizCardList = (props) => {
+    const dispatch = useDispatch()
+    const navigate = useNavigate();
+    const date = new Date(props.quiz.createdAt);
+    const optionDate = { day: 'numeric', month: 'long', year: 'numeric' };
+    const formattedDate = date.toLocaleDateString('en-GB', optionDate);
+    
+    const viewInsightHandler = () => {
+        dispatch(getQuizReport(props.quiz._id))
+        navigate(`/dashboard/quiz-performance-report/${props.quiz._id}`)
+    }
     return (
         <div className='bg-white p-6 rounded-md shadow-md mb-6'>
-            <h2 className='text-[#333333] font-semibold text-xl'>Quiz XYZ</h2>
+            <h2 className='text-[#333333] font-semibold text-xl'>{props.quiz.description}</h2>
             <div className="flex items-center mb-4">
 
-                <span className="text-[#AAAAAA] text-sm">2nd Febuary 2025 | </span>
-                <img src="../../public/assets/Difficulty.svg" alt="" className='mx-1' />
+                <span className="text-[#AAAAAA] text-sm">{formattedDate} | </span>
+                <img src="/assets/Difficulty.svg" alt="" className='mx-1' />
                 <span className="text-[#AAAAAA] text-sm">  Medium |</span>
-                <img src="../../public/assets/Quiz3.svg" alt="" className='mx-1' />
+                <img src="/assets/Quiz3.svg" alt="" className='mx-1' />
                 <span className="text-[#AAAAAA] text-sm">  5 Quizes </span>
             </div>
             <p className='font-semibold mb-2 '>Score- </p>

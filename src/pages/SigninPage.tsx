@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { resetUserStatus, signIn } from "../features/userSlice";
+import { getUserProfile, resetUserStatus, signIn } from "../features/userSlice";
 const SigninPage = (props) => {
   let navigate = useNavigate()
   const [errormessage, setErrorMessage] = useState('')
@@ -23,6 +23,7 @@ const SigninPage = (props) => {
     const email = emailRef.current?.value || '';
     const password = passwordRef.current?.value || '';
     dispatch(signIn({ email, password }));
+    dispatch(getUserProfile())
     console.log(status, user);
     
    
