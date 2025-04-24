@@ -324,7 +324,7 @@ const Add_New_Course_Page = () => {
           <p className="w-[146px]">
             {selectedFile
               ? `Selected: ${selectedFile.name}`
-              : 'Drag and drop the file or browse file from device'}
+              : 'Drag and drop the file or browse file from device Max size: 15MB'}
           </p>      </button>}
       </>
       <div className="flex flex-row justify-between items-center mt-2">
@@ -399,10 +399,13 @@ return (
           <input type="text" ref={titleRef} placeholder="Enter Course Title..." className=" mt-4 mb-6 focus:outline-0 w-full font-medium text-[#AAAAAA] text-3xl" />
           <div className="flex flex-row w-full">
             <textarea name="afdaf" ref={descriptionRef} id="" placeholder="Add course description..." className=" focus:outline-0 h-auto w-[85%] border-1 border-[#cdcef3] rounded-2xl p-5"></textarea>
-            <div className="h-[200px] w-[15%] ml-5 bg-[#f3f5f9] rounded-2xl flex flex-col items-center justify-center p-8 cursor-pointer">
+
+            {/* <div className="h-[200px] w-[15%] ml-5 bg-[#f3f5f9] rounded-2xl flex flex-col items-center justify-center p-8 cursor-pointer">
               <img src="/assets/upload_img.svg" alt="" className="mb-2" />
               <p className="text-sm text-[#333333] font-semibold text-center">Upload or select image for course</p>
-            </div>
+            </div> */}
+            
+            <img src='../../public/assets/Programming3.svg' className='ml-4'/>
           </div>
         </div>
       </div>
@@ -428,7 +431,7 @@ return (
       </div>
       <hr className="w-full border-t-3 border-[#F3F5F9] mb-2 mt-10" />
 
-      <h2 className="text-xl font-medium text-[#333333] mt-8">Upload Course Materials</h2>
+      <h2 className="text-xl font-medium text-[#333333] mt-8 mb-2">Upload Course Materials</h2>
       {/* Upload Materials */}
       {files.map((file) => (
         <CourseMaterialTag title={file.title} description={file.description} fileType={file.fileType} deleteMaterial = {deleteMaterial} />
@@ -486,7 +489,7 @@ return (
           <div className="flex items-center gap-3 pt-1">
             <span className="text-sm font-medium">Not Timed</span>
             <div
-              className={`w-12 h-6 flex items-center bg-[#040BC5] rounded-full p-1 cursor-pointer transition-all duration-300 ${isTimed ? 'justify-end' : 'justify-start'}`}
+              className={`w-12 h-6 flex items-center rounded-full p-1 cursor-pointer transition-all duration-200 ${isTimed ? 'justify-end bg-[#040BC5]' : 'justify-start bg-[#AAAAAA]'}`}
               onClick={() => setIsTimed(!isTimed)}
             >
               <div className="w-4 h-4 bg-white rounded-full"></div>
@@ -503,7 +506,7 @@ return (
             <select
               value={hours}
               onChange={(e) => setHours(e.target.value)}
-              className="border text-sm border-[#F3F5F9] focus:outline-none focus:ring-1 focus:ring-[#040BC5] rounded px-2 py-1 text-[#333333]"
+              className="border text-sm border-[#AAAAAA] focus:outline-none focus:ring-1 focus:ring-[#040BC5] rounded px-2 py-1 text-[#333333]"
             >
               {hourOptions.map((hour) => (
                 <option key={hour} value={hour}>

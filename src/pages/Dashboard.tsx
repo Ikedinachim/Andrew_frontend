@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import { getRecentActivity } from '../features/recentActivitySlice';
 import { getRecommendation } from '../features/recommendationSlice';
 
+
 const Dashboard: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const dispatch = useDispatch()

@@ -20,8 +20,8 @@ const ModuleDetailsContinue = () => {
                     <span className="text-[#AAAAAA] text-sm">  Medium |</span>
                     <img src="/assets/Quiz3.svg" alt="" className='mx-1' />
                     <span className="text-[#AAAAAA] text-sm">  15 Quizes |</span>
-                    <img src="/assets/Clock.svg" alt="" className='mx-1' />
-                    <span className="text-[#AAAAAA] text-sm">  30 mins left  </span>
+                    {/* <img src="../../public/assets/Clock.svg" alt="" className='mx-1' />
+                    <span className="text-[#AAAAAA] text-sm">  30 mins left  </span> */}
                 </div>
            
             <h2 className='text-[#333333] font-bold text-xl mt-8'>Quiz Intructions:</h2>

@@ -8,6 +8,8 @@ import Navbar from '../components/Navbar';
 import SigninPage from './SigninPage';
 import SignupPage from './SignupPage';
 import ForgotPasswordPage from './ForgotPasswordPage';
+import FloatingArrow from '../components/FloatingArrow';
+
 function LandingPage() {
     const [showAuth, setShowAuth] = useState(false);
     const [authMode, setAuthMode] = useState<'login' | 'signup' | 'forgot'>('login');
@@ -85,7 +87,7 @@ function LandingPage() {
       useEffect(() => {
         const interval = setInterval(() => {
           setActiveIndex((prevIndex) => (prevIndex + 1) % slides.length);
-        }, 10000); 
+        }, 6000); 
 
         // Cleanup the interval on component unmount
         return () => clearInterval(interval);
@@ -139,7 +141,7 @@ function LandingPage() {
 
     // Main Landing Page Content
     return (
-      <>
+      <div className="relative min-h-screen">
         {/* Hero Section */}
         <div
           className="w-full relative overflow-hidden"
@@ -417,8 +419,11 @@ function LandingPage() {
               <img src="/assets/SFBU.svg" alt="Partner Logo" className="w-96 sm:w-56 md:w-96 h-auto" />
             </div>
           </div>
+
         </div>
-      </>
+        
+        <FloatingArrow />  
+      </div>
     );
   };
   

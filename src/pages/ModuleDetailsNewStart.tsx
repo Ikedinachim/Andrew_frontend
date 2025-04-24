@@ -97,6 +97,7 @@ const ModuleDetailsNewStart = () => {
     if (quizStatus == 'loading') {
         return <LoadingPage content='Genreating Quiz! This might take a while' />
     }
+    
     return (
         <div>
             <p className='text-[16px] text-[#333333] mb-6 cursor-pointer'  onClick={() => {navigate('/dashboard/view-courses'); dispatch(resetCourseDetailStatus());}}>Courses &gt; {course.data.title} &gt;</p>
@@ -104,12 +105,13 @@ const ModuleDetailsNewStart = () => {
             <h2 className='text-[32px] text-[#333333] mb-5 font-semibold' >{moduleDetailData.data.title}</h2>
             <div className="flex items-center mb-4">
 
-                <img src="/assets/Difficulty.svg" alt="" className='mx-1' />
+                {/* <img src="../../public/assets/Difficulty.svg" alt="" className='mx-1' />
                 <span className="text-[#AAAAAA] text-sm">  Medium |</span>
-                <img src="/assets/Quiz3.svg" alt="" className='mx-1' />
-                <span className="text-[#AAAAAA] text-sm">  15 Quizes |</span>
-                <img src="/assets/Clock.svg" alt="" className='mx-1' />
-                <span className="text-[#AAAAAA] text-sm">  30 mins left  </span>
+                <img src="../../public/assets/Quiz3.svg" alt="" className='mx-1' />
+                <span className="text-[#AAAAAA] text-sm">  15 Quizes </span> */}
+                {/* <img src="../../public/assets/Clock.svg" alt="" className='mx-1' />
+                <span className="text-[#AAAAAA] text-sm">  30 mins left  </span> */}
+
             </div>
             <div className="flex flex-row border  bg-[#f3f5f9] border-[#cdcef3] relative text-[16px]  p-4 rounded-[8px] mb-6 min-h-[87px] max-w-[1068px] items-center text-[#333333] ">
                 <img src="/assets/Quiz1.svg" alt="hands" className='mr-[24px]' />
@@ -118,11 +120,12 @@ const ModuleDetailsNewStart = () => {
                 <img src="/assets/Close.svg" alt="close" className='absolute top-[8px] right-[8px]' />
             </div>
             <div className="flex flex-row">
-                <QuizDropDown selectedVal={quizType} options={options} onSelect={(val) => { setQuizType(val) }} width={'477px'} desc={'Select Quiz Type (can select more than one)'} />
-                <div className="text-[16px] text-[#aaaaaa] w-[477px] h-[48px] rounded-xl border border-[#aaaaaa] px-3 py-4 flex items-center">
-                    <input type="text" defaultValue={course.data.quizConfig.numberOfQuestions} name="" id="" placeholder="Enter required number of questions" className="focus:outline-0 w-full" ref={numberOfQuestionsRef} />
 
+                <QuizDropDown selectedVal={quizType} options={options} onSelect={(val) => { setQuizType(val) }} width={'477px'} desc={'Select Quiz Type (can select more than one)'} />
+                <div className="text-[16px] text-[#333] w-[477px] h-[48px] rounded-xl border border-[#aaaaaa] px-3 py-4 flex items-center">
+                    <input type="text" defaultValue={course.data.quizConfig.numberOfQuestions} name="" id="" placeholder="Enter required number of questions" className="focus:outline-0 w-full" ref={numberOfQuestionsRef} />
                 </div>
+                
             </div>
             <div className="flex items-end gap-6  w-full mt-4 ">
                 <div>
