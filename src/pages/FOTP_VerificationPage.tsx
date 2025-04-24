@@ -4,6 +4,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 
 const FOTP_VerificationPage = (props) => {
@@ -12,6 +13,7 @@ const FOTP_VerificationPage = (props) => {
     const location = useLocation();
     const [errormessage, setErrorMessage] = useState('')
     const email = location.state?.email;
+   
 
   // Add a check to handle cases where email might be missing
   if (!email) {
@@ -50,7 +52,7 @@ const FOTP_VerificationPage = (props) => {
                         </div>
                         
                             <p className="text-sm text-[#AAAAAA] text-center mb-10 max-w-sm mx-auto">
-                                A 6-digit verification has been sent to your xyz@gmail.com, please enter it here.
+                                A 6-digit verification has been sent to your {email}, please enter it here.
                             </p>
                         
                     </div>

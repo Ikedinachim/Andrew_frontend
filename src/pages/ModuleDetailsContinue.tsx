@@ -1,9 +1,14 @@
 import React from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { resetCourseDetailStatus } from '../features/courseDetailSlice';
+import { useDispatch } from 'react-redux';
 
 const ModuleDetailsContinue = () => {
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
     return (
         <div>
-            <p className='text-[16px] text-[#333333] mb-6'>Courses &gt; Masterclass of Python &gt;</p>
+        <p className='text-[16px] text-[#333333] mb-6 cursor-pointer' onClick={() => {navigate('/dashboard/view-courses'); dispatch(resetCourseDetailStatus());}}>Courses &gt; Masterclass of Python &gt;</p>
             <p className='font-semibold text-[14px] text-[#aaaaaa] mb-3'>Module 1 | Course-Masterclass of Python</p>
             <h2 className='text-[32px] text-[#333333] mb-5 font-semibold' >Introduction to Python for Data Science</h2>
             <div className="flex items-center mb-4">

@@ -8,7 +8,10 @@ const NewCourseCard: React.FC = ({ course }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { _, status, error } = useSelector((state) => state.courseDetail);
-
+  const date = new Date(course.createdAt);
+  const optionDate = { day: 'numeric', month: 'long', year: 'numeric' };
+  const formattedDate = date.toLocaleDateString('en-GB', optionDate);
+  
   const handleLearnMore = () => {
     // Handle the "Learn More" button click
     dispatch(getSingleCourse(course._id))
@@ -32,7 +35,7 @@ const NewCourseCard: React.FC = ({ course }) => {
             <div className="w-[5px] h-[5px] rounded-full bg-[#040BC5] mr-2"></div>
             <span className="text-[#040BC5] mr-4">New</span>
             <span className="text-[#AAAAAA] mr-4">|</span>
-            <span className="text-[#AAAAAA]">2nd February 2025</span>
+            <span className="text-[#AAAAAA]">{formattedDate}</span>
           </div>
         </div>
         <h2 className="text-xl font-semibold text-[#333333] leading-loose">
@@ -42,10 +45,10 @@ const NewCourseCard: React.FC = ({ course }) => {
           {course.description}
         </p>
         <div className="flex items-center mb-5 mt-3">
-          <span className="text-[#AAAAAA] text-sm mr-3 mt-2 sm:mt-0">15 modules</span>
+          <span className="text-[#AAAAAA] text-sm mr-3 mt-2 sm:mt-0">{course.modules.length} modules</span>
           <span className="text-[#AAAAAA] text-sm mr-2">|</span>
           <img src="/assets/Clock.svg" alt="Clock Icon" className="mx-1 w-4 h-4" />
-          <span className="text-[#AAAAAA] text-sm">4 weeks left</span>
+          <span className="text-[#AAAAAA] text-sm">{course.timeline} weeks left</span>
         </div>
 
         <div className="flex justify-between items-center ">

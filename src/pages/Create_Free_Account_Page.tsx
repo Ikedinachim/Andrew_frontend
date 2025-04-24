@@ -1,6 +1,7 @@
 import { useRef, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import axios from 'axios'
+import { useSelector } from "react-redux"
 const CreateFreeAcountPage = (props) => {
   let navigate = useNavigate()
   let nameRef = useRef()
@@ -9,6 +10,7 @@ const CreateFreeAcountPage = (props) => {
   const [errormessage, setErrorMessage] = useState('')
   const location = useLocation();
   const email = location.state?.email;
+  const { user, status, error } = useSelector((state) => state.user)
   const validateForm = () => {
     // Get values from refs
     const name = nameRef.current?.value || '';
@@ -89,7 +91,7 @@ const CreateFreeAcountPage = (props) => {
           </div>
           <div>
             <p className="text-sm text-gray-600 text-center">
-              Let’s enter some details for xyz@gmail.com
+              Let’s enter some details for {email}
             </p>
           </div>
           <div>

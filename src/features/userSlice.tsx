@@ -27,6 +27,7 @@ export const signIn = createAsyncThunk(
       window.localStorage.removeItem('token');
       window.localStorage.removeItem('quiz_id');
       window.localStorage.setItem('token', data.accessToken);
+      window.localStorage.setItem('showNotification', 'TRUE')
       
       return data;
     } catch (error) {

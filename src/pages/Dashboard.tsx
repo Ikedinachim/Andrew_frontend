@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import StreakCard from '../components/StreakCard';
 import ProgressCard from '../components/ProgressCard';
 import NewCourseCard from '../components/NewCourseCard';
@@ -10,14 +10,16 @@ import { getAllCourse } from '../features/courseSlice';
 import LoadingPage from './LoadingPage';
 import { getUserProfile } from '../features/userSlice';
 import { useNavigate } from 'react-router-dom';
+import { getRecentActivity } from '../features/recentActivitySlice';
+import { getRecommendation } from '../features/recommendationSlice';
 
 const Dashboard: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const [showNotification, setShowNotification] = useState(window.localStorage.getItem('showNotification'));
   const { courses, status, error } = useSelector((state) => state.course);
-    const {user, userStatus, userRrror} = useSelector((state: any) => state.user)
-  
+  const {user, userStatus, userError} = useSelector((state: any) => state.user)
   const toggleDrawer = () => {
     setIsOpen(!isOpen);
   };
@@ -27,6 +29,8 @@ const Dashboard: React.FC = () => {
     // Update the state with the fetched data
     dispatch(getUserProfile())
     dispatch(getAllCourse())
+    dispatch(getRecentActivity())
+    dispatch(getRecommendation())
 
   }, [dispatch]);
 
@@ -47,12 +51,17 @@ const Dashboard: React.FC = () => {
 
     </div>)
   }
+  const closeHandler = () => {
+    setShowNotification('FALSE')
+    window.localStorage.setItem('showNotification', 'FALSE')
+   
+  }
   return ( 
   
     <div>
 
 
-      <GreetingCard />
+     {showNotification === 'TRUE' && <GreetingCard close = {closeHandler} />}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">

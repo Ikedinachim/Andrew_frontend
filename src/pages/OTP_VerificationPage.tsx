@@ -55,7 +55,7 @@ const OTP_VerificationPage = (props) => {
                         </div>
                         
                             <p className="text-sm text-[#AAAAAA] text-center mb-10 max-w-sm mx-auto">
-                                A 6-digit verification has been sent to your xyz@gmail.com, please enter it here.
+                                A 6-digit verification has been sent to your {email}, please enter it here.
                             </p>
                         
                     </div>

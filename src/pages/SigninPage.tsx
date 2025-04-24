@@ -18,7 +18,9 @@ const SigninPage = (props) => {
       dispatch(resetUserStatus())
     }
   }, [user, navigate]);
-
+  const handleSignUp = () => {
+    navigate('/sign-up');
+  };
   const handleSignIn = async (e) => {
     const email = emailRef.current?.value || '';
     const password = passwordRef.current?.value || '';
@@ -126,7 +128,7 @@ const SigninPage = (props) => {
             <span className="text-sm text-gray-600">Don't have an account? </span>
             <button
               onClick={() => handleSignUp()}
-              className="text-sm font-medium underline text-black hover:text-[#040BC5]"
+              className="cursor-pointer text-sm font-medium underline text-black hover:text-[#040BC5]"
             >
               Sign up
             </button>

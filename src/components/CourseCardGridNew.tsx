@@ -14,18 +14,14 @@ const CourseCardGridNew = (props) => {
     const { _, status, error } = useSelector((state) => state.courseDetail);
 
 
-     const handleLearnMore = () => {
-        // Handle the "Learn More" button click
-        dispatch(getSingleCourse(props._id))
-        dispatch(getModules(props._id))
-        
-      };
-     useEffect(() => {
-        if (status == 'success') {
-            dispatch(resetCourseDetailStatus());
-          navigate(`/dashboard/course-details/${props._id}`);
-        }
-      }, [status, navigate])
+      const handleResumeCourse= () => {
+         // Handle the "Learn More" button click
+         dispatch(getSingleCourse(props._id))
+         dispatch(getModules(props._id))
+         navigate(`/dashboard/course-details/${props._id}`);
+         
+         
+       };
     return (
         <div className="bg-white p-4 md:p-6 rounded-xl shadow-md mb-6 w-full flex flex-col">
             <img
@@ -64,7 +60,7 @@ const CourseCardGridNew = (props) => {
             {/* <p className="font-semibold text-sm mb-2">Course Grade -</p> */}
 
             <div className="flex flex-col sm:flex-row sm:items-center gap-2 mt-2">
-                <button onClick={handleLearnMore} className="bg-[#040BC5] text-white rounded-md px-5 py-2 w-full sm:w-auto hover:shadow-xl hover:bg-[#CDCEF3] hover:text-[#040BC5] cursor-pointer">
+                <button onClick={handleResumeCourse} className="bg-[#040BC5] text-white rounded-md px-5 py-2 w-full sm:w-auto hover:shadow-xl hover:bg-[#CDCEF3] hover:text-[#040BC5] cursor-pointer">
                 Resume
                 </button>
                 <p className="text-[#AAAAAA] text-[12px] font-semibold text-wrap">

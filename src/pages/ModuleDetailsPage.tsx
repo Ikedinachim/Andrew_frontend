@@ -7,7 +7,7 @@ import { Heading1 } from 'lucide-react';
 import { createNewQuiz, resetQuizStatus } from '../features/quizSlice';
 import LoadingPage from './LoadingPage';
 import { getModuleDetail } from '../features/moduleDetailSlice';
-import { getSingleCourse } from '../features/courseDetailSlice';
+import { getSingleCourse, resetCourseDetailStatus } from '../features/courseDetailSlice';
 
 const ModuleDetailsPage = () => {
     const navigate = useNavigate();
@@ -15,6 +15,10 @@ const ModuleDetailsPage = () => {
     const {moduleDetailData, moduleDetailStatus, moduleDetailError} = useSelector((state) => state.moduleDetail)
     const { course, status, error } = useSelector((state) => state.courseDetail);
     const { id } = useParams<{ id: string }>();
+    let progress = 0
+    if (course.data.learningSummary.totalModules != 0){
+        progress = course.data.learningSummary.completedModules / course.data.learningSummary.totalModules;
+    }
     useEffect(() => {
         const fetchData = async () => {
           try {
@@ -49,7 +53,7 @@ const ModuleDetailsPage = () => {
         <div className='flex flex-row justify-between '>
             <div className=' max-w-[780px]'>
 
-                <p className='text-[16px] text-[#333333] mb-6'>Courses &gt; {course.data.title} &gt;</p>
+                <p className='text-[16px] text-[#333333] mb-6 cursor-pointer'  onClick={() => {navigate('/dashboard/view-courses'); dispatch(resetCourseDetailStatus());}}>Courses &gt; {course.data.title} &gt;</p>
                 <p className='font-semibold text-[14px] text-[#aaaaaa] mb-3'>Module {moduleDetailData.data.order} | Course-{course.data.title}</p>
                 <h2 className='text-[32px] text-[#333333] mb-5 font-semibold' >{moduleDetailData.data.title}</h2>
                 <p className='text-[20px] text-[#aaaaaa]'>{moduleDetailData.data.description}</p>
@@ -59,15 +63,15 @@ const ModuleDetailsPage = () => {
                 </div>
                 <div className="flex items-center mb-4">
                     <div className="w-[132px] bg-gray-200 rounded-full h-2 mr-2 ">
-                        <div className="bg-[#040BC5] h-2 rounded-full w-[76px]"></div>
+                        <div style={{ width: `${progress}%` }} className="bg-[#040BC5] h-2 rounded-full w-[76px]"></div>
                     </div>
-                    <span className="text-[#AAAAAA] text-sm">15% completed | </span>
+                    <span className="text-[#AAAAAA] text-sm">{progress}% completed | </span>
                     <img src="/assets/Difficulty.svg" alt="" className='mx-1' />
-                    <span className="text-[#AAAAAA] text-sm">  Medium |</span>
+                    <span className="text-[#AAAAAA] text-sm">  {course.data.quizConfig.difficultyLevel} |</span>
                     <img src="/assets/Quiz3.svg" alt="" className='mx-1' />
                     <span className="text-[#AAAAAA] text-sm">  {moduleDetailData.data.quizzes.length} Quizes |</span>
                     <img src="/assets/Clock.svg" alt="" className='mx-1' />
-                    <span className="text-[#AAAAAA] text-sm">  30 mins left  </span>
+                    <span className="text-[#AAAAAA] text-sm">  {course.data.quizConfig.timeDuration % 60} mins left  </span>
                 </div>
                 <div className='flex flex-row'>
                     <button className="bg-[#040BC5] cursor-pointer text-white px-4 py-2 rounded-md mr-2" onClick={() => takeQuizHandler()}>Take Quiz</button>

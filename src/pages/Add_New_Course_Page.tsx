@@ -70,6 +70,7 @@ const Add_New_Course_Page = () => {
   const { courses, status, uploadStatus, error } = useSelector((state) => state.course);
   const [hours, setHours] = useState('00');
   const [minutes, setMinutes] = useState('00');
+  const [customTime, setCustomTime] = useState("1");
   const navigate = useNavigate();
   // Example: 0–23 hours
   const hourOptions = Array.from({ length: 24 }, (_, i) => {
@@ -147,7 +148,7 @@ const Add_New_Course_Page = () => {
   const handleTimelineSelect = (timeline: string) => {
     console.log(timeline)
     setSelectedTimeline(timeline)
-    if (timeline === 'Custom') {
+    if (timeline.includes('Custom')) {
       setIsCustomDayPopupOpen(true)
     }
   }
@@ -241,7 +242,7 @@ const Add_New_Course_Page = () => {
                       container: 'blur-background'
                   }
               }).then((result) => {
-                  navigate('/dashboard');
+                  navigate('/dashboard/view-courses');
               });
     } catch (e) {
       alert(`Error Creating Course`);
@@ -355,6 +356,9 @@ const Add_New_Course_Page = () => {
         <input
           type="number"
           placeholder="00"
+          onChange={(e) => setCustomTime(e.target.value)}
+          onSelect={(val) => setCustomTime(val)}
+          value={customTime  || ''}
           min="1"
           ref={daysRef}
           className="h-[50px] w-[70px] px-2 py-1 text-lg focus:outline-none rounded-xl border border-[#aaaaaa] text-center"
@@ -362,6 +366,7 @@ const Add_New_Course_Page = () => {
         <QuizDropDown
           options={durationOptions}
           onSelect={(val: Option) => setDuration(val)}
+          selectedVal={duration}
           width="120px"
           desc="Select Unit"
         />
@@ -417,7 +422,7 @@ return (
             <TimelineCard title="7 days" isSelected = {selectedTimeline === '7 days'} onClick={handleTimelineSelect} />
             <TimelineCard title="2 weeks" isSelected = {selectedTimeline === '2 weeks'} onClick={handleTimelineSelect} />
             <TimelineCard title="4 weeks" isSelected = {selectedTimeline === '4 weeks'} onClick={handleTimelineSelect} />
-            <TimelineCard title="Custom" isSelected = {selectedTimeline === 'Custom'} onClick={handleTimelineSelect} />
+            <TimelineCard title={`Custom\n${ duration && `(${customTime} ${duration})`}`} isSelected = {selectedTimeline.includes('Custom')} onClick={handleTimelineSelect} />
           </div>
         </div>
       </div>

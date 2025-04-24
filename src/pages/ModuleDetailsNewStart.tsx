@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import LoadingPage from './LoadingPage';
 import axios from 'axios';
 import { createNewQuiz, resetQuizStatus } from '../features/quizSlice';
+import { resetCourseDetailStatus } from '../features/courseDetailSlice';
 
 const ModuleDetailsNewStart = () => {
 
@@ -98,7 +99,7 @@ const ModuleDetailsNewStart = () => {
     }
     return (
         <div>
-            <p className='text-[16px] text-[#333333] mb-6'>Courses &gt; {course.data.title} &gt;</p>
+            <p className='text-[16px] text-[#333333] mb-6 cursor-pointer'  onClick={() => {navigate('/dashboard/view-courses'); dispatch(resetCourseDetailStatus());}}>Courses &gt; {course.data.title} &gt;</p>
             <p className='font-semibold text-[14px] text-[#aaaaaa] mb-3'>Module 1 | Course-{course.data.title}</p>
             <h2 className='text-[32px] text-[#333333] mb-5 font-semibold' >{moduleDetailData.data.title}</h2>
             <div className="flex items-center mb-4">

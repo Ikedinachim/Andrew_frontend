@@ -10,6 +10,7 @@ import ModuleListCard from '../components/ModuleListCard';
 import Swal from 'sweetalert2';
 import { deleteCourse, getSingleCourse, resetCourseDetailStatus } from '../features/courseDetailSlice';
 import { useNavigate, useParams } from 'react-router-dom';
+import { getRecommendation } from '../features/recommendationSlice';
 
 const CourseDetailsPage = () => {
     const [difficulty, setDifficulty] = useState("easy");
@@ -58,6 +59,7 @@ const CourseDetailsPage = () => {
         
         dispatch(getModules(id))
         dispatch(getSingleCourse(id))
+        dispatch(getRecommendation())
     }, [dispatch])
     if (status == 'loading' || status == 'idle') {
         return <LoadingPage content = 'Loading Course' />
@@ -79,7 +81,10 @@ const CourseDetailsPage = () => {
     const optionDate = { day: 'numeric', month: 'long', year: 'numeric' };
     const formattedDate = date.toLocaleDateString('en-GB', optionDate);
     console.log(moduleData)
-    let progress = course.data.learningSummary.completedModules / course.data.learningSummary.totalModules;
+    let progress = 0
+    if (course.data.learningSummary.totalModules != 0){
+        progress = course.data.learningSummary.completedModules / course.data.learningSummary.totalModules;
+    }
     // convert time duration to hours and minute 
     const time_in_minutes = course.data.quizConfig.timeDuration;
     const hoursDuration = Math.floor(time_in_minutes / 60);
