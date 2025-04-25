@@ -29,13 +29,12 @@ const ModuleDetailsPage = () => {
         return <LoadingPage content = 'Loading Module'/>
     } 
     return (
-        <div className='flex flex-row justify-between '>
-            <div className=' max-w-[780px]'>
-
-                <p className='text-[16px] text-[#333333] mb-6'>Courses &gt; {course.data.title} &gt;</p>
-                <p className='font-semibold text-[14px] text-[#aaaaaa] mb-3'>Module {moduleDetailData.data.order} | Course-{course.data.title}</p>
-                <h2 className='text-[32px] text-[#333333] mb-5 font-semibold' >{moduleDetailData.data.title}</h2>
-                <p className='text-[20px] text-[#aaaaaa]'>{moduleDetailData.data.description}</p>
+        <div className='flex flex-row justify-between items-start backdrop-blur-2xl'>
+            <div className='w-[75%] me-3'>
+                <p className='text-base text-[#333333] mb-6'><a href="/dashboard/view-courses" className='cursor-pointer'>Courses</a> &nbsp; &gt; &nbsp; {course.data.title} &nbsp; &gt;</p>
+                <p className='font-semibold text-[14px] text-[#aaaaaa] mb-3'>Module {moduleDetailData.data.order} &nbsp;&nbsp;|&nbsp;&nbsp; Course: {course.data.title}</p>
+                <h2 className='font-semibold text-[#333333] text-3xl mt-6 mb-2 leading-loose'>{moduleDetailData.data.title}</h2>
+                <p className='text-[#AAAAAA] text-lg max-w-[95%] mb-3 min-h-[4em]'>{moduleDetailData.data.description}</p>
                 <div className='flex flex-row items-center mt-5 mb-[17px]'>
                     <div className='w-[5px] h-[5px] rounded-[100%] bg-[#00ED6D] mr-2'></div>
                     <span className='text-[#00ED6D] mr-2 text-[12px] font-semibold'>On-Track</span>
@@ -58,25 +57,24 @@ const ModuleDetailsPage = () => {
                     <span className="text-[#AAAAAA] text-sm">  30 mins left  </span>
                 </div> */}
                 <div className='flex flex-row mt-6'>
-                    <button className="bg-[#040BC5] text-white px-4 py-2 rounded-md mr-2" onClick={() => takeQuizHandler()}>Take Quiz</button>
+                    <button className="bg-[#040bc5] border-2 border-[#040bc5] text-white text-base px-4 py-2 rounded-md mr-3 hover:shadow-lg hover:bg-[#585CD8] hover:border-[#585CD8] cursor-pointer" onClick={() => takeQuizHandler()}>Take Quiz</button>
 
-                    <button className="bg-white border-[#040bc5] border-4 text-[#040bc5] font-semibold text-[16px]   px-4 py-2 rounded-md mr-2">Mark as Complete</button>
+                    <button className="border-2 border-[#040BC5] text-[#040BC5] px-4 py-2 rounded-lg mr-2 hover:shadow-xl hover:border-[#00ED6D] hover:text-[#333] cursor-pointer">Mark as Complete</button>
                 </div>
-                <h2 className='font-semibold text-[#333333] text-2xl mt-10 mb-8'>Quiz History</h2>
+                <h2 className='font-semibold text-[#333333] text-2xl mt-10 mb-6'>Quiz History</h2>
                 {moduleDetailData.data.quizzes.length == 0 ? <p>No Quiz Taken Yet</p> : moduleDetailData.data.quizzes.map((quiz, index) => {
                     return <QuizCardList key={index} quiz={quiz} />
                 })}
                 
               
             </div>
-            <div>
-
+            <div className="min-w-[20%]">
                 <div>
-                    <div className="w-full max-w-sm p-4 bg-white rounded-lg shadow-md flex items-center space-x-4 my-4">
+                    <div className="w-full max-w-sm p-6 bg-white rounded-xl shadow-md flex items-center space-x-4 my-4">
                         <div className="relative">
-                            <svg className="w-16 h-16" viewBox="0 0 64 64">
+                            <svg className="w-18 h-18" viewBox="0 0 64 64">
                                 <circle
-                                    className="text-gray-200"
+                                    className="text-[#F3F5F9]"
                                     stroke-width="8"
                                     stroke="currentColor"
                                     fill="transparent"
@@ -85,7 +83,7 @@ const ModuleDetailsPage = () => {
                                     cy="32"
                                 />
                                 <circle
-                                    className="text-blue-500"
+                                    className="text-[#040BC5]"
                                     stroke-width="8"
                                     stroke-dasharray="176"
                                     stroke-dashoffset="62"
@@ -109,7 +107,7 @@ const ModuleDetailsPage = () => {
                         </div>
 
                         <div>
-                            <div className="text-xl font-bold">Score</div>
+                            <div className="text-lg font-semibold">Score</div>
                             <div className="text-green-500 text-sm font-medium">+5%</div>
                         </div>
                     </div>

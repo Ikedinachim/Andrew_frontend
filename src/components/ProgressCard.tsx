@@ -36,7 +36,7 @@ const ProgressCard: React.FC = () => {
 
         {/* <p className="font-semibold mb-2">Course Grade-</p> */}
         <div className="flex items-center mt-4 flex-wrap">
-          <button className="bg-[#040BC5] text-white px-5 py-2 rounded-md mr-2 mb-2 hover:shadow-xl hover:bg-[#CDCEF3] hover:text-[#040BC5] cursor-pointer">
+          <button className="bg-[#040bc5] border-2 border-[#040bc5] text-white text-base px-4 py-2 rounded-md mr-3 hover:shadow-lg hover:bg-[#585CD8] hover:border-[#585CD8] cursor-pointer">
             Resume Course
           </button>
           <span className="text-[#AAAAAA] text-sm ml-2">Next Module: Fundamental of Python</span>
