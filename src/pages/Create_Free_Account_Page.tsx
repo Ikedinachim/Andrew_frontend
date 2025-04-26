@@ -61,7 +61,7 @@ const CreateFreeAcountPage = (props) => {
       axios.post(`${import.meta.env.VITE_API_URL}/api/v1/auth/signup`, { email, name, password })
       .then(response => {
         console.log(response.data);
-        navigate('/onboarding-goals', { 
+        navigate('/sign-in', { 
           state: { email: email }
         });
       })

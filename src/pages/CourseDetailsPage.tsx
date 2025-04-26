@@ -171,6 +171,8 @@ const CourseDetailsPage = () => {
                     });
                 }
     const courseStatus = course.data.courseStatus;
+    const weeksLeft = Math.floor(course.data.daysLeft / 7);
+
 
     return (
         <div className='flex flex-row justify-between items-start backdrop-blur-2xl'>
@@ -207,7 +209,7 @@ const CourseDetailsPage = () => {
                     <span className="text-[#AAAAAA] text-sm mr-2">{course.data.learningSummary.completedModules} completed</span>
                     <span className='text-[12px] text-[#AAAAAA] mr-2'>  |  </span>
                     <img src="/assets/Clock.svg" alt="" className='mr-1' />
-                    <span className="text-[#AAAAAA] text-sm mr-2">  {Math.floor(course.data.daysLeft / 7)} weeks left</span>
+                    <span className="text-[#AAAAAA] text-sm mr-2"> {weeksLeft} {weeksLeft === 1 ? 'week' : 'weeks'}</span>
                     <span className='text-[12px] text-[#AAAAAA] mr-2'>  |  </span>
                     <img src="/assets/Quiz3.svg" alt="" className='mr-2' />
                     <span className="text-[#AAAAAA] text-sm mr-2">  {course.data.learningSummary.totalModules} modules</span>

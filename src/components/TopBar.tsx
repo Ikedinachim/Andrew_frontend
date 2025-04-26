@@ -32,7 +32,7 @@ const Topbar: React.FC = () => {
 
             <div className="relative group">
               <button onClick={() => signOutHandler()} className="cursor-pointer">
-                <img src="../../public/assets/Logout.svg" className="w-8 h-auto" alt="Logout" />
+                <img src="/assets/Logout.svg" className="w-8 h-auto" alt="Logout" />
               </button>
 
               {/* Tooltip */}

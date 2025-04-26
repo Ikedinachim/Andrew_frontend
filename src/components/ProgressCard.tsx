@@ -38,7 +38,7 @@ const ProgressCard: React.FC = (props) => {
         <div className="text-[12px] font-semibold mb-3">
           <div className="flex flex-row items-center">
             <div className="w-[5px] h-[5px] rounded-full bg-[#00ED6D] mr-2"></div>
-            <span className="text-[#00ED6D] mr-4">On-Track</span>
+            <span className="text-[#00ED6D] mr-4">{props.courseStatus}</span>
             <span className="text-[#AAAAAA] mr-4">|</span>
             <span className="text-[#AAAAAA]">{formattedDate}</span>
           </div>
@@ -58,9 +58,9 @@ const ProgressCard: React.FC = (props) => {
           <span className="text-[#AAAAAA] text-sm mr-3 mt-2 sm:mt-0">{props.completedModules} of {props.totalModules} modules</span>
           <span className="text-[#AAAAAA] text-sm mr-2">|</span>
           <img src="/assets/Clock.svg" alt="Clock Icon" className="mx-1 w-4 h-4" />
-          <span className="text-[#AAAAAA] text-sm mr-3">{props.daysLeft || 3} weeks left</span>
-          <span className="text-[#AAAAAA] text-sm mr-2">|</span>
-          <span className="font-semibold text-sm">Course Grade-- {props.grade ? props.grade + "%" : ''}</span>
+          <span className="text-[#AAAAAA] text-sm mr-3">{Math.floor(props.daysLeft/7) || 3} weeks left</span>
+          {/* <span className="text-[#AAAAAA] text-sm mr-2"></span> */}
+          <span className="font-semibold text-sm">Course Grade-- {props.grade ? props.grade + "%" : 'N/A'}</span>
         </div>
 
         {/* <p className="font-semibold mb-2">Course Grade-</p> */}

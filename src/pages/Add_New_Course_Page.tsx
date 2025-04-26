@@ -180,8 +180,38 @@ const Add_New_Course_Page = () => {
     const formData = new FormData();
     formData.append('title', titleRef.current.value);
     formData.append('description', descriptionRef.current.value);
-    formData.append('timeline', '3');
     formData.append('goal', selectedGoal);
+
+
+    //converting to days
+    let timelineValue = 0;
+
+    if (selectedTimeline.includes('Custom')) {
+      // ✅ Custom input handling
+      timelineValue = Number(daysRef.current?.value) || 0;
+      if (duration && (typeof duration === 'object' ? duration.value : duration) === 'weeks') {
+        timelineValue = timelineValue * 7;
+      }
+    } else if (selectedTimeline) {
+      const parts = selectedTimeline.split(' ');
+      const num = parts[0];
+      const unit = (parts[1] || '').toLowerCase();
+    
+      if (unit.includes('day')) {
+        timelineValue = Number(num);
+      } else if (unit.includes('week')) {
+        timelineValue = Number(num) * 7;
+      } else {
+        timelineValue = Number(num); // fallback
+      }
+    } else {
+      // No timeline selected
+      timelineValue = 0;
+    }
+    
+    formData.append('timeline', timelineValue.toString());
+
+    //formdata.appned continue
     formData.append(
       'quizConfig',
       JSON.stringify({
@@ -214,7 +244,7 @@ const Add_New_Course_Page = () => {
         formData.append(`materialTitle_${fileObj.name}`, file.title);
         formData.append(`materialDescription_${fileObj.name}`, file.description);
       });
-  
+        
     try {
       setLoading(true)
       const response = await axios.post(
@@ -266,80 +296,132 @@ const Add_New_Course_Page = () => {
     }
   };
 
-  const MaterialUploadForm = () => (
+const MaterialUploadForm = () => {
+  const [localTitle, setLocalTitle] = useState('');
+  const [localDescription, setLocalDescription] = useState('');
+  const [localUrlLink, setLocalUrlLink] = useState('');
+
+  const resetFields = () => {
+    setLocalTitle('');
+    setLocalDescription('');
+    setLocalUrlLink('');
+    setSelectedFile(null);
+    setMediaOption('');
+  };
+
+  const uploadMaterial = () => {
+    if (mediaOption === 'URL') {
+      setFiles([...files, { 
+        title: localTitle, 
+        description: localDescription, 
+        UrlLink: localUrlLink, 
+        fileType: mediaOption 
+      }]);
+    } else {
+      setFiles([...files, { 
+        title: localTitle, 
+        description: localDescription, 
+        file: selectedFile, 
+        fileType: mediaOption 
+      }]);
+    }
+
+    resetFields();
+    setIsPopupOpen(false);
+  };
+
+  return (
     <div className="w-[445px] rounded-[16px] shadow-md flex flex-col p-8 relative bg-white">
-      {/* <img
-        src="/assets/Close.svg"
-        alt=""
-        className="absolute top-5 right-4 cursor-pointer"
-        onClick={() => setIsPopupOpen(false)}
-      /> */}
       <h2 className="text-lg text-[#333333] font-semibold mb-6">Upload Materials</h2>
+      
       <QuizDropDown
         options={mediaOptions}
         onSelect={setMediaOption}
-        selectedVal ={ mediaOption}
-        width='381px'
-        desc='Select Material Type'
+        selectedVal={mediaOption}
+        width="381px"
+        desc="Select Material Type"
       />
+
+      {/* Title input */}
       <div className="text-sm mt-4 mb-4 text-[#333] w-[381px] h-[48px] rounded-lg border border-[#aaaaaa] px-3 py-4 flex items-center">
         <input
           type="text"
           placeholder="Enter Title for file"
-          className="focus:outline-0  w-full bg-transparent"
-          ref={fileTitleRef}
-          
+          value={localTitle}
+          onChange={(e) => setLocalTitle(e.target.value)}
+          className="focus:outline-0 w-full bg-transparent"
         />
       </div>
+
+      {/* Description input */}
       <div className="text-sm mb-[20px] text-[#333] w-[381px] h-[99px] rounded-lg border border-[#aaaaaa] px-3 py-4 flex items-center">
         <input
           type="text"
           placeholder="Enter description"
+          value={localDescription}
+          onChange={(e) => setLocalDescription(e.target.value)}
           className="focus:outline-0 w-full bg-transparent"
-          ref={fileDescriptionRef}
         />
       </div>
+
+      {/* Upload or URL Input */}
       <>
         <input
           type="file"
           ref={fileInputRef}
           onChange={handleFileSelect}
           accept=".pdf,.doc,.docx,.mp3,.mp4,.wav,.avi"
-          style={{ display: 'none', cursor:'pointer'}}
+          style={{ display: 'none', cursor: 'pointer' }}
         />
-      { mediaOption === 'URL' ? 
-      <div className="text-sm mb-4 text-[#333] w-[381px] h-[48px] rounded-lg border border-[#aaaaaa] px-3 py-4 flex items-center">
-      <input
-        type="text"
-        placeholder="Enter link here"
-        className="focus:outline-0 w-full bg-transparent"
-        ref={UrlLinkRef}
-      />
-    </div> : <button
-          className="text-[12px] mb-[32px] text-[#aaaaaa] w-[381px] h-[125px] rounded-xl border border-dashed border-[#aaaaaa] px-3 py-4 flex flex-col items-center justify-center"
-          onClick={handleButtonClick}
-          onDragOver={handleDragOver}
-          onDrop={handleDrop}
-        >        <img src="/assets/Upload.svg" alt="" />
-          <p className="w-[146px]">
-            {selectedFile
-              ? `Selected: ${selectedFile.name}`
-              : 'Drag and drop the file or browse file from device Max size: 15MB'}
-          </p>      </button>}
+
+        {mediaOption === 'URL' ? (
+          <div className="text-sm mb-4 text-[#333] w-[381px] h-[48px] rounded-lg border border-[#aaaaaa] px-3 py-4 flex items-center">
+            <input
+              type="text"
+              placeholder="Enter link here"
+              value={localUrlLink}
+              onChange={(e) => setLocalUrlLink(e.target.value)}
+              className="focus:outline-0 w-full bg-transparent"
+            />
+          </div>
+        ) : (
+          <button
+            className="text-[12px] mb-[32px] text-[#aaaaaa] w-[381px] h-[125px] rounded-xl border border-dashed border-[#aaaaaa] px-3 py-4 flex flex-col items-center justify-center"
+            onClick={handleButtonClick}
+            onDragOver={handleDragOver}
+            onDrop={handleDrop}
+          >
+            <img src="/assets/Upload.svg" alt="" />
+            <p className="w-[146px]">
+              {selectedFile
+                ? `Selected: ${selectedFile.name}`
+                : 'Drag and drop the file or browse file from device Max size: 15MB'}
+            </p>
+          </button>
+        )}
       </>
+
+      {/* Footer Buttons */}
       <div className="flex flex-row justify-between items-center mt-2">
         <button
           className="bg-white text-[#FEC260] px-6 py-[12px] border border-[#FEC260] rounded-lg hover:shadow-lg hover:font-bold cursor-pointer"
-          onClick={() => setIsPopupOpen(false)}
+          onClick={() => { 
+            resetFields(); 
+            setIsPopupOpen(false); 
+          }}
         >
           Cancel
         </button>
-        <button onClick={() => uploadMaterial()} className="bg-[#040BC5] text-white px-6 py-[12px] border-2 border-white rounded-lg cursor-pointer hover:shadow-lg hover:border-2 hover:border-[#040BC5] hover:bg-[#F3F5F9] hover:text-[#040BC5] hover:font-bold">
+        <button 
+          onClick={uploadMaterial} 
+          className="bg-[#040BC5] text-white px-6 py-[12px] border-2 border-white rounded-lg cursor-pointer hover:shadow-lg hover:border-2 hover:border-[#040BC5] hover:bg-[#F3F5F9] hover:text-[#040BC5] hover:font-bold"
+        >
           Upload
         </button>
       </div>
     </div>
   );
+};
 
   const CustomDayDialog = () => (
     <div className="w-[445px] rounded-2xl shadow-md flex flex-col p-6 relative bg-white">
@@ -405,7 +487,7 @@ return (
               <p className="text-sm text-[#333333] font-semibold text-center">Upload or select image for course</p>
             </div> */}
             
-            <img src='../../public/assets/Programming3.svg' className='ml-4'/>
+            <img src='/assets/Programming3.svg' className='ml-4'/>
           </div>
         </div>
       </div>

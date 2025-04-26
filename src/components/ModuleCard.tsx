@@ -32,7 +32,7 @@ const ModuleCard = (props) => {
             <div className="flex items-center mb-3 mt-2">
               <img src="/assets/Clock1.svg" alt="" className="mr-1 w-4 h-4" />
               <span className="text-[#FEC260] text-xs">
-                  <span className='mr-2'>Complete module by 02/05 to stay on track</span>
+                  <span className='mr-2'>Complete module within {props.timeLeft ? props.timeLeft + "%" : ''} day/s to stay on track</span>
                   <span className="mr-2">|</span>
                   <span className="text-xs font-bold">Grade {props.grade ? props.grade + "%" : ''}</span>
               </span>

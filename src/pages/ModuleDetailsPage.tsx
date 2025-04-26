@@ -106,9 +106,9 @@ const ModuleDetailsPage = () => {
                     <div className={`w-[5px] h-[5px] rounded-[100%] bg-[${moduleStatus == 'late' ? '#c51104' :'#00ED6D'}] mr-2`}></div>
                     <span className={`text-[${moduleStatus == 'late' ? '#c51104' :'#00ED6D'}] mr-2 text-[12px] font-semibold`}>{moduleDetailData.data.moduleStatus}</span>
                     <span className='text-[#AAAAAA] text-sm'> | </span>
-                    <img src="../../public/assets/Quiz3.svg" alt="" className='mx-1' />
+                    <img src="/assets/Quiz3.svg" alt="" className='mx-1' />
                     <span className="text-[#AAAAAA] text-sm">  {moduleDetailData.data.quizzes.length} Quizzes |</span>
-                    <img src="../../public/assets/Clock.svg" alt="" className='mx-1' />
+                    <img src="/assets/Clock.svg" alt="" className='mx-1' />
                     <span className="text-[#AAAAAA] text-sm">  {Math.floor(moduleDetailData.data.timeLeft )}  Weeks Left  </span>
                 </div>
                 {/* <div className="flex items-center mb-4">

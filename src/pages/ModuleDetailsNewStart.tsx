@@ -32,27 +32,33 @@ const ModuleDetailsNewStart = () => {
 
     // }, [quizStatus])
 
-    const formData = new FormData();
     const takeQuizHandler = async () => {
+        const formData = new FormData();
+
+        formData.append('title', course.data.title);
+        formData.append('description', course.data.description);
+        formData.append('timeline', String(course.data.timeline)); // timeline must be string
+        formData.append('goal', course.data.goal);
         // update quiz type
         formData.append(
             'quizConfig',
             JSON.stringify({
-                quizTypes: [quizType],
-                numberOfQuestions: +numberOfQuestionsRef.current.value,
-                difficultyLevel: difficulty,
-                isTimed: isTimed,
-                timeDuration: (parseInt(hours) * 60) + parseInt(minutes),
-            })
-        );
-        try {
+              quizTypes: [quizType],
+              numberOfQuestions: +numberOfQuestionsRef.current.value,
+              difficultyLevel: difficulty,
+              isTimed: isTimed,
+              timeDuration: Math.max((parseInt(hours) * 60) + parseInt(minutes), 10)
 
+            })
+          );
+        try {
+            console.log(course.data._id);
+            
             const response = await axios.put(
                 `${import.meta.env.VITE_API_URL}/api/v1/courses/${course.data._id}`,
                 formData,
                 {
                     headers: {
-                        'Content-Type': 'multipart/form-data',
                         Authorization: `Bearer ${localStorage.getItem('token')}`,
                     },
                 }
@@ -65,7 +71,7 @@ const ModuleDetailsNewStart = () => {
             console.log(quizStatus)
         } catch (e) {
             alert(`Error Creating Course`);
-            console.log(`Upload error:,  ${e}`);
+            console.log(`Upload error:,  ${e.message}`);
         } finally {
 
         }
@@ -106,11 +112,11 @@ const ModuleDetailsNewStart = () => {
             <h2 className='text-3xl text-[#333333] mb-2 font-semibold leading-loose' >{moduleDetailData.data.title}</h2>
             <div className="flex items-center mb-4">
 
-                {/* <img src="../../public/assets/Difficulty.svg" alt="" className='mx-1' />
+                {/* <img src="/assets/Difficulty.svg" alt="" className='mx-1' />
                 <span className="text-[#AAAAAA] text-sm">  Medium |</span>
-                <img src="../../public/assets/Quiz3.svg" alt="" className='mx-1' />
+                <img src="/assets/Quiz3.svg" alt="" className='mx-1' />
                 <span className="text-[#AAAAAA] text-sm">  15 Quizes </span> */}
-                {/* <img src="../../public/assets/Clock.svg" alt="" className='mx-1' />
+                {/* <img src="/assets/Clock.svg" alt="" className='mx-1' />
                 <span className="text-[#AAAAAA] text-sm">  30 mins left  </span> */}
             </div>
 

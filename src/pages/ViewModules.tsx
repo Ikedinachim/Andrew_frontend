@@ -35,7 +35,7 @@ const ViewModules = () => {
     if (moduleData.data.data.length == 0) {
         return(
         <div className='flex flex-col items-center justify-center'>
-        <img src="../../public/assets/no_course.svg" alt="" />
+        <img src="/assets/no_course.svg" alt="" />
         <h1 className='font-semibold text-[28px] text-[#333333] max-w-[499px] mt-4 mb-8 text-center'>No module contents to show yet!! 
           Please add new courses to generate modules</h1>
           <button onClick={ () => navigate('/dashboard/add-new-course')} className=" text-white bg-[#040BC5] hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 py-3 px-8 rounded-[8px] font-semibold text-[16px]">
@@ -73,7 +73,7 @@ const ViewModules = () => {
 
 
                 {moduleData.data.data.map((module) => {
-                    return <ModuleCardGrid key={module._id} title={module.title} desc={module.description} id={module._id} courseId={module.courseId} order ={module.order} />
+                    return <ModuleCardGrid key={module._id} title={module.title} desc={module.description} id={module._id} courseId={module.courseId} order ={module.order} timeLeft={module.timeLeft}/>
                 }
                 )}
 
@@ -81,7 +81,7 @@ const ViewModules = () => {
             </div> :
                 <div className='w-full'>
                     {moduleData.data.data.map((module) => {
-                        return <ModuleCard key={module._id} title={module.title} desc={module.description} id={module._id} courseId={module.courseId} order ={module.order} />
+                        return <ModuleCard key={module._id} title={module.title} desc={module.description} id={module._id} courseId={module.courseId} order ={module.order} timeLeft={module.timeLeft} />
                     }
                     )}
 

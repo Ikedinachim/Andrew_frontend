@@ -164,10 +164,10 @@ const QuizPerformanceReport = () => {
 
             <h1 className='font-semibold text-[#333333] text-2xl p-4 my-3'>Key Takeaways ({reportData.data.aiSummary})</h1>
             <div className='grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-4 max-w-7xl mx-auto mt-6 pl-4'>
-                <SummaryTags topic='Strongest Area:' subTopic={reportData.data.strongestArea} good={true} remark='90%' subremark='Correct' />
-                <SummaryTags topic='Strength Area:' subTopic={reportData.data.goodAt} good={true} remark='Avg 8 sec' subremark='Taken' />
-                <SummaryTags topic='Weakest Area:' subTopic={reportData.data.weakestArea} good={false} remark='50%' subremark='correct' />
-                <SummaryTags topic='Struggled With:' subTopic={`${reportData.data.struggledWith[0]} & ${reportData.data.struggledWith[1]}`} good={false} remark='50%' subremark='correct' />
+                <SummaryTags topic='Strongest Area:' subTopic={reportData.data.strongestArea} good={true} remark='' subremark='' />
+                <SummaryTags topic='Strength Area:' subTopic={reportData.data.goodAt} good={true} remark='' subremark='' />
+                <SummaryTags topic='Weakest Area:' subTopic={reportData.data.weakestArea} good={false} remark='' subremark='' />
+                <SummaryTags topic='Struggled With:' subTopic={`${reportData.data.struggledWith[0]} & ${reportData.data.struggledWith[1]}`} good={false} remark='' subremark='' />
 
             </div>
 

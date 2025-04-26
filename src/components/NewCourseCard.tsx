@@ -33,7 +33,7 @@ const NewCourseCard: React.FC = ({ course }) => {
         <div className="text-[12px] font-semibold mb-3">
           <div className="flex flex-row items-center">
             <div className="w-[5px] h-[5px] rounded-full bg-[#040BC5] mr-2"></div>
-            <span className="text-[#040BC5] mr-4">New</span>
+            <span className="text-[#040BC5] mr-4">{course.courseStatus}</span>
             <span className="text-[#AAAAAA] mr-4">|</span>
             <span className="text-[#AAAAAA]">{formattedDate}</span>
           </div>
