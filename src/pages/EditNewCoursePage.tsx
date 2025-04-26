@@ -8,9 +8,9 @@ import axios from 'axios';
 import CourseMaterialTag from '../components/CourseMaterialTag';
 import LoadingPage from './LoadingPage';
 import Swal from 'sweetalert2';
-import { deleteCourseMaterial, uploadCourseMaterial } from '../features/materialSlice';
+import { deleteCourseMaterial, resetMaterialStatus, uploadCourseMaterial } from '../features/materialSlice';
 import { getSingleCourse } from '../features/courseDetailSlice';
-import { Form } from 'react-router-dom';
+import { Form, useNavigate } from 'react-router-dom';
 // Assuming this is the correct import path
 
 interface PopupProps {
@@ -70,10 +70,11 @@ const EditNewCoursePage = () => {
   const fileDescriptionRef = useRef()
   const UrlLinkRef = useRef()
   const dispatch = useDispatch()
+  const [customTime, setCustomTime] = useState("1");
   const { user } = useSelector((state) => state.user);
   const [hours, setHours] = useState(course.data.quizConfig.timeDuration / 60);
   const [minutes, setMinutes] = useState(course.data.quizConfig.timeDuration % 60);
-
+  const navigate = useNavigate();
   // Example: 0–23 hours
   const hourOptions = Array.from({ length: 24 }, (_, i) => {
     const value = i.toString().padStart(2, '0');
@@ -139,7 +140,7 @@ const EditNewCoursePage = () => {
   const handleTimelineSelect = (timeline: string) => {
     console.log(timeline)
     setSelectedTimeline(timeline)
-    if (timeline === 'Custom') {
+    if (timeline.includes('Custom')) {
       setIsCustomDayPopupOpen(true)
     }
   }
@@ -194,7 +195,9 @@ const EditNewCoursePage = () => {
             'success'
           );
 
-        } else {
+        }
+        
+        if (materialStatus == 'failed') {
           Swal.fire(
             'Error!',
             `There was an error deleting your Material. ${materialError}`,
@@ -202,6 +205,8 @@ const EditNewCoursePage = () => {
           );
 
         }
+        dispatch(resetMaterialStatus())
+        
       }
     });
   }
@@ -327,6 +332,21 @@ const EditNewCoursePage = () => {
       dispatch(getSingleCourse(course.data._id));
 
       console.log('Success:', response.data);
+      Swal.fire({
+                        title: 'Course Updated',
+                        text: `Course Updated Successfully`,
+                        icon: 'success',
+                        showCancelButton: false,
+                        confirmButtonColor: '#D42953',
+                        confirmButtonText: 'OK',
+                        background: '#ffffff',
+                        backdrop: `rgba(0,0,0,0.4)`,
+                        customClass: {
+                            container: 'blur-background'
+                        }
+                    }).then((result) => {
+                        navigate('/dashboard/view-courses');
+                    });
     } catch (e) {
       alert(`Error Creating Course`);
       console.log(`Upload error:,  ${e}`);
@@ -437,15 +457,20 @@ const EditNewCoursePage = () => {
 
       {/* New section for custom duration */}
       <div className="flex flex-row items-center space-x-2 mt-4 mb-4 justify-center">
-        <input
+      <input
           type="number"
-          placeholder="Duration"
+          placeholder="00"
+          onChange={(e) => setCustomTime(e.target.value)}
+          onSelect={(val) => setCustomTime(val)}
+          value={customTime  || ''}
+          min="1"
           ref={daysRef}
-          className="h-[50px] w-[100px] px-2 py-1 text-[16px] focus:outline-none rounded-xl border border-[#aaaaaa]"
+          className="h-[50px] w-[70px] px-2 py-1 text-lg focus:outline-none rounded-xl border border-[#aaaaaa] text-center"
         />
         <QuizDropDown
           options={durationOptions}
           onSelect={(val: Option) => setDuration(val)}
+          selectedVal={duration}
           width="120px"
           desc="Select Unit"
         />
@@ -493,19 +518,19 @@ const EditNewCoursePage = () => {
             <h2 className="text-2xl font-semibold text-[#333333] mb-6">Select Course goal:</h2>
             <div className="flex flex-row ">
 
-              <GoalCard img="/assets/Personal Development.svg" title="Personal Development" onClick={handleGoalSelect} />
-              <GoalCard img="/assets/Career Growth.svg" title="Career Growth" onClick={handleGoalSelect} />
-              <GoalCard img="/assets/leaner.svg" title="Exam preparation" onClick={handleGoalSelect} />
-              <GoalCard img="/assets/Others.svg" title="Others" onClick={handleGoalSelect} />
+            <GoalCard img="/assets/Personal Development.svg" highlight = {selectedGoal === 'Personal Development'} title="Personal Development" onClick={handleGoalSelect} />
+            <GoalCard img="/assets/Career Growth.svg" highlight = {selectedGoal === 'Career Growth'} title="Career Growth" onClick={handleGoalSelect} />
+            <GoalCard img="/assets/leaner.svg" highlight = {selectedGoal === 'Exam preparation'} title="Exam preparation" onClick={handleGoalSelect} />
+            <GoalCard img="/assets/Others.svg" highlight = {selectedGoal === 'Others'} title="Others" onClick={handleGoalSelect} />
             </div>
           </div>
           <div className="ml-4">
             <h2 className="text-2xl font-semibold text-[#333333] mb-6">Select Timeline:</h2>
             <div className="flex flex-row">
-              <TimelineCard title="7 days" onClick={handleTimelineSelect} />
-              <TimelineCard title="2 weeks" onClick={handleTimelineSelect} />
-              <TimelineCard title="4 weeks" onClick={handleTimelineSelect} />
-              <TimelineCard title="Custom" onClick={handleTimelineSelect} />
+            <TimelineCard title="7 days" isSelected = {selectedTimeline === '7 days'} onClick={handleTimelineSelect} />
+            <TimelineCard title="2 weeks" isSelected = {selectedTimeline === '2 weeks'} onClick={handleTimelineSelect} />
+            <TimelineCard title="4 weeks" isSelected = {selectedTimeline === '4 weeks'} onClick={handleTimelineSelect} />
+            <TimelineCard title={`Custom\n${ duration && `(${customTime} ${duration})`}`} isSelected = {selectedTimeline.includes('Custom')} onClick={handleTimelineSelect} />
             </div>
           </div>
         </div>

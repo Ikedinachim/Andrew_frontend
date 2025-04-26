@@ -6,7 +6,7 @@ export const createNewQuiz = createAsyncThunk(
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/quizzes/module/${moduleId}/generate`, {
         method: 'POST',
-        headers: { 
+        headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${window.localStorage.getItem('token')}`
         },
@@ -18,7 +18,7 @@ export const createNewQuiz = createAsyncThunk(
       }
 
       const data = await response.json();
-      console.log(data);    
+      console.log(data);
       return data;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -26,6 +26,31 @@ export const createNewQuiz = createAsyncThunk(
   }
 );
 
+export const retakeQuiz = createAsyncThunk(
+  'courseDetail/retakeQuiz',
+  async (quizId: string, { rejectWithValue }) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/quizzes/${quizId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${window.localStorage.getItem('token')}`
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        return rejectWithValue(errorData.message || 'Failed to fetch course');
+      }
+
+      const data = await response.json();
+      console.log(data);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
 
 
 const quizSlice = createSlice({
@@ -37,9 +62,9 @@ const quizSlice = createSlice({
   },
   reducers: {
     resetQuizStatus: (state) => {
-        state.quizStatus = 'reset';
-        state.quizError = null;
-      }
+      state.quizStatus = 'reset';
+      state.quizError = null;
+    }
     // You can add synchronous reducers if needed
 
   },
@@ -59,9 +84,22 @@ const quizSlice = createSlice({
       .addCase(createNewQuiz.rejected, (state, action) => {
         state.quizStatus = 'failed';
         state.quizError = action.payload || 'Unable to get quizes';
+      }).addCase(retakeQuiz.pending, (state) => {
+        state.quizStatus = 'loading';
+        state.quizError = null;
+      })
+      // Fulfilled
+      .addCase(retakeQuiz.fulfilled, (state, action) => {
+        state.quizStatus = 'success';
+        state.quizData = action.payload; // e.g. { token, userData } 
+      })
+      // Rejected
+      .addCase(retakeQuiz.rejected, (state, action) => {
+        state.quizStatus = 'failed';
+        state.quizError = action.payload || 'Unable to get quizes';
       })
       ;
   },
 });
-export const {resetQuizStatus} = quizSlice.actions;
+export const { resetQuizStatus } = quizSlice.actions;
 export default quizSlice.reducer;

@@ -8,6 +8,7 @@ import { getQuizReport, resetReportStatus } from '../features/reportSlice';
 import LoadingPage from './LoadingPage';
 import Swal from 'sweetalert2';
 import { resetquizSubmitStatus, submitQuiz } from '../features/submitQuizSlice';
+import CountdownTimer from '../components/CountDownTimer';
 
 const MCQPage = () => {
     const [isDisabled, setIsDisabled] = useState(false);
@@ -21,14 +22,15 @@ const MCQPage = () => {
     const { quizData, quizStatus, quizError } = useSelector((state) => state.quiz);
     const { quizSubmitData, quizSubmitStatus, quizSubmitError } = useSelector((state) => state.quizSubmit);
     const { reportData, reportStatus, reportError } = useSelector((state) => state.report);
+    const { course, status, error } = useSelector((state) => state.courseDetail);
     let quiz_id = ''
-    
+
     const handleAnswerSelection = (answer: string) => {
         const newAnswer = {
             questionId: quizData.data.questions[current_index]._id,
             answer: answer
         };
-        
+
         setSelectedAnswers(prev => {
             // Check if an answer for this question already exists
             const exists = prev.findIndex(a => a.questionId === newAnswer.questionId);
@@ -49,25 +51,28 @@ const MCQPage = () => {
             await dispatch(submitQuiz({ quizId: quizData.data._id, body: { userAnswers: selectedAnswers } }));
             // setTimeout(() => {
             //     dispatch(getQuizReport(window.localStorage.getItem('quiz_id')));
-                
+
             // }, 3000)
-            
+
             // Only get the report after submission is complete
-            
+
         } catch (error) {
             // Handle any errors
-          console.error('Error submitting quiz:', error);
+            console.error('Error submitting quiz:', error);
         }
-      };
-      
-      
+    };
 
-     
+
+
+
 
     const cancelHandler = () => {
         navigate(-1);
     };
-    
+    if (quizStatus == 'idle' || quizStatus == 'loading') {
+        return <LoadingPage content='Loading Quiz' />
+    }
+
     if (quizSubmitStatus == 'loading') {
         return <LoadingPage content='Submitting Quiz' />
     }
@@ -78,17 +83,17 @@ const MCQPage = () => {
             setCurrentIndex(current_index + 1);
             setIsDisabled(false);
             setIsSelected(false);
-      } else {
-          // All questions answered, you can now submit
-          // Add your submit logic here
-          
-          handleQuizSubmission();
-          console.log('done');
-          
-      }
-  };
-  console.log(quizStatus);
-  
+        } else {
+            // All questions answered, you can now submit
+            // Add your submit logic here
+
+            handleQuizSubmission();
+            console.log('done');
+
+        }
+    };
+    console.log(quizStatus);
+
     if (quizSubmitStatus == 'success') {
         console.log(quizSubmitData);
         Swal.fire({
@@ -106,7 +111,7 @@ const MCQPage = () => {
             }
         }).then((result) => {
             console.log(quizSubmitData.data);
-            
+
             dispatch(resetquizSubmitStatus())
             dispatch(resetReportStatus())
             if (result.isConfirmed) {
@@ -140,14 +145,21 @@ const MCQPage = () => {
                     />
                 })}
             </div>
-            <div className=' w-full h-[136px] shadow-xl flex px-6 flex-row items-center mt-2'>
+            <div className=' w-full h-[136px] shadow-xl flex px-6 flex-row items-center justify-between mt-2'>
                 <button
                     className="bg-white  text-[#FEC260] px-6 size-fit w-[167px] py-[12px] border border-[#FEC260] rounded-[8px]"
                     onClick={() => cancelHandler()}
                 >
                     Cancel
                 </button>
-                <CircularProgressbar className='h-[74px] w-[74px]' value={30} text='30 mins' />;
+                {(quizData.data.timeLimit    || false )&& <CountdownTimer
+                    startTime={quizData.data.timeLimit * 60 || 30}
+                    onExpire={() => {
+                        console.log('Time expired!');
+                        alert('Your countdown has ended!');
+                        handleQuizSubmission()
+
+                    }} />}
                 <button disabled={!isSelected} className="bg-[#040BC5] size-fit text-white px-6 py-[12px] w-[167px] rounded-[8px]" onClick={() => selectHandler()}>
                     Next
                 </button>

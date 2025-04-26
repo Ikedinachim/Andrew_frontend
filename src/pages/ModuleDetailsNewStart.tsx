@@ -20,17 +20,17 @@ const ModuleDetailsNewStart = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        if (quizStatus == 'success') {
-            navigate('/mcq-page');
-            dispatch(resetQuizStatus())
-        }
-        if (quizStatus == 'failed') {
-            alert(`Quiz creation failed: ${quizError}`)
-            dispatch(resetQuizStatus())
-        }
+    // useEffect(() => {
+    //     if (quizStatus == 'success') {
+    //         navigate('/mcq-page');
+    //         dispatch(resetQuizStatus())
+    //     }
+    //     if (quizStatus == 'failed') {
+    //         alert(`Quiz creation failed: ${quizError}`)
+    //         dispatch(resetQuizStatus())
+    //     }
 
-    }, [quizStatus])
+    // }, [quizStatus])
 
     const formData = new FormData();
     const takeQuizHandler = async () => {
@@ -61,6 +61,7 @@ const ModuleDetailsNewStart = () => {
 
             console.log('Success:', response.data);
             dispatch(createNewQuiz(moduleDetailData.data._id))
+            navigate('/mcq-page');
             console.log(quizStatus)
         } catch (e) {
             alert(`Error Creating Course`);
@@ -101,7 +102,7 @@ const ModuleDetailsNewStart = () => {
     return (
         <div>
             <p className='text-[16px] text-[#333333] mb-6 cursor-pointer'  onClick={() => {navigate('/dashboard/view-courses'); dispatch(resetCourseDetailStatus());}}>Courses &gt; {course.data.title} &gt;</p>
-            <p className='font-semibold text-[14px] text-[#aaaaaa] mb-3'>Module 1 | Course-{course.data.title}</p>
+            <p className='font-semibold text-[14px] text-[#aaaaaa] mb-3'>Module {moduleDetailData.data.order} | Course-{course.data.title}</p>
             <h2 className='text-[32px] text-[#333333] mb-5 font-semibold' >{moduleDetailData.data.title}</h2>
             <div className="flex items-center mb-4">
 
@@ -150,14 +151,14 @@ const ModuleDetailsNewStart = () => {
                 </div>
 
                 <div className="flex items-center gap-2 ml-3">
-                    <span className="text-sm font-medium">Timed</span>
+                    <span className="text-sm font-medium">Not Timed</span>
                     <div
                         className={`w-12 h-6 flex items-center bg-[#040bc5] rounded-full p-1 cursor-pointer ${isTimed ? 'justify-end' : 'justify-start'}`}
                         onClick={() => setIsTimed(!isTimed)}
                     >
                         <div className="w-4 h-4 bg-white rounded-full"></div>
                     </div>
-                    <span className="text-sm font-medium">Not Timed</span>
+                    <span className="text-sm font-medium">Timed</span>
                 </div>
                 <div className="flex flex-col items-start space-y-2">
                     <label className="font-semibold text-gray-700">Select Time Duration</label>

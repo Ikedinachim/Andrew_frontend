@@ -20,7 +20,7 @@ const Dashboard: React.FC = () => {
   const navigate = useNavigate()
   const [showNotification, setShowNotification] = useState(window.localStorage.getItem('showNotification'));
   const { courses, status, error } = useSelector((state) => state.course);
-  const {user, userStatus, userError} = useSelector((state: any) => state.user)
+  const { user, userStatus, userError } = useSelector((state: any) => state.user)
   const toggleDrawer = () => {
     setIsOpen(!isOpen);
   };
@@ -36,33 +36,33 @@ const Dashboard: React.FC = () => {
   }, [dispatch]);
 
   if (status == 'loading' || status == 'idle' || userStatus == 'idle' || userStatus == 'loading') {
-    return <LoadingPage content = 'Fetching Courses'/>
+    return <LoadingPage content='Fetching Courses' />
   }
   console.log(courses);
-  
-  if (courses.data.data.length == 0) {
-    return(
-    <div className='flex flex-col items-center justify-center'>
-    <img src="../../public/assets/no_course.svg" alt="" />
-    <h1 className='font-semibold text-[28px] text-[#333333] max-w-[499px] mt-4 mb-8 text-center'>No course contents to show yet!! 
-      Please add new courses to get started</h1>
-      <button onClick={ () => navigate('/dashboard/add-new-course')} className=" text-white bg-[#040BC5] hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 py-3 px-8 rounded-[8px] font-semibold text-[16px]">
-        + &nbsp; Add New Course
-      </button>
 
-    </div>)
+  if (courses.data.data.length == 0) {
+    return (
+      <div className='flex flex-col items-center justify-center'>
+        <img src="../../public/assets/no_course.svg" alt="" />
+        <h1 className='font-semibold text-[28px] text-[#333333] max-w-[499px] mt-4 mb-8 text-center'>No course contents to show yet!!
+          Please add new courses to get started</h1>
+        <button onClick={() => navigate('/dashboard/add-new-course')} className=" text-white bg-[#040BC5] hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 py-3 px-8 rounded-[8px] font-semibold text-[16px]">
+          + &nbsp; Add New Course
+        </button>
+
+      </div>)
   }
   const closeHandler = () => {
     setShowNotification('FALSE')
     window.localStorage.setItem('showNotification', 'FALSE')
-   
+
   }
-  return ( 
-  
+  return (
+
     <div>
 
 
-     {showNotification === 'TRUE' && <GreetingCard close = {closeHandler} />}
+      {showNotification === 'TRUE' && <GreetingCard close={closeHandler} />}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
@@ -70,18 +70,19 @@ const Dashboard: React.FC = () => {
           {
             courses.data.data.map((course) => {
               console.log(course);
-              
-              if(course.learningSummary.totalModules){
-                return < ProgressCard key = {course._id} _id = {course._id}
-                title = {course.title} totalModules = {course.learningSummary.totalModules} 
-                completedModules = {course.learningSummary.completedModules}
-                description = {course.description}
-                createdAt = {course.createdAt}
-                grade = {course.learningSummary.courseGrade}
-                nextModule = {course.learningSummary.firstIncompleteModule
-                }
-                 />
-              }else {
+
+              if (course.learningSummary.totalModules) {
+                return < ProgressCard key={course._id} _id={course._id}
+                  title={course.title} totalModules={course.learningSummary.totalModules}
+                  completedModules={course.learningSummary.completedModules}
+                  description={course.description}
+                  daysLeft={course.learningSummary.daysLeft}
+                  createdAt={course.createdAt}
+                  grade={course.learningSummary.courseGrade}
+                  nextModule={course.learningSummary.firstIncompleteModule
+                  }
+                />
+              } else {
                 return <NewCourseCard key={course._id} course={course} />
 
               }
@@ -93,11 +94,11 @@ const Dashboard: React.FC = () => {
         {/* Sidebar Right */}
         <div>
           <RecommendationCard />
-          
+
           <StreakCard />
 
           <RecentActivityCard />
-          
+
         </div>
       </div>
     </div>

@@ -53,6 +53,33 @@ export const deleteCourse = createAsyncThunk(
   }
 );
 
+export const markCompleted = createAsyncThunk(
+  'courseDetail/markCompleted',
+  async (courseId: string, { rejectWithValue }) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/courses/${courseId}/mark-completed`, {
+        method: 'PUT',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${window.localStorage.getItem('token')}`
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        return rejectWithValue(errorData.message || 'Failed to fetch course');
+      }
+
+      const data = await response.json();
+      console.log(data);    
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+
 
 const courseDetailSlice = createSlice({
   name: 'course',
@@ -98,6 +125,20 @@ const courseDetailSlice = createSlice({
       })
       // Rejected
       .addCase(getSingleCourse.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload || 'Unable to get courses';
+      })
+      .addCase(markCompleted.pending, (state) => {
+        state.status = 'loading';
+        state.error = null;
+      })
+      // Fulfilled
+      .addCase(markCompleted.fulfilled, (state, action) => {
+        state.status = 'success';
+        state.course = action.payload; // e.g. { token, userData } 
+      })
+      // Rejected
+      .addCase(markCompleted.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload || 'Unable to get courses';
       });

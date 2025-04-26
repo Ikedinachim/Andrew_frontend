@@ -119,7 +119,7 @@ const CourseDetailsPage = () => {
             }
         });
     };
-    
+    const courseStatus = course.data.courseStatus;
 
     return (
         <div className='flex flex-row justify-between items-start backdrop-blur-2xl'>
@@ -143,8 +143,8 @@ const CourseDetailsPage = () => {
                 </p>
                 <p className='text-[12px] font-semibold '>
                     <div className='flex flex-row items-center my-4'>
-                        <div className='w-[5px] h-[5px] rounded-[100%] bg-[#00ED6D] mr-2'></div>
-                        <span className='text-[#00ED6D] mr-2'>On-Track</span>
+                        <div className={`w-[5px] h-[5px] rounded-[100%] bg-[${courseStatus == 'late' ? '#c51104' :'#00ED6D'}] mr-2`}></div>
+                        <span className={`text-[${courseStatus == 'late' ? '#c51104' :'#00ED6D'}] mr-2`}>{course.data.courseStatus}</span>
                         <span className='text-[12px] text-[#AAAAAA] mr-2'>  |  </span>
                         <span className='text-[12px] text-[#AAAAAA]'>  {formattedDate}</span>
                     </div>
@@ -160,7 +160,7 @@ const CourseDetailsPage = () => {
                     <span className="text-[#AAAAAA] text-sm">  {course.data.learningSummary.totalModules} modules</span>
                 </div>
                 <p className='font-semibold mb-2 '>Current Grade- </p>
-                { !course.data.modules && <button onClick={() => generateModuleHandler(course.data._id)} className="bg-[#040BC5] text-white px-4 py-2 rounded-md mr-2">Continue Learning</button>}
+                { course.data.modules == 0 && <button onClick={() => generateModuleHandler(course.data._id)} className="bg-[#040BC5] text-white px-4 py-2 rounded-md mr-2">Start Learning</button>}
 
                 <div className='max-w-[495px] flex flex-row justify-between mt-10 mb-8'>
                     <div className='flex flex-col items-start justify-start ' onClick={() => tabClick(0)}>
@@ -181,7 +181,7 @@ const CourseDetailsPage = () => {
 
                 {tab == 0 && <div>
                     {moduleData?.data?.modules?.slice().sort((a, b) => a.order - b.order).map((module, index) => {
-                        return <ModuleListCard title = {module.title} description = {module.description} order = {module.order} _id = {module._id}/>
+                        return <ModuleListCard key = {module._id} title = {module.title} description = {module.description} order = {module.order} _id = {module._id}/>
                     })}
 
                    {moduleData.data.modules.length == 0 ? <h1 className=''>There are no modules for this course yet! Click Continue Learning to Generate Modules</h1> : <></>}

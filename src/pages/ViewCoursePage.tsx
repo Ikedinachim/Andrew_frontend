@@ -9,6 +9,7 @@ import { getAllCourse } from '../features/courseSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import LoadingPage from './LoadingPage';
+import LateCourseCard from '../components/LateCourseCard';
 
 
 const ViewCoursePage: React.FC = () => {
@@ -74,7 +75,7 @@ const ViewCoursePage: React.FC = () => {
             {view == "grid" ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-6 p-4 max-w-7xl mx-auto mt-4">
 
                 {courses.data.data.map((course) => {
-                    if (course.modules.length != 0){
+                    if (course.courseStatus == 'on-track'){
                         return  <CourseCardGridNew 
                         key={course._id}
                         _id = {course._id}
@@ -87,6 +88,18 @@ const ViewCoursePage: React.FC = () => {
                         nextModule = {course.learningSummary.nextIncompleteModule}
                         createdAt = {course.createdAt}
                         />
+                    }else if(course.courseStatus == 'late'){
+                        return (<LateCourseCard
+                            key={course._id}
+                            img='/assets/hacker.svg'
+                            title={course.title}
+                            content={course.description}
+                            modules={8}
+                            course = {course}
+                            createdAt = {course.createdAt}
+                            weeks={4}
+                            _id={course._id}
+                        />)
                     }else{
                         return (
                         <NewCourseCard
@@ -109,20 +122,26 @@ const ViewCoursePage: React.FC = () => {
                    
                     {
              courses.data.data.map((course) => {
-                if (course.modules.length != 0){
+                if (course.courseStatus == 'on-track'){
                     return  <ProgressCard 
                     key={course._id}
                     _id = {course._id}
                     title = {course.title}
                     description = {course.description}
-                    modules = {course.learningSummary.totalModules}
+                    totalModules = {course.learningSummary.totalModules}
                     completedModules = {course.learningSummary.completedModules}
                     daysLeft = {course.learningSummary.daysLeft}
                     grade = {course.learningSummary.courseGrade}
                     nextModule = {course.learningSummary.nextIncompleteModule}
                     createdAt = {course.createdAt}
                     />
-                }else{
+                }else if(course.courseStatus == 'late'){
+                    return (<LateCourseCard
+                        key={course._id}
+                        course = {course}
+                    />)
+                }
+                else{
                     return (
                     <NewCourseCard
                         key={course._id}

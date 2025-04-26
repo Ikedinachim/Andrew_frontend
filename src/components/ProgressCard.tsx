@@ -28,6 +28,10 @@ const ProgressCard: React.FC = (props) => {
     
     
   };
+  let progress = 0
+    if (props.totalModules != 0){
+        progress = props.completedModules / props.totalModules;
+    }
   return (
     <div className="bg-white p-7 rounded-3xl shadow-lg mb-6 flex flex-row justify-between items-start flex-wrap">
       <div className="max-w-full md:max-w-[80%]">
@@ -49,12 +53,12 @@ const ProgressCard: React.FC = (props) => {
 
         <div className="flex items-center mb-5 mt-3 flex-wrap">
           <div className="w-full sm:w-1/3 bg-gray-200 rounded-full h-2.5 mr-2 mt-2 sm:mt-0">
-            <div className="bg-[#040BC5] h-2.5 rounded-full w-[76px]"></div>
+            <div style={{ width: `${progress}%` }} className="bg-[#040BC5] h-2.5 rounded-full w-[76px]"></div>
           </div>
-          <span className="text-[#AAAAAA] text-sm mr-3 mt-2 sm:mt-0">{props.completedModules} of {props.modules} modules</span>
+          <span className="text-[#AAAAAA] text-sm mr-3 mt-2 sm:mt-0">{props.completedModules} of {props.totalModules} modules</span>
           <span className="text-[#AAAAAA] text-sm mr-2">|</span>
           <img src="/assets/Clock.svg" alt="Clock Icon" className="mx-1 w-4 h-4" />
-          <span className="text-[#AAAAAA] text-sm mr-3">{props.daysLeft} weeks left</span>
+          <span className="text-[#AAAAAA] text-sm mr-3">{props.daysLeft || 3} weeks left</span>
           <span className="text-[#AAAAAA] text-sm mr-2">|</span>
           <span className="font-semibold text-sm">Course Grade-- {props.grade}</span>
         </div>

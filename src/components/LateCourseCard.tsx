@@ -4,7 +4,7 @@ import { useDispatch, UseDispatch, useSelector } from "react-redux";
 import { getSingleCourse, resetCourseDetailStatus } from "../features/courseDetailSlice";
 import { getModules } from "../features/moduleSlice";
 
-const NewCourseCard: React.FC = ({ course }) => {
+const LateCourseCard: React.FC = ({ course }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { _, status, error } = useSelector((state) => state.courseDetail);
@@ -32,8 +32,8 @@ const NewCourseCard: React.FC = ({ course }) => {
       <div className="max-w-full md:max-w-[80%]">
         <div className="text-[12px] font-semibold mb-3">
           <div className="flex flex-row items-center">
-            <div className="w-[5px] h-[5px] rounded-full bg-[#040BC5] mr-2"></div>
-            <span className="text-[#040BC5] mr-4">New</span>
+            <div className="w-[5px] h-[5px] rounded-full bg-[#c51104] mr-2"></div>
+            <span className="text-[#c51104] mr-4">Late</span>
             <span className="text-[#AAAAAA] mr-4">|</span>
             <span className="text-[#AAAAAA]">{formattedDate}</span>
           </div>
@@ -48,11 +48,11 @@ const NewCourseCard: React.FC = ({ course }) => {
           <span className="text-[#AAAAAA] text-sm mr-3 mt-2 sm:mt-0">{course.modules.length} modules</span>
           <span className="text-[#AAAAAA] text-sm mr-2">|</span>
           <img src="/assets/Clock.svg" alt="Clock Icon" className="mx-1 w-4 h-4" />
-          <span className="text-[#AAAAAA] text-sm">{course.timeline || 3} weeks left</span>
+          <span className="text-[#AAAAAA] text-sm">Overdue</span>
         </div>
 
         <div className="flex justify-between items-center ">
-          <button onClick={handleLearnMore} className="bg-white font-medium text-[#333333] border shadow-md border-[#AAAAAA] px-5 py-2 rounded-[8px] hover:shadow-lg hover:border-[#040BC5] cursor-pointer my-2">Start Learning</button>
+          <button onClick={handleLearnMore} className="bg-white font-medium text-[#333333] border shadow-md border-[#AAAAAA] px-5 py-2 rounded-[8px] hover:shadow-lg hover:border-[#040BC5] cursor-pointer my-2">Finish Learning</button>
         </div>
       </div>
       <img
@@ -64,5 +64,5 @@ const NewCourseCard: React.FC = ({ course }) => {
   );
 };
 
-export default NewCourseCard;
+export default LateCourseCard;
 

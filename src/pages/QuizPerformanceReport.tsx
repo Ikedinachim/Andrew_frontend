@@ -8,6 +8,7 @@ import LoadingPage from './LoadingPage';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getQuizReport } from '../features/reportSlice';
 import Swal from 'sweetalert2';
+import { retakeQuiz } from '../features/quizSlice';
 
 
 const QuizPerformanceReport = () => {
@@ -50,15 +51,23 @@ const QuizPerformanceReport = () => {
             dispatch(getQuizReport(id));
         }
     }, [dispatch, reportData.status]);
-    const reloadPage = () => {
-      setTimeout(() => {
-        window.location.reload();
-      }, 3000);
-    while (reportStatus != 'success') {
-        reloadPage()
-        
-        // Function to reload page after 3 seconds delay
-};            }
+    useEffect(() => {
+        if (reportData?.status === 'processing') {
+            const timeout = setTimeout(() => {
+                console.log('Auto-reloading due to prolonged processing...');
+                window.location.reload();
+            }, 10000); // reload after 10 seconds if still processing
+
+            return () => clearTimeout(timeout); // clear timeout on unmount or re-render
+        }
+    }, [reportData?.status]);
+    // while(reportData.status == 'processing'){
+    //     console.log('reload');
+
+    //     reloadPage()
+    // }
+
+    // Function to reload page after 3 seconds delay
     let dummyData = [
         { name: "Quiz 1", value: '20' },
         { name: "Quiz 2", value: '30' },
@@ -69,24 +78,25 @@ const QuizPerformanceReport = () => {
         { name: "Quiz 7", value: '90' },
     ];
     console.log(reportStatus, reportError);
-    if (reportStatus == 'failed'){
+    if (reportStatus == 'failed') {
         Swal.fire({
-              title: 'No Report For This Quiz',
-              text: reportError,
-              icon: 'warning',
-              showCancelButton: false,
-              confirmButtonColor: '#D42953',
-              cancelButtonColor: '#666666',
-              confirmButtonText: 'OK',
-              background: '#ffffff',
-              backdrop: `rgba(0,0,0,0.4)`,
-              customClass: {
+            title: 'No Report For This Quiz',
+            text: reportError,
+            icon: 'warning',
+            showCancelButton: false,
+            confirmButtonColor: '#D42953',
+            cancelButtonColor: '#666666',
+            confirmButtonText: 'OK',
+            background: '#ffffff',
+            backdrop: `rgba(0,0,0,0.4)`,
+            customClass: {
                 container: 'blur-background'
-              }
-            }).then((result) => {
-              if (result.isConfirmed) {
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
                 navigate(-1)
-              }});
+            }
+        });
     }
 
     if (reportStatus == 'loading' || reportStatus == 'idle' || reportData.status == 'processing') {
@@ -97,7 +107,10 @@ const QuizPerformanceReport = () => {
         return { name: `Attempt ${trend.attemptNumber}`, value: trend.percentage.slice(0, -1) }
     });
     console.log(reportData, reportStatus);
-
+    const retakeQuizHandler = () => {
+         dispatch(retakeQuiz(reportData.data.quizId))
+        navigate(`/mcq-page`)
+    }
     return (
         <div>
             <h2 className="text-2xl font-semibold text-[#333333] mt-6 ml-4 mb-3">
@@ -173,7 +186,7 @@ const QuizPerformanceReport = () => {
                                             <div>
                                                 <p className='text-[#333333] font-semibold text-[16px] mb-2'>{recommendation.title}</p>
                                                 <p className='text-[#333333] text-sm'>{recommendation.description}</p>
-                                                <button className="bg-white font-semibold text-[#040BC5] text-sm border-2 mt-4 border-[#040BC5]  px-3 py-2 rounded-[8px] hover:shadow-xl hover:bg-[#CDCEF3] hover:text-[#040BC5] cursor-pointer">Retake Quiz</button>
+                                                <button onClick={() => retakeQuizHandler()} className="bg-white font-semibold text-[#040BC5] text-sm border-2 mt-4 border-[#040BC5]  px-3 py-2 rounded-[8px] hover:shadow-xl hover:bg-[#CDCEF3] hover:text-[#040BC5] cursor-pointer">Retake Quiz</button>
 
                                             </div>
                                         </li>

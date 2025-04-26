@@ -7,21 +7,22 @@ const ModuleListCard = (props) => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const {moduleDetailData, moduleDetailStatus, moduleDetailError} = useSelector((state) => state.moduleDetail);
-    useEffect(() => {
-        if (moduleDetailStatus == 'failed'){
-            dispatch(resetModuleDetailStatus())
-            alert( `Fetching Module failed: ${moduleDetailError}`)
+    // useEffect(() => {
+    //     if (moduleDetailStatus == 'failed'){
+    //         dispatch(resetModuleDetailStatus())
+    //         alert( `Fetching Module failed: ${moduleDetailError}`)
         
-        }
-        if (moduleDetailStatus == 'success'){
+    //     }
+    //     if (moduleDetailStatus == 'success'){
             
-            dispatch(resetModuleDetailStatus())
-            navigate(`/dashboard/module-details/${props._id}`)
-        }
-    }, [moduleDetailStatus, dispatch, navigate])
+    //         dispatch(resetModuleDetailStatus())
+    //         navigate(`/dashboard/module-details/${props._id}`)
+    //     }
+    // }, [moduleDetailStatus, dispatch, navigate])
     const continueModuleHandler = () => {
         dispatch(getModuleDetail(props._id))
-        console.log('continue module handler', moduleDetailStatus);
+        navigate(`/dashboard/module-details/${props._id}`)
+        console.log('continue module handler', moduleDetailStatus, props._id);
         
        
 

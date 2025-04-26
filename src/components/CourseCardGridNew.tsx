@@ -12,7 +12,10 @@ const CourseCardGridNew = (props) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const { _, status, error } = useSelector((state) => state.courseDetail);
-
+    let progress = 0
+    if (props.modules != 0){
+        progress = props.completedModules / props.modules;
+    }
 
       const handleResumeCourse= () => {
          // Handle the "Learn More" button click
@@ -47,12 +50,12 @@ const CourseCardGridNew = (props) => {
 
             <div className="flex items-center mb-3 flex-wrap">
                 <div className="w-1/5 bg-gray-200 rounded-full h-[5px] mr-2">
-                    <div className="bg-[#040BC5] h-[5px] rounded-full w-[24px]"></div>
+                    <div style={{ width: `${progress}%` }} className="bg-[#040BC5] h-[5px] rounded-full w-[24px]"></div>
                 </div>
                 <span className="text-[#AAAAAA] text-xs mr-1">{props.completedModules} of {props.modules} modules</span>
                 <span className="text-[#AAAAAA] text-xs">|</span>
                 <img src="/assets/Clock.svg" alt="" className="mx-1 w-4 h-4" />
-                <span className="text-[#AAAAAA] text-xs mr-1">{props.daysleft} weeks left</span>
+                <span className="text-[#AAAAAA] text-xs mr-1">{props.daysleft || 3} weeks left</span>
                 <span className="text-[#AAAAAA] text-xs mr-1">|</span>
                 <span className="text-[#AAAAAA] text-xs font-bold">{props.grade}</span>
             </div>
