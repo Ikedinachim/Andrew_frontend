@@ -118,7 +118,7 @@ const QuizPerformanceReport = () => {
             </h2>
 
             <div className='bg-white p-6 shadow-lg rounded-3xl mt-8 mb-6 mx-4'>
-                <h3 className='font-semibold text-[#333333] text-xl mb-3'>Quiz {reportData.data.quizId}</h3>
+                <h3 className='font-semibold text-[#333333] text-xl mb-3'>{reportData.data.quizTitle}</h3>
                 <div className="flex flex-wrap items-center text-xs text-[#AAAAAA] mb-4 space-x-2">
                     <span>2nd February 2025</span>
                     <span>|</span>

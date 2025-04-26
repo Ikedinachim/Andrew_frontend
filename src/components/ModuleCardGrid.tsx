@@ -35,7 +35,7 @@ const ModuleCardGrid = (props) => {
             <span className="text-[#FEC260] text-xs">
                 <span className='mr-2'>Complete module by 02/05 to stay on track</span>
                 <span className="mr-2">|</span>
-                <span className="text-xs font-bold">Grade</span>
+                <span className="text-xs font-bold">Grade {props.grade ? props.grade + "%" : ''}</span>
             </span>
         </div>
 

@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
 import { deleteCourse, getSingleCourse, resetCourseDetailStatus } from '../features/courseDetailSlice';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getRecommendation } from '../features/recommendationSlice';
+import { markModuleCompleted, resetModuleStatusStatus } from '../features/moduleStatusSlice';
 
 const CourseDetailsPage = () => {
     const [difficulty, setDifficulty] = useState("easy");
@@ -28,6 +29,8 @@ const CourseDetailsPage = () => {
     let currentDate = ""
     const { course, status, error } = useSelector((state) => state.courseDetail);
     const { moduleData, moduleStatus, moduleError } = useSelector((state) => state.module);
+    const { moduleStatusData, moduleStatusStatus, moduleStatusError } = useSelector((state) => state.moduleStatus);
+    
     // Example: 0–23 hours
     const hourOptions = Array.from({ length: 24 }, (_, i) => {
         const value = i.toString().padStart(2, '0');
@@ -119,6 +122,54 @@ const CourseDetailsPage = () => {
             }
         });
     };
+    const handleModuleCompletion = async (id: string) => {
+        try {
+            dispatch(markModuleCompleted(id))
+    .unwrap()
+    .then(() => {
+        if(moduleStatusStatus === 'success'){
+            Swal.fire(
+                'Completed!',
+                'Your course has been marked complete.',
+                'success'
+            );
+        }
+        if(moduleStatusStatus === 'failed'){
+            Swal.fire(
+                'Error!',
+                `${moduleStatusError}`,
+                'error'
+            );
+        }
+    })
+} catch (error) {
+    // Handle any errors here
+    console.error('Error marking module as complete:', error);
+}finally{
+    
+    dispatch(resetModuleStatusStatus())
+        }
+    };
+     const markCompleteHandler = (id) => {
+        Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to take quizes!",
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#D42953',
+                cancelButtonColor: '#666666',
+                confirmButtonText: 'Yes, I\'m sure!',
+                background: '#ffffff',
+                backdrop: `rgba(0,0,0,0.4)`,
+                customClass: {
+                    container: 'blur-background'
+                       }
+                   }).then((result) => {
+                       if (result.isConfirmed) {
+                           handleModuleCompletion(id);
+                        }
+                    });
+                }
     const courseStatus = course.data.courseStatus;
 
     return (
@@ -156,14 +207,13 @@ const CourseDetailsPage = () => {
                     <span className="text-[#AAAAAA] text-sm mr-2">{course.data.learningSummary.completedModules} completed</span>
                     <span className='text-[12px] text-[#AAAAAA] mr-2'>  |  </span>
                     <img src="/assets/Clock.svg" alt="" className='mr-1' />
-                    <span className="text-[#AAAAAA] text-sm mr-2">  {course.data.learningSummary.daysLeft} weeks left</span>
+                    <span className="text-[#AAAAAA] text-sm mr-2">  {Math.floor(course.data.daysLeft / 7)} weeks left</span>
                     <span className='text-[12px] text-[#AAAAAA] mr-2'>  |  </span>
                     <img src="/assets/Quiz3.svg" alt="" className='mr-2' />
                     <span className="text-[#AAAAAA] text-sm mr-2">  {course.data.learningSummary.totalModules} modules</span>
-                    <span className='text-[12px] text-[#AAAAAA] mr-2'>  |  </span>
-                    <span className="text-[#AAAAAA] text-sm mr-2 font-bold"> Current Grade- </span>
+                  
                 </div>
-                <p className='font-semibold mb-2 '>Current Grade- </p>
+                <p className='font-semibold mb-2 '>Current Grade- {course.data.learningSummary.courseGrade ? course.data.learningSummary.courseGrade + "%" : ''}</p>
                 { course.data.modules == 0 && <button onClick={() => generateModuleHandler(course.data._id)} className="bg-[#040BC5] text-white px-4 py-2 rounded-md mr-2">Start Learning</button>}
 
                 <div className='max-w-[55%] flex flex-row justify-between mt-10 mb-8'>
@@ -184,7 +234,7 @@ const CourseDetailsPage = () => {
 
                 {tab == 0 && <div>
                     {moduleData?.data?.modules?.slice().sort((a, b) => a.order - b.order).map((module, index) => {
-                        return <ModuleListCard key = {module._id} title = {module.title} description = {module.description} order = {module.order} _id = {module._id}/>
+                        return <ModuleListCard key = {module._id} title = {module.title} description = {module.description} order = {module.order} _id = {module._id} status = {module.moduleStatus} grade = {module.courseGrade} markComplete = {markCompleteHandler}/>
                     })}
 
                    {moduleData.data.modules.length == 0 ? <h1 className=''>There are no modules for this course yet! Click Continue Learning to Generate Modules</h1> : <></>}

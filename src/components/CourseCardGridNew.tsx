@@ -55,9 +55,9 @@ const CourseCardGridNew = (props) => {
                 <span className="text-[#AAAAAA] text-xs mr-1">{props.completedModules} of {props.modules} modules</span>
                 <span className="text-[#AAAAAA] text-xs">|</span>
                 <img src="/assets/Clock.svg" alt="" className="mx-1 w-4 h-4" />
-                <span className="text-[#AAAAAA] text-xs mr-1">{props.daysleft || 3} weeks left</span>
+                <span className="text-[#AAAAAA] text-xs mr-1">{props.daysLeft} weeks left</span>
                 <span className="text-[#AAAAAA] text-xs mr-1">|</span>
-                <span className="text-[#AAAAAA] text-xs font-bold">{props.grade}</span>
+                <span className="text-[#AAAAAA] text-xs font-bold">{props.grade ? props.grade + "%" : ''}</span>
             </div>
 
             {/* <p className="font-semibold text-sm mb-2">Course Grade -</p> */}

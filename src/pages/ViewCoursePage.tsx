@@ -83,9 +83,9 @@ const ViewCoursePage: React.FC = () => {
                         description = {course.description}
                         modules = {course.learningSummary.totalModules}
                         completedModules = {course.learningSummary.completedModules}
-                        daysLeft = {course.learningSummary.daysLeft}
+                        daysLeft={Math.floor(course.daysLeft / 7)}
                         grade = {course.learningSummary.courseGrade}
-                        nextModule = {course.learningSummary.nextIncompleteModule}
+                        nextModule = {course.learningSummary.firstIncompleteModule}
                         createdAt = {course.createdAt}
                         />
                     }else if(course.courseStatus == 'late'){
@@ -130,9 +130,9 @@ const ViewCoursePage: React.FC = () => {
                     description = {course.description}
                     totalModules = {course.learningSummary.totalModules}
                     completedModules = {course.learningSummary.completedModules}
-                    daysLeft = {course.learningSummary.daysLeft}
+                    daysLeft={Math.floor(course.daysLeft / 7)}
                     grade = {course.learningSummary.courseGrade}
-                    nextModule = {course.learningSummary.nextIncompleteModule}
+                    nextModule = {course.learningSummary.firstIncompleteModule}
                     createdAt = {course.createdAt}
                     />
                 }else if(course.courseStatus == 'late'){

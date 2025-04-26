@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getModuleDetail, resetModuleDetailStatus } from '../features/moduleDetailSlice';
 import { useEffect } from 'react';
+import { markCompleted } from '../features/courseDetailSlice';
 
 const ModuleListCard = (props) => {
     const navigate = useNavigate()
@@ -33,7 +34,7 @@ const ModuleListCard = (props) => {
                         <span className='text-[12px] text-[#AAA] mr-3'>Module {props.order}</span>
                         <span className='text-[12px] text-[#AAAAAA] mr-1 pb-1'>  |  </span>
                         <div className='w-[5px] h-[5px] rounded-[100%] bg-[#00ED6D] mx-2'></div>
-                        <span className='text-[#00ED6D] mr-2'> On-Track</span>
+                        <span className='text-[#00ED6D] mr-2'> {props.status}</span>
                     </div>
                 </p>
                 <h2 className="text-xl font-bold text-[#333333] mb-2 leading-loose">
@@ -47,9 +48,9 @@ const ModuleListCard = (props) => {
                     </div>
                 </p> */}
 
-                <p className='font-semibold mb-4'>Current Score- </p>
+                <p className='font-semibold mb-4'>Current Score- {props.grade ? props.grade + "%" : ''}</p>
                 <button className="bg-[#040bc5] border-2 border-[#040bc5] text-white text-base px-4 py-2 rounded-lg mr-3 hover:shadow-lg hover:bg-[#585CD8] hover:border-[#585CD8] cursor-pointer" onClick={() => continueModuleHandler()}>Continue Module</button>
-                <button className=" border-2 border-[#040BC5] text-[#040BC5] px-4 py-2 rounded-lg mr-2 hover:shadow-xl hover:border-[#00ED6D] hover:text-[#333] cursor-pointer ">Mark as Complete</button>
+                <button onClick={() => props.markComplete(props._id)} className=" border-2 border-[#040BC5] text-[#040BC5] px-4 py-2 rounded-lg mr-2 hover:shadow-xl hover:border-[#00ED6D] hover:text-[#333] cursor-pointer ">Mark as Complete</button>
 
             </div>
         </div>

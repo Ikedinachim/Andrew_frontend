@@ -14,6 +14,7 @@ import reportReducer from '../features/reportSlice';
 import quizSubmitReducer from '../features/submitQuizSlice';
 import recentActivityReducer from '../features/recentActivitySlice';
 import recommendationReducer from '../features/recommendationSlice';
+import moduleStatusReducer from '../features/moduleStatusSlice';
 
 // Persist config for each reducer
 const counterPersistConfig = {
@@ -55,7 +56,8 @@ export const store = configureStore({
     report: reportReducer,
     quizSubmit: quizSubmitReducer,
     recentActivity: recentActivityReducer,
-    recommendation: recommendationReducer
+    recommendation: recommendationReducer,
+    moduleStatus: moduleStatusReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

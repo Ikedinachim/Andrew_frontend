@@ -60,7 +60,7 @@ const ProgressCard: React.FC = (props) => {
           <img src="/assets/Clock.svg" alt="Clock Icon" className="mx-1 w-4 h-4" />
           <span className="text-[#AAAAAA] text-sm mr-3">{props.daysLeft || 3} weeks left</span>
           <span className="text-[#AAAAAA] text-sm mr-2">|</span>
-          <span className="font-semibold text-sm">Course Grade-- {props.grade}</span>
+          <span className="font-semibold text-sm">Course Grade-- {props.grade ? props.grade + "%" : ''}</span>
         </div>
 
         {/* <p className="font-semibold mb-2">Course Grade-</p> */}

@@ -76,7 +76,7 @@ const Dashboard: React.FC = () => {
                   title={course.title} totalModules={course.learningSummary.totalModules}
                   completedModules={course.learningSummary.completedModules}
                   description={course.description}
-                  daysLeft={course.learningSummary.daysLeft}
+                  daysLeft={Math.floor(course.daysLeft / 7)}
                   createdAt={course.createdAt}
                   grade={course.learningSummary.courseGrade}
                   nextModule={course.learningSummary.firstIncompleteModule

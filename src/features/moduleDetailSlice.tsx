@@ -33,34 +33,6 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
       }
     }
   );
-  export const markModuleCompleted = createAsyncThunk(
-    'courseDetail/markModuleCompleted',
-    async (moduleId: string, { rejectWithValue }) => {
-      try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/modules/update/${moduleId}`, {
-          method: 'POST',
-          headers: { 
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${window.localStorage.getItem('token')}`
-          },
-          body: JSON.stringify({
-            isCompleted: true
-          })
-        });
-  
-        if (!response.ok) {
-          const errorData = await response.json().catch(() => ({}));
-          return rejectWithValue(errorData.message || 'Failed to fetch course');
-        }
-  
-        const data = await response.json();
-        console.log(data);    
-        return data;
-      } catch (error) {
-        return rejectWithValue(error.message);
-      }
-    }
-  );
 const moduleDetailSlice = createSlice({
   name: 'moduleDetail',
   initialState: {
@@ -90,20 +62,6 @@ const moduleDetailSlice = createSlice({
       })
       // Rejected
       .addCase(getModuleDetail.rejected, (state, action) => {
-        state.moduleDetailStatus = 'failed';
-        state.moduleDetailError = action.payload || 'Unable to get module detail';
-      })
-      .addCase(markModuleCompleted.pending, (state) => {
-        state.moduleDetailStatus = 'loading';
-        state.moduleDetailError = null;
-      })
-      // Fulfilled
-      .addCase(markModuleCompleted.fulfilled, (state, action) => {
-        state.moduleDetailStatus = 'success';
-        state.moduleDetailData = action.payload; 
-      })
-      // Rejected
-      .addCase(markModuleCompleted.rejected, (state, action) => {
         state.moduleDetailStatus = 'failed';
         state.moduleDetailError = action.payload || 'Unable to get module detail';
       });

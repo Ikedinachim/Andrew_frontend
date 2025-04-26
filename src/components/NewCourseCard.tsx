@@ -48,7 +48,7 @@ const NewCourseCard: React.FC = ({ course }) => {
           <span className="text-[#AAAAAA] text-sm mr-3 mt-2 sm:mt-0">{course.modules.length} modules</span>
           <span className="text-[#AAAAAA] text-sm mr-2">|</span>
           <img src="/assets/Clock.svg" alt="Clock Icon" className="mx-1 w-4 h-4" />
-          <span className="text-[#AAAAAA] text-sm">{course.timeline || 3} weeks left</span>
+          <span className="text-[#AAAAAA] text-sm">{ Math.floor(course.daysLeft / 7)} weeks left</span>
         </div>
 
         <div className="flex justify-between items-center ">
