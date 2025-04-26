@@ -13,7 +13,6 @@ const CourseMaterialTag = (props) => {
           </div>
           <div className='flex flex-row no-wrap min-w-[10%]'>
             <p className=' text-[#333333] font-semibold text-base'>Type: {props.fileType}</p>
-
           </div>
           <img onClick={() => { props.materialId != 1 ? props.deleteCourseMaterialFromDB(props.materialId, props.courseId) : props.deleteMaterial(props.title, props.description)}} className=' cursor-pointer absolute right-[-10px] top-[-10px]' src="../../public/assets/CloseCircle.svg" alt="" />
         </div>

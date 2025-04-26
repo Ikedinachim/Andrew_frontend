@@ -483,7 +483,7 @@ return (
           </div>
         </div>
 
-        {/* Timing selection */}
+        {/* Timed vs Not Timed*/}
         <div className="min-w-[200px]">
           <h3 className="text-base font-semibold mb-2">Timing:</h3>
           <div className="flex items-center gap-3 pt-1">
@@ -506,7 +506,7 @@ return (
             <select
               value={hours}
               onChange={(e) => setHours(e.target.value)}
-              className="border text-sm border-[#AAAAAA] focus:outline-none focus:ring-1 focus:ring-[#040BC5] rounded px-2 py-1 text-[#333333]"
+              className="border text-sm border-[#AAAAAA] focus:outline-none focus:ring-1 focus:ring-[#040BC5] rounded px-2 py-1.5 text-[#333333] cursor-pointer"
             >
               {hourOptions.map((hour) => (
                 <option key={hour} value={hour}>
@@ -521,7 +521,7 @@ return (
             <select
               value={minutes}
               onChange={(e) => setMinutes(e.target.value)}
-              className="border text-sm border-[#F3F5F9] bg-[#F3F5F9] focus:outline-none focus:ring-1 focus:ring-[#040BC5] rounded px-2 py-1 text-[#333333]"
+              className="border text-sm border-[#F3F5F9] bg-[#F3F5F9] focus:outline-none focus:ring-1 focus:ring-[#040BC5] rounded px-2 py-1.5 text-[#333333] cursor-pointer"
             >
               {minuteOptions.map((minute) => (
                 <option key={minute} value={minute}>
