@@ -30,7 +30,7 @@ const ProgressCard: React.FC = (props) => {
   };
   let progress = 0
     if (props.totalModules != 0){
-        progress = props.completedModules / props.totalModules;
+        progress = props.completedModules / props.totalModules * 100;
     }
   return (
     <div className="bg-white p-7 rounded-3xl shadow-lg mb-6 flex flex-row justify-between items-start flex-wrap">

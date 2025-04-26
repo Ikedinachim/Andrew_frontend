@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllModules } from '../features/moduleSlice';
 import LoadingPage from './LoadingPage';
+import { markModuleCompleted, resetModuleStatusStatus } from '../features/moduleStatusSlice';
+import Swal from 'sweetalert2';
 
 const ViewModules = () => {
     const [isOpen, setIsOpen] = React.useState(false);
@@ -18,6 +20,7 @@ const ViewModules = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { moduleData, moduleStatus, moduleError } = useSelector((state) => state.module)
+    const { moduleStatusData, moduleStatusStatus, moduleStatusError } = useSelector((state) => state.moduleStatus);
     const handleCardClick = () => {
         navigate('/dashboard/module-details-new-start');
     };
@@ -26,7 +29,7 @@ const ViewModules = () => {
         // Update the state with the fetched data
         dispatch(getAllModules())
 
-    }, [dispatch]);
+    }, [dispatch, moduleStatusStatus]);
 
     if (moduleStatus == 'loading' || moduleStatus == 'idle') {
         return <LoadingPage content='Fetching Modules' />
@@ -44,6 +47,44 @@ const ViewModules = () => {
     
         </div>)
       }
+      const markCompleteHandler = (id) => {
+          Swal.fire({
+                  title: 'Are you sure?',
+                  text: "You won't be able to take quizes!",
+                  icon: 'info',
+                  showCancelButton: true,
+                  confirmButtonColor: '#D42953',
+                  cancelButtonColor: '#666666',
+                  confirmButtonText: 'Yes, I\'m sure!',
+                  background: '#ffffff',
+                  backdrop: `rgba(0,0,0,0.4)`,
+                  customClass: {
+                      container: 'blur-background'
+                         }
+                     }).then((result) => {
+                         if (result.isConfirmed) {
+                             dispatch(markModuleCompleted(id))
+                             if(moduleStatusStatus == 'success'){
+                                 Swal.fire(
+                                     'Completed!',
+                                     'Your course has been marked complete.',
+                                     'success'
+                                 );
+      
+                             }
+                             if(moduleStatusStatus == 'failed'){
+                              Swal.fire(
+                                  'Error!',
+                                  `${moduleStatusError}`,
+                                  'error'
+                              );
+                              
+                              dispatch(resetModuleStatusStatus())
+      
+                          }
+                          }
+                      });
+                  }
     return (
         <div>
             <h2 className="text-3xl font-semibold text-[#333333] mt-4 ml-4 mb-3">
@@ -73,7 +114,7 @@ const ViewModules = () => {
 
 
                 {moduleData.data.data.map((module) => {
-                    return <ModuleCardGrid key={module._id} title={module.title} desc={module.description} id={module._id} courseId={module.courseId} order ={module.order} timeLeft={module.timeLeft}/>
+                    return <ModuleCardGrid key={module._id} markComplete = {markCompleteHandler} status = {module.moduleStatus} grade = {module.courseGrade} title={module.title} desc={module.description} id={module._id} courseId={module.courseId} order ={module.order} timeLeft={module.timeLeft}/>
                 }
                 )}
 
@@ -81,7 +122,7 @@ const ViewModules = () => {
             </div> :
                 <div className='w-full'>
                     {moduleData.data.data.map((module) => {
-                        return <ModuleCard key={module._id} title={module.title} desc={module.description} id={module._id} courseId={module.courseId} order ={module.order} timeLeft={module.timeLeft} />
+                        return <ModuleCard key={module._id}  markComplete = {markCompleteHandler} status = {module.moduleStatus} grade = {module.courseGrade} title={module.title} desc={module.description} id={module._id} courseId={module.courseId} order ={module.order} timeLeft={module.timeLeft} />
                     }
                     )}
 

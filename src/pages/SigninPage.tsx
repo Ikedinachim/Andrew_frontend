@@ -106,7 +106,7 @@ const SigninPage = (props) => {
             />
           </div>
 
-          {errormessage && <p className="text-red-500 text-sm">{error}</p>}
+          {error && <p className="text-red-500 text-sm">{error}</p>}
           <div className="flex items-center justify-between">
             <div className="text-sm">
               <button

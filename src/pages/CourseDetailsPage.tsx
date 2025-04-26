@@ -30,7 +30,7 @@ const CourseDetailsPage = () => {
     const { course, status, error } = useSelector((state) => state.courseDetail);
     const { moduleData, moduleStatus, moduleError } = useSelector((state) => state.module);
     const { moduleStatusData, moduleStatusStatus, moduleStatusError } = useSelector((state) => state.moduleStatus);
-    
+
     // Example: 0–23 hours
     const hourOptions = Array.from({ length: 24 }, (_, i) => {
         const value = i.toString().padStart(2, '0');
@@ -63,7 +63,7 @@ const CourseDetailsPage = () => {
         dispatch(getModules(id))
         dispatch(getSingleCourse(id))
         dispatch(getRecommendation())
-    }, [dispatch])
+    }, [dispatch, moduleStatusStatus])
     if (status == 'loading' || status == 'idle') {
         return <LoadingPage content = 'Loading Course' />
     }
@@ -86,7 +86,7 @@ const CourseDetailsPage = () => {
     console.log(moduleData)
     let progress = 0
     if (course.data.learningSummary.totalModules != 0){
-        progress = course.data.learningSummary.completedModules / course.data.learningSummary.totalModules;
+        progress = course.data.learningSummary.completedModules / course.data.learningSummary.totalModules * 100;
     }
     // convert time duration to hours and minute 
     const time_in_minutes = course.data.quizConfig.timeDuration;
@@ -122,35 +122,7 @@ const CourseDetailsPage = () => {
             }
         });
     };
-    const handleModuleCompletion = async (id: string) => {
-        try {
-            dispatch(markModuleCompleted(id))
-    .unwrap()
-    .then(() => {
-        if(moduleStatusStatus === 'success'){
-            Swal.fire(
-                'Completed!',
-                'Your course has been marked complete.',
-                'success'
-            );
-        }
-        if(moduleStatusStatus === 'failed'){
-            Swal.fire(
-                'Error!',
-                `${moduleStatusError}`,
-                'error'
-            );
-        }
-    })
-} catch (error) {
-    // Handle any errors here
-    console.error('Error marking module as complete:', error);
-}finally{
-    
-    dispatch(resetModuleStatusStatus())
-        }
-    };
-     const markCompleteHandler = (id) => {
+    const markCompleteHandler = (id) => {
         Swal.fire({
                 title: 'Are you sure?',
                 text: "You won't be able to take quizes!",
@@ -166,7 +138,25 @@ const CourseDetailsPage = () => {
                        }
                    }).then((result) => {
                        if (result.isConfirmed) {
-                           handleModuleCompletion(id);
+                           dispatch(markModuleCompleted(id))
+                           if(moduleStatusStatus == 'success'){
+                               Swal.fire(
+                                   'Completed!',
+                                   'Your course has been marked complete.',
+                                   'success'
+                               );
+    
+                           }
+                           if(moduleStatusStatus == 'failed'){
+                            Swal.fire(
+                                'Error!',
+                                `${moduleStatusError}`,
+                                'error'
+                            );
+    
+                            dispatch(resetModuleStatusStatus())
+    
+                        }
                         }
                     });
                 }

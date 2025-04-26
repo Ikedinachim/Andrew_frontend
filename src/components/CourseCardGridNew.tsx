@@ -14,9 +14,10 @@ const CourseCardGridNew = (props) => {
     const { _, status, error } = useSelector((state) => state.courseDetail);
     let progress = 0
     if (props.modules != 0){
-        progress = props.completedModules / props.modules;
+        progress = (props.completedModules / props.modules * 100);
     }
-
+    
+    
       const handleResumeCourse= () => {
          // Handle the "Learn More" button click
          dispatch(getSingleCourse(props._id))
@@ -50,7 +51,7 @@ const CourseCardGridNew = (props) => {
 
             <div className="flex items-center mb-3 flex-wrap">
                 <div className="w-1/5 bg-gray-200 rounded-full h-[5px] mr-2">
-                    <div style={{ width: `${progress}%` }} className="bg-[#040BC5] h-[5px] rounded-full w-[24px]"></div>
+                    <div style={{ width: `${(progress)}%` }} className="bg-[#040BC5] h-[5px] rounded-full w-[24px]"></div>
                 </div>
                 <span className="text-[#AAAAAA] text-xs mr-1">{props.completedModules} of {props.modules} modules</span>
                 <span className="text-[#AAAAAA] text-xs">|</span>

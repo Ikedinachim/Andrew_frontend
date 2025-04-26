@@ -35,7 +35,7 @@ const ModuleDetailsPage = () => {
         };
         
         fetchData();
-    }, []);
+    }, [moduleStatusStatus]);
     
     const takeQuizHandler = () => {
         navigate('/dashboard/module-details-new-start');
@@ -54,7 +54,7 @@ const ModuleDetailsPage = () => {
     
     let progress = 0
     if (course.data.learningSummary.totalModules != 0){
-        progress = course.data.learningSummary.completedModules / course.data.learningSummary.totalModules;
+        progress = course.data.learningSummary.completedModules / course.data.learningSummary.totalModules * 100;
     }
     const markCompleteHandler = () => {
     Swal.fire({

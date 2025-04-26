@@ -2,6 +2,8 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { resetCourseDetailStatus } from "../features/courseDetailSlice";
+import { getAllReports } from "../features/reportSlice";
+import { getAllModules } from "../features/moduleSlice";
 
 const SideBar: React.FC = (props) => {
   const dispatch = useDispatch()
@@ -38,7 +40,7 @@ const SideBar: React.FC = (props) => {
         <img src="/assets/Vector.svg" alt="" className="mr-[16px]" />
         <p>Courses</p>
       </NavLink>
-      <NavLink to={'/dashboard/view-modules'} className={({ isActive }) =>
+      <NavLink to={'/dashboard/view-modules'} onClick={() => {dispatch(getAllModules())}} className={({ isActive }) =>
           isActive
             ? " flex flex-row bg-[#cdcef3] p-[12px] rounded-[8px] w-full font-semibold text-black"
             : " flex flex-row p-[12px] rounded-[8px] w-full font-normal text-[#333333]"
@@ -46,7 +48,7 @@ const SideBar: React.FC = (props) => {
         <img src="/assets/Quiz.svg" alt="" className="mr-[16px]" />
         <p>Modules/Quizzes</p>
       </NavLink>
-      <NavLink to={'/dashboard/performance-report'} className={({ isActive }) =>
+      <NavLink to={'/dashboard/performance-report'} onClick={() => {dispatch(getAllReports())}} className={({ isActive }) =>
           isActive
             ? " flex flex-row bg-[#cdcef3] p-[12px] rounded-[8px] w-full font-semibold text-black"
             : " flex flex-row p-[12px] rounded-[8px] w-full font-normal text-gray-600"

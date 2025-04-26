@@ -171,9 +171,9 @@ const MCQPage = () => {
         >
           Cancel
         </button>
-        {quizData.data.isTimed && quizData.data.timeLimit > 0 && (
+        {quizData.data.quizConfig.isTimed && quizData.data.timeLimit > 0 && (
           <CountdownTimer
-            startTime={quizData.data.timeLimit}
+            startTime={quizData.data.timeLimit * 60}
             onExpire={() => {
               console.log("Time expired!")
               alert("Your countdown has ended!")

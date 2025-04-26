@@ -19,7 +19,7 @@ const ModuleCardGrid = (props) => {
             <span className="text-[#AAAAAA]">Module {props.order}</span>
             <span className="text-[#AAAAAA] mx-2">|</span>
             <div className="w-[5px] h-[5px] rounded-full bg-[#00ED6D] mr-2"></div>
-            <span className="text-[#00ED6D]">On-Track</span>
+            <span className="text-[#00ED6D]">{props.status}</span>
         </div>
 
         <h2 className="text-lg font-semibold text-[#333333] mb-3 line-clamp-1">
@@ -48,7 +48,7 @@ const ModuleCardGrid = (props) => {
             >
             Continue
             </button>
-            <button className="bg-white font-medium text-[#333333] border shadow-md border-[#AAAAAA] px-5 py-2 rounded-[8px] hover:shadow-lg hover:border-[#040BC5] cursor-pointer">
+            <button onClick={() => props.markComplete(props.id)} className="bg-white font-medium text-[#333333] border shadow-md border-[#AAAAAA] px-5 py-2 rounded-[8px] hover:shadow-lg hover:border-[#040BC5] cursor-pointer">
             Mark as Complete
             </button>
         </div>
