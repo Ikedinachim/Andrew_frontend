@@ -86,8 +86,10 @@ const CourseDetailsPage = () => {
     console.log(moduleData)
     let progress = 0
     if (course.data.learningSummary.totalModules != 0){
-        progress = course.data.learningSummary.completedModules / course.data.learningSummary.totalModules * 100;
+        progress = parseInt(((course.data.learningSummary.completedModules / course.data.learningSummary.totalModules) * 100).toString());
     }
+    console.log(progress);
+    
     // convert time duration to hours and minute 
     const time_in_minutes = course.data.quizConfig.timeDuration;
     const hoursDuration = Math.floor(time_in_minutes / 60);
@@ -166,7 +168,7 @@ const CourseDetailsPage = () => {
 
     return (
         <div className='flex flex-row justify-between items-start backdrop-blur-2xl'>
-            <div className='w-[75%] me-3'>
+            <div className='min-w-[70%] me-3'>
                 <div className='flex flex-row  max-w-full justify-between'>
                     <p onClick={() =>{ dispatch(resetCourseDetailStatus()); navigate('/dashboard/view-courses')}} className='text-base text-[#333333] cursor-pointer'><a href="/dashboard/view-courses" className='cursor-pointer'>Courses</a></p>
                     <div className='w-[192px] flex flex-row items-center justify-between mt-2' >
@@ -196,7 +198,7 @@ const CourseDetailsPage = () => {
                     <div className="w-[20%] bg-gray-200 rounded-full h-2.5 mr-2 ">
                         <div style={{ width: `${progress}%` }} className={`bg-[#040BC5] h-2.5 rounded-full `}></div>
                     </div>
-                    <span className="text-[#AAAAAA] text-sm mr-2">{course.data.learningSummary.completedModules} completed</span>
+                    <span className="text-[#AAAAAA] text-sm ml-8 mr-2">{course.data.learningSummary.completedModules} completed</span>
                     <span className='text-[12px] text-[#AAAAAA] mr-2'>  |  </span>
                     <img src="/assets/Clock.svg" alt="" className='mr-1' />
                     <span className="text-[#AAAAAA] text-sm mr-2"> {weeksLeft} {weeksLeft === 1 ? 'week' : 'weeks'}</span>
@@ -329,7 +331,7 @@ const CourseDetailsPage = () => {
                 </div>}
 
             </div>
-            <div className='flex flex-col align-center min-w-[20%] pt-12'>
+            <div className='flex flex-col align-center min-w-[20%] max-w-[30%] pt-12'>
                 <img src="/assets/Programming3.svg" alt="" className='w-[160px] h-[160px] m-auto mb-3' />
                 <RecommendationCard />
             </div>
