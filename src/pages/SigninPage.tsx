@@ -1,36 +1,33 @@
-import { FcGoogle } from "react-icons/fc";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { useState, useRef, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getUserProfile, resetUserStatus, signIn } from "../features/userSlice";
+import { FcGoogle } from "react-icons/fc"
+import { useNavigate } from "react-router-dom"
+import axios from "axios"
+import { useState, useRef, useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { getUserProfile, resetUserStatus, signIn } from "../features/userSlice"
 const SigninPage = (props) => {
   let navigate = useNavigate()
-  const [errormessage, setErrorMessage] = useState('')
+  const [errormessage, setErrorMessage] = useState("")
   const emailRef = useRef()
   const passwordRef = useRef()
-  const dispatch = useDispatch();
-  const { user, status, error } = useSelector((state) => state.user);
+  const dispatch = useDispatch()
+  const { user, status, error } = useSelector((state) => state.user)
 
   useEffect(() => {
-    if (status == 'success') {
-      navigate('/dashboard');
+    if (status == "success") {
+      navigate("/dashboard")
       dispatch(resetUserStatus())
     }
-  }, [user, navigate]);
+  }, [user, navigate])
   const handleSignUp = () => {
-    navigate('/sign-up');
-  };
+    navigate("/sign-up")
+  }
   const handleSignIn = async (e) => {
-    const email = emailRef.current?.value || '';
-    const password = passwordRef.current?.value || '';
-    dispatch(signIn({ email, password }));
+    const email = emailRef.current?.value || ""
+    const password = passwordRef.current?.value || ""
+    dispatch(signIn({ email, password }))
     dispatch(getUserProfile())
-    console.log(status, user);
-    
-   
-   
-    
+    console.log(status, user)
+
     // axios.post(`${import.meta.env.VITE_API_URL}/api/v1/auth/login`, { email, password })
     //   .then(response => {
     //     console.log(response.data);
@@ -40,14 +37,14 @@ const SigninPage = (props) => {
     //     console.error(error);
     //     setErrorMessage(error.response.data.message)
     //   });
-  };
-    
-  
+  }
 
   const handleForgotPassword = () => {
-    navigate('/forgot-password');
-  };
-  {status === 'loading' && <p className="text-blue-500">Signing in...</p>}
+    navigate("/forgot-password")
+  }
+  {
+    status === "loading" && <p className="text-blue-500">Signing in...</p>
+  }
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
@@ -56,10 +53,14 @@ const SigninPage = (props) => {
             <button
               onClick={() => props.setShowAuth(false)}
               className="mr-4 text-gray-500 hover:text-gray-700"
-            >
-            </button>
-            <div className="flex-grow flex justify-center items-center">
-              <h3 className="ml-2 text-center text-2xl font-semibold text-gray-900">
+            ></button>
+            <div className="flex-grow flex flex-col justify-center items-center">
+              <img
+                src="/assets/login-img.svg"
+                alt="Login"
+                className="w-100 h-100 mb-0"
+              />
+              <h3 className="text-center text-2xl font-semibold text-gray-900">
                 Welcome to Andrew.AI
               </h3>
             </div>
@@ -75,10 +76,11 @@ const SigninPage = (props) => {
             <div className="flex-grow border-t border-gray-400"></div>
           </div> */}
 
-
           <div>
             <p className="font-semibold text-base col">Email address</p>
-            <label htmlFor="email" className="sr-only">jane@example.com</label>
+            <label htmlFor="email" className="sr-only">
+              jane@example.com
+            </label>
             <input
               id="email"
               name="email"
@@ -91,7 +93,9 @@ const SigninPage = (props) => {
           </div>
           <div>
             <p className="font-semibold text-base col">Password</p>
-            <label htmlFor="password" className="sr-only">jane@example.com</label>
+            <label htmlFor="password" className="sr-only">
+              jane@example.com
+            </label>
             <input
               id="password"
               name="password"
@@ -125,7 +129,9 @@ const SigninPage = (props) => {
           </div>
 
           <div className="text-center">
-            <span className="text-sm text-gray-600">Don't have an account? </span>
+            <span className="text-sm text-gray-600">
+              Don't have an account?{" "}
+            </span>
             <button
               onClick={() => handleSignUp()}
               className="text-sm font-medium underline text-black hover:text-[#040BC5] cursor-pointer"
@@ -137,7 +143,6 @@ const SigninPage = (props) => {
       </div>
     </div>
   )
-
 }
 
 export default SigninPage

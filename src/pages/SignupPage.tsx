@@ -36,8 +36,13 @@ const SignupPage = (props) => {
                 className="mr-4 text-gray-500 hover:text-gray-700"
               >
               </button>
-              <div className="flex-grow flex justify-center items-center">
-                <h3 className="ml-2 text-center text-2xl font-semibold text-gray-900">
+              <div className="flex-grow flex flex-col justify-center items-center">
+              <img
+                src="/assets/login-img.svg"
+                alt="Login"
+                className="w-100 h-100 mb-0"
+              />
+                <h3 className="ml-2 text-center text-2xl font-semibold text-gray-900b">
                   Welcome to Andrew.AI
                 </h3>
               </div>
